@@ -1,0 +1,136 @@
+.footer-container{
+    width: 100%;
+    margin-top: 20px;
+    background: #fff;
+    padding: 10px 20px;
+    position: relative;
+}
+.footer-features{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    padding: 40px 0 20px 0;
+    text-align: center;
+}
+.feature-box{
+    width: 30%;
+    text-align: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    font-size: 16px;
+    font-weight: 600;
+}
+.feature-box svg{
+    font-size: 20px;
+    color: #ff4111;
+}
+.footer-container hr{
+    margin: 30px;
+    background: #ccc;
+    opacity: 0.5;
+}
+
+.footer-main{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px 20px;
+}
+.footer-logo{
+    width: 25%;
+    height: 256px;
+}
+.footer-logo img{
+    width: 200px;
+}
+.footer-logo p{
+    font-weight: 500;
+    color: #717171;
+}
+.social-media-contact{
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    margin-top: 20px;
+}
+.social-media-contact svg{
+    font-size: 20px;
+    cursor: pointer;
+    transition: all 0.3s ease-in-out;
+}
+.social-media-contact svg:hover{
+    color: #ff4111;
+}
+
+.customer-service-box, .aboutUs-box, .contactUs-box{
+    height: 256px;
+}
+
+.customer-service-box h3, .aboutUs-box h3, .contactUs-box h3{
+    margin-bottom: 10px;
+    color: #555;
+}
+.customer-service-box ul, .aboutUs-box ul, .contactUs-box ul{
+    list-style: none;
+}
+.customer-service-box ul li, .aboutUs-box ul li, .contactUs-box ul li{
+    padding: 5px 0px;
+    font-size: 15px;
+    position: relative;
+    cursor: pointer;
+}
+.customer-service-box ul li::before,
+.aboutUs-box ul li::before,
+.contactUs-box ul li::before{
+    content: '>';
+   margin-right: 5px;
+   font-size: 14px;
+   margin-top: 2px;
+    
+}
+.customer-service-box ul li:hover, .aboutUs-box ul li:hover, .contactUs-box ul li:hover{
+    color: #ff4141;
+    transform: scaleX(1.03);
+}
+.footer-payment-methods{
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 20px;
+}
+.footer-payment-methods img{
+    width: 50px;
+}
+.footer-payment-methods h4{
+    color: #555;
+    font-weight: 500;
+}
+.footer-payment-methods h4::after{
+    content: '>';
+    margin-left: 5px;
+}
+.copyright{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 20px;
+}
+.go-top-btn{
+    position: absolute;
+    width: 30px;
+    height: 30px;
+    right: 100px;
+    bottom: 30px;
+    background: #ccc;
+    text-align: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1;
+    box-shadow: 0 2px 5px #000;
+    cursor: pointer;
+}

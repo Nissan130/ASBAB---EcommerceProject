@@ -1,0 +1,16 @@
+.popularProducts{
+    padding: 10px 20px;
+    background: #fff;
+    margin: 10px 0;
+}
+.popularProducts-title{
+    margin-bottom: 10px;
+}
+.popularProducts-title hr{
+    color: #fff;
+    margin-top: 5px;
+}
+.products{
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
+}
