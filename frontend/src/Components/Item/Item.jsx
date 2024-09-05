@@ -13,10 +13,11 @@ const Item = (props) => {
   const handleProductClick = () => {
     // navigate(`/product/${props.id}`); // Navigate to ProductDisplay page with the product id
     navigate(`/product/${props.id}`);
+    window.scrollTo(0,0);
   };
   return (
-    <div className='items-container'>
-        <div className="product-image-box" onClick={handleProductClick}>
+    <div className='items-container' onClick={handleProductClick}>
+        <div className="product-image-box">
            <img src={props.image} alt="" />
            
         </div>

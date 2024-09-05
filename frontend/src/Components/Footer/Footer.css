@@ -25,7 +25,7 @@
 }
 .feature-box svg{
     font-size: 20px;
-    color: #ff4111;
+    color: #ff4141;
 }
 .footer-container hr{
     margin: 30px;
@@ -62,7 +62,7 @@
     transition: all 0.3s ease-in-out;
 }
 .social-media-contact svg:hover{
-    color: #ff4111;
+    color: #ff4141;
 }
 
 .customer-service-box, .aboutUs-box, .contactUs-box{
@@ -125,7 +125,8 @@
     height: 30px;
     right: 100px;
     bottom: 30px;
-    background: #ccc;
+    background: #ff4141;
+    color: #fff;
     text-align: center;
     display: flex;
     align-items: center;

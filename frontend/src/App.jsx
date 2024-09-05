@@ -4,9 +4,10 @@ import './App.css'
 import Navbar from './Components/Navbar/Navbar'
 import Wishlist from './Pages/Wishlist'
 import Cart from './Pages/Cart';
-import LoginSignup from './Pages/LoginSignup';
 import Home from './Pages/Home';
-import DisplayProduct from './Components/DisplayProduct/DisplayProduct';
+import SignUp from './Pages/SignUp';
+import Footer from './Components/Footer/Footer';
+import ProductDetails from './Components/ProductDetails/ProductDetails';
 
 function App() {
  
@@ -17,10 +18,13 @@ function App() {
             <Route path='/' element={<Home />}/>
             <Route path='/wishlist' element={<Wishlist />}/>
             <Route path='/cart' element={<Cart />}/>
-            <Route path='/signin' element={<LoginSignup />}/>
-            <Route path="/product/:id" element={<DisplayProduct />} /> {/* Add the ProductDisplay route */}
+            <Route path='/signin' element={<SignUp />}/>
+            <Route path="product" element={<ProductDetails />} >
+                <Route path=':productId' element={<ProductDetails />} />
+            </Route> 
            </Routes> 
-          
+           
+          <Footer />
     </Router>
    
   )

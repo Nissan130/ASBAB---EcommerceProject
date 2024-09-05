@@ -1,23 +1,64 @@
-import React from 'react';
-import { useParams } from 'react-router-dom';
-import all_product from '../Assets/all_product';
-import './DisplayProduct.css';
+import React from "react";
+import "./DisplayProduct.css";
+import { TbCurrencyTaka } from "react-icons/tb";
+import { IoStar } from "react-icons/io5";
+import { FaRegHeart } from "react-icons/fa"
+import { FaPlus } from "react-icons/fa6";
+import { FaMinus } from "react-icons/fa6";
 
-const DisplayProduct = () => {
-  const { id } = useParams();
-  const product = all_product.find(item => item.id === parseInt(id));
-
-  if (!product) {
-    return <div>Product not found</div>;
-  }
-
+const DisplayProduct = ({ product }) => {
   return (
     <div className="product-display">
-      <h2>{product.name}</h2>
-      <img src={product.image} alt={product.name} />
-      <p>New Price: ${product.new_price}</p>
-      <p>Old Price: ${product.old_price}</p>
-      <p>Description: {product.description}</p>
+      <div className="product-display-left">
+        <div className="product-images">
+          <img src={product.image} alt="" />
+          <img src={product.image} alt="" />
+          <img src={product.image} alt="" />
+          <img src={product.image} alt="" />
+        </div>
+        <div className="product-image-main">
+          <img src={product.image} alt="" />
+        </div>
+      </div>
+      <div className="product-display-right">
+        <div className="product-name">
+          <h2>{product.name}</h2>
+        </div>
+        <div className="product-ratings">
+          <span><IoStar /></span>
+          <span><IoStar /></span>
+          <span><IoStar /></span>
+          <span><IoStar /></span>
+          <span className="fade-rating"><IoStar /></span>
+          <span>(15)</span>
+        </div>
+        <div className="product-prices">
+          <div className="product-prices-new">
+            <TbCurrencyTaka />
+            {product.new_price}
+          </div>
+          <div className="product-prices-old">
+            <TbCurrencyTaka />
+            {product.old_price}
+          </div>
+          <div className="product-offers">20% offer</div>
+        </div>
+        <div className="product-short-desc">
+          Lorem ipsum, dolor sit amet consectetur adipisicing elit. Expedita exercitationem placeat laborum quae sunt nemo numquam repudiandae doloribus accusantium temporibus?
+        </div>
+        <div className="products-btns">
+          <div className="increase-decrease-item">
+            <button className="minus"><FaMinus /></button>
+            <button>2</button>
+            <button className="plus"><FaPlus /></button>
+          </div>
+          <div className="addCart-wislist-btn">
+            <button>ADD TO CART</button>
+              <FaRegHeart />
+          </div>
+          .
+        </div>
+      </div>
     </div>
   );
 };

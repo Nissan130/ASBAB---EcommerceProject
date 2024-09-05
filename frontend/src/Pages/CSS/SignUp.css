@@ -1,0 +1,85 @@
+.signup-container{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    background: #fff;
+    width: 40vw;
+    margin: 20px auto;
+    padding: 20px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+    z-index: 1;
+}
+.form{
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    padding: 0 20px;
+}
+.signup-container h2{
+    padding-bottom: 20px;
+    color: #252525;
+}
+.form .input-box{
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 15px;
+    border: 1px solid #ccc;
+    outline: none;
+    font-size: 14px;
+}
+.form p{
+    font-size: 15px;
+    color: #444;
+}
+.form p span{
+    font-weight: 600;
+    cursor: pointer;
+}
+.form p span:hover{
+    text-decoration: underline;
+}
+.form .checkbox{
+    display: flex;
+    align-items: center;
+    margin-top: 10px;
+    gap: 20px;
+    color: #5c5c5c;
+    font-size: 15px;
+    margin-bottom: 10px;
+}
+.submit-btn{
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 15px;
+    border: none;
+    outline: none;
+    font-size: 18px;
+    background: #ff4141;
+    color: #fff;
+    font-weight: 600;
+    cursor: pointer;
+}
+.or{
+    text-align: center;
+}
+.signup-google{
+    width: 100%;
+    padding: 10px 20px;
+}
+.signup-google button{
+    width: 100%;
+    height: 40px;
+    font-size: 18px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+   
+    font-weight: 500;
+    cursor: pointer;
+    outline: none;
+    border: 1px solid #ccc;
+}
+.signup-google button svg{
+    margin-right: 10px;
+}

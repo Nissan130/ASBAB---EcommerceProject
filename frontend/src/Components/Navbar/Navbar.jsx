@@ -88,7 +88,7 @@ const Navbar = () => {
                      </ul>
                 </li>           
 
-                <li onClick={() => navigate('/')}>HOME</li>
+                <li onClick={() => {navigate('/'); window.scrollTo(0,0)}}>HOME</li>
                 <li>FASHION <span><IoChevronDownSharp /></span></li>
                 <li>ELECTRONICS <span><IoChevronDownSharp /></span></li>
                 <li>GROCERIES <span><IoChevronDownSharp /></span></li>
