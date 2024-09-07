@@ -7,8 +7,9 @@
     width: 40vw;
     margin: 20px auto;
     padding: 20px;
-    box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+    box-shadow: 0 4px 10px 0 rgba(0,0,0,0.2);
     z-index: 1;
+    border-radius: 5px;
 }
 .form{
     display: flex;
@@ -32,11 +33,15 @@
     font-size: 15px;
     color: #444;
 }
-.form p span{
+.form p .signInLink{
     font-weight: 600;
     cursor: pointer;
 }
-.form p span:hover{
+.termsCondition:hover{
+    text-decoration: underline;
+    cursor: pointer;
+}
+.form p .signInLink:hover{
     text-decoration: underline;
 }
 .form .checkbox{
@@ -62,6 +67,8 @@
 }
 .or{
     text-align: center;
+    margin-bottom: 10px;
+    font-weight: 600;
 }
 .signup-google{
     width: 100%;
@@ -82,4 +89,7 @@
 }
 .signup-google button svg{
     margin-right: 10px;
+}
+.signup-google button:hover{
+    background: #f5f5f5;
 }

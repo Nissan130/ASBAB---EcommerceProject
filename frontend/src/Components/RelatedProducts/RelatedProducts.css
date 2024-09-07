@@ -1,0 +1,16 @@
+.related-products{
+    padding: 10px 20px;
+    background: #fff;
+    margin: 10px 0;
+}
+.related-products-title{
+    margin-bottom: 10px;
+}
+.related-products-title hr{
+    color: #fff;
+    margin-top: 5px;
+}
+.related-product-items{
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
+}

@@ -5,6 +5,7 @@ import { TbCurrencyTaka } from "react-icons/tb";
 import { FaRegHeart } from "react-icons/fa"
 import { BsCart3 } from "react-icons/bs"
 import { Navigate, useNavigate } from 'react-router-dom';
+import { IoStar } from "react-icons/io5";
 
 
 
@@ -34,11 +35,16 @@ const Item = (props) => {
         <div className="product-name">
             <p>{props.name}</p>
         </div>
+        <div className="item-product-ratings">
+          <div className="rating">4.2<IoStar/></div>
+          <div className="offer"><span style={{fontWeight: "600"}}>20%</span> discount</div>
+        </div>
         <div className="productprice-container">
             <div className="productprice-new_price"><TbCurrencyTaka />{props.new_price}
             </div>
             <div className="productprice-old_price"><TbCurrencyTaka />{props.old_price}</div>
         </div>
+        
 
       
     </div>

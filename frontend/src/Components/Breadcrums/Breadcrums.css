@@ -1,6 +1,7 @@
 .breadcrums{
     width: 100%;
-    padding: 5px;
+    padding: 10px 20px;
+    background: #fff;
     border-top: 1px solid #eee;
     border-bottom: 1px solid #eee;
     display: flex;

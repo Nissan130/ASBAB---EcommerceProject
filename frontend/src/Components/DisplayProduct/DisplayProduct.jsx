@@ -30,8 +30,11 @@ const DisplayProduct = ({ product }) => {
           <span><IoStar /></span>
           <span><IoStar /></span>
           <span className="fade-rating"><IoStar /></span>
-          <span>(15)</span>
+          <span>(4.3)</span>
         </div>
+        <div className="review-counts">
+            (15 reviews)
+          </div>
         <div className="product-prices">
           <div className="product-prices-new">
             <TbCurrencyTaka />

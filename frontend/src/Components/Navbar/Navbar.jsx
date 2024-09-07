@@ -46,11 +46,11 @@ const Navbar = () => {
             <div className="login-cart-wishlist-container">
             <div className="wishlist-container" onClick={()=> navigate('/wishlist')}>
                <FaRegHeart /> <span>0</span>
-               <div className="tooltip-text">Wishlist</div>
+               <div className="navbar-tooltip-text">Wishlist</div>
             </div>
             <div className="cart-container" onClick={()=> navigate('/cart')}>
                <BsCart3 /> <span>0</span>
-               <div className="tooltip-text">Cart</div>
+               <div className="navbar-tooltip-text">Cart</div>
             </div>
             <div className="loginSignup-container" onClick={()=> navigate('/signin')}>
                     <button>Sign In</button>

@@ -105,25 +105,32 @@
 }
 
 /* === Tooltip === */
-.tooltip-text {
+.navbar-tooltip-text {
+    display: flex;
+    align-items: center;
+    justify-content: center;
     visibility: hidden;
-    width: 80px;
-    background-color: #333;
-    color: #fff;
+    /* width: 80px; */
+    height: 25px;
+    /* background-color: #ccc; */
+    color: #333;
     text-align: center;
     border-radius: 4px;
     padding: 5px;
     position: absolute;
     z-index: 1;
-    bottom: 125%; /* Position above the icon */
-    left: 50%;
+    /* bottom: 125%; Position above the icon */
+    right: -100%;
+    top: 120%;
     margin-left: -40px;
+    border: 1px solid;
+    font-size: 15px;
     opacity: 0;
     transition: opacity 0.3s;
 }
 
-.wishlist-container:hover .tooltip-text,
-.cart-container:hover .tooltip-text {
+.wishlist-container:hover .navbar-tooltip-text,
+.cart-container:hover .navbar-tooltip-text {
     visibility: visible;
     opacity: 1;
 }
