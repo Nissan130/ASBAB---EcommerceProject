@@ -60,7 +60,7 @@
 }
 
 .wishlist-container,
-.cart-container,
+.nav-cart-container,
 .loginSignup-container {
     position: relative;
     margin-left: 20px;
@@ -70,13 +70,13 @@
 }
 
 .wishlist-container svg,
-.cart-container svg {
+.nav-cart-container svg {
     font-size: 24px;
     color: #333;
 }
 
 .wishlist-container span,
-.cart-container span {
+.nav-cart-container span {
     background-color: #ff4141;
     color: #fff;
     font-size: 12px;
@@ -93,6 +93,7 @@
     border: 1px solid #ff4141;
     background-color: transparent;
     color: #ff4141;
+    font-weight: 600;
     border-radius: 4px;
     cursor: pointer;
     transition: background-color 0.3s, color 0.3s;
@@ -130,7 +131,7 @@
 }
 
 .wishlist-container:hover .navbar-tooltip-text,
-.cart-container:hover .navbar-tooltip-text {
+.nav-cart-container:hover .navbar-tooltip-text {
     visibility: visible;
     opacity: 1;
 }

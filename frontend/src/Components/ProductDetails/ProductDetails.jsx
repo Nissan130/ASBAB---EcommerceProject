@@ -6,6 +6,7 @@ import { useParams } from "react-router-dom";
 import all_product from "../Assets/all_product";
 import ProductDescriptionBox from "../ProductDescriptionBox/ProductDescriptionBox";
 import RelatedProducts from "../RelatedProducts/RelatedProducts";
+import NewsLetter from '../NewsLetter/NewsLetter'
 
 const ProductDetails = () => {
   const { productId } = useParams();
@@ -17,6 +18,7 @@ const ProductDetails = () => {
       <DisplayProduct product={product}/>
       <ProductDescriptionBox />
       <RelatedProducts />
+      <NewsLetter />
     </div>
   );
 };

@@ -1,12 +1,29 @@
-import React from "react";
+import React, { useContext, useState } from "react";
 import "./DisplayProduct.css";
 import { TbCurrencyTaka } from "react-icons/tb";
 import { IoStar } from "react-icons/io5";
-import { FaRegHeart } from "react-icons/fa"
-import { FaPlus } from "react-icons/fa6";
-import { FaMinus } from "react-icons/fa6";
+import { FaRegHeart, FaHeart } from "react-icons/fa"; // Import both regular and filled heart icons
+import { FaPlus, FaMinus } from "react-icons/fa6";
+import { CartContext } from "../../Context/CartContext";
 
 const DisplayProduct = ({ product }) => {
+  const {
+    productCount,
+    handleIncrementItem,
+    handleDecrementItem,
+    addToCart,
+    addToFavourite,
+  } = useContext(CartContext);
+
+  // State to track if the product is in the favorites
+  const [isFavourite, setIsFavourite] = useState(false);
+
+  // Toggle favorite status
+  const handleFavouriteClick = () => {
+    addToFavourite(product);  // Call the function to add the product to the favorite list
+    setIsFavourite(!isFavourite);  // Toggle the local favorite state
+  };
+
   return (
     <div className="product-display">
       <div className="product-display-left">
@@ -33,8 +50,8 @@ const DisplayProduct = ({ product }) => {
           <span>(4.3)</span>
         </div>
         <div className="review-counts">
-            (15 reviews)
-          </div>
+          (15 reviews)
+        </div>
         <div className="product-prices">
           <div className="product-prices-new">
             <TbCurrencyTaka />
@@ -51,15 +68,22 @@ const DisplayProduct = ({ product }) => {
         </div>
         <div className="products-btns">
           <div className="increase-decrease-item">
-            <button className="minus"><FaMinus /></button>
-            <button>2</button>
-            <button className="plus"><FaPlus /></button>
+            <button onClick={handleDecrementItem} className="minus">
+              <FaMinus />
+            </button>
+            <button>{productCount}</button>
+            <button onClick={handleIncrementItem} className="plus">
+              <FaPlus />
+            </button>
           </div>
           <div className="addCart-wislist-btn">
-            <button>ADD TO CART</button>
-              <FaRegHeart />
+            <button onClick={() => addToCart(product)}>ADD TO CART</button>
+
+            {/* Conditionally render the heart icon based on whether the product is in favorites */}
+            <span onClick={handleFavouriteClick}>
+              {isFavourite ? <FaHeart style={{ color: 'red' }} /> : <FaRegHeart />}
+            </span>
           </div>
-          .
         </div>
       </div>
     </div>

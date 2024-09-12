@@ -1,0 +1,16 @@
+.newCollections-product{
+    padding: 10px 20px;
+    background: #fff;
+    margin: 10px 0;
+}
+.newCollections-product-title{
+    margin-bottom: 10px;
+}
+.newCollections-product-title hr{
+    color: #fff;
+    margin-top: 5px;
+}
+.newCollections-product-item{
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
+}

@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import laptop1 from '../Assets/laptop_image1.jpeg'
 import './Item.css'
 import { TbCurrencyTaka } from "react-icons/tb";
@@ -6,11 +6,13 @@ import { FaRegHeart } from "react-icons/fa"
 import { BsCart3 } from "react-icons/bs"
 import { Navigate, useNavigate } from 'react-router-dom';
 import { IoStar } from "react-icons/io5";
+import { CartContext } from '../../Context/CartContext';
 
 
 
 const Item = (props) => {
   const navigate = useNavigate();
+  const {handleFavouriteClick} = useContext(CartContext);
   const handleProductClick = () => {
     // navigate(`/product/${props.id}`); // Navigate to ProductDisplay page with the product id
     navigate(`/product/${props.id}`);
@@ -28,7 +30,7 @@ const Item = (props) => {
                     <div className="item-tooltip-text">Add to Cart</div>
                   </div>
                   <div className="wishlist">
-                    <FaRegHeart />
+                    <FaRegHeart onClick={handleFavouriteClick}/>
                     <div className="item-tooltip-text">Add to Favourite</div>
                   </div>
             </div>

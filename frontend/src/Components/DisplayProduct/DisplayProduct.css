@@ -112,12 +112,16 @@
 .products-btns{
     margin-top: 3rem;
     display: flex;
+    align-items: center;
     gap: 2rem;
 }
 .increase-decrease-item{
+    height: 2.5rem;
     display: flex;
     align-items: center;
-    border: 1px solid #ccc;
+    border: 1px solid #999;
+    background: #ddd;
+
 }
 .increase-decrease-item button{
     width: 3rem;
@@ -125,6 +129,7 @@
     border: none;
     outline: none;
     font-size: 1rem;
+    background: #ddd;
 }
 .minus, .plus{
     cursor: pointer;
