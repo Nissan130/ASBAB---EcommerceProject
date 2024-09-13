@@ -1,0 +1,211 @@
+@import url('https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300..800;1,300..800&display=swap');
+
+.addproduct-container{
+    display: flex;
+    flex-direction: column;
+    padding: 10px;
+    background: #fff;
+    width: 90vw;
+    height: 85vh;
+    margin: 10px;
+    overflow-y: auto;
+}
+.addproduct-container h2{
+    text-align: center;
+    font-weight: 700;
+    color: #555;
+    font-size: 30px;
+    margin-bottom: 10px;
+}
+.addproduct-format-main{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+}
+.addproduct-format{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    margin: 5px 0;
+}
+.product-title{
+    width: 100%;
+    margin-bottom: 10px;
+}
+
+.product-title input{
+    width: 100%;
+    padding: 10px;
+    margin-top: 5px;
+    border: 1px solid #ccc;
+    outline: none;
+    font-size: 15px;
+}
+.product-price{
+    display: flex;
+    align-items: center;
+    width: 100%;
+}
+.product-price .product-old_price{
+    width: 50%;
+    margin-right: 5px;
+}
+
+.product-new_price{
+    width: 50%;
+}
+.product-old_price input{
+    width: 100%;
+    padding: 10px;
+    margin-top: 5px;
+    border: 1px solid #ccc;
+    outline: none;
+    font-size: 15px;
+}
+
+.product-new_price input{
+    width: 100%;
+    padding: 10px;
+    margin-top: 5px;
+    border: 1px solid #ccc;
+    outline: none;
+    font-size: 15px;
+}
+
+.category{
+    width: 50%;
+    border: 1px solid #ccc;
+    padding: 5px ;
+    margin-right: 5px;
+    margin-top: 10px;
+}
+
+
+.sub_category{
+    width: 50%;
+    border: 1px solid #ccc;
+    padding: 5px ;
+    margin-top: 10px;
+}
+
+.category select, .sub_category select{
+    padding: 5px 10px;
+    margin-left: 20px;
+}
+.category select, .sub_category select{
+    padding: 5px 10px;
+    outline: none;
+    font-family: "Open Sans", sans-serif;
+    font-size: 15px;
+}
+.category select option, .sub_category select option{
+    padding: 10px 0;
+}
+
+.discount_offer{
+    width: 50%;
+    margin-right: 5px;
+}
+
+.discount_offer input{
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    outline: none;
+    margin-top: 5px;
+    font-size: 15px;
+}
+.product-main_img{
+    width: 50%;
+}
+
+.product-main_img input{
+    border: 1px solid #ccc;
+    width: 100%;
+    padding: 5px 5px 10px 5px;
+    margin-top: 5px;
+}
+
+.other_img12{
+    width: 50%;
+    margin-top: 10px;
+    display: flex;
+    gap: 10px;
+    margin-right: 5px;
+}
+.other_img1{
+    width: 50%;
+    display: inline-block;
+   
+}
+.other_img1 input{
+    width: 100%;
+    padding: 5px;
+    border: 1px solid #ccc;
+    margin-top: 5px;
+}
+.other_img2{
+    width: 50%;
+    display: inline-block;
+    
+}
+.other_img2 input{
+    width: 100%;
+    padding: 5px;
+    border: 1px solid #ccc;
+    margin-top: 5px;
+}
+
+.other_img34{
+    width: 50%;
+    margin-top: 10px;
+    display: flex;
+    gap: 10px;
+}
+.other_img3{
+    width: 50%;
+    display: inline-block;
+    
+}
+.other_img3 input{
+    width: 100%;
+    padding: 5px;
+    border: 1px solid #ccc;
+    margin-top: 5px;
+}
+.other_img4{
+    width: 50%;
+    display: inline-block;
+   
+}
+.other_img4 input{
+    width: 100%;
+    padding: 5px;
+    border: 1px solid #ccc;
+    margin-top: 5px;
+}
+
+/* all label styling  */
+.label{
+    font-weight: 600;
+    margin-bottom: 5px;
+    font-size: 15px;
+    color: #555;
+}
+
+.add{
+    margin-top: 20px;
+}
+.add button{
+    padding: 10px 15px;
+    border: none;
+    outline: none;
+    background: #ff4141;
+    color: #fff;
+    font-weight: 600;
+    box-shadow: 0 2px 3px 0 #333;
+    border-radius: 4px;
+    cursor: pointer;
+}

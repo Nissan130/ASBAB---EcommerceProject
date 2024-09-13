@@ -1,0 +1,30 @@
+.sidebar{
+    height: 88vh;
+    width: 250px;
+    background: white;
+    margin-top: 1px;
+    padding: 10px 15px;
+}
+.sidebar-items{
+    display: flex;
+    align-items: center;
+    gap: 1.7rem;
+    padding: 12px 5px;
+    cursor: pointer;
+    border-radius: 3px;
+}
+.sidebaritem{
+    font-size: 1rem;
+    color: #7b7b7b;
+}
+
+.sidebar-items:hover{
+    background-color: #f5f5f5;
+}
+.sidebar-items.active{
+    font-weight: 600;
+    background: lightblue;
+}
+.sidebar-items.active .sidebaritem{
+    color: #333;
+}

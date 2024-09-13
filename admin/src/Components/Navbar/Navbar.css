@@ -1,0 +1,31 @@
+.navbar{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0px 1.2rem;
+    background: #fff;
+    padding-right: 100px;
+    box-shadow: 0px 2px 3px -2px #555;
+}
+.nav-logo{
+    height: 70px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+.nav-logo img{
+   height: 70px;
+}
+.nav-logo h2{
+    color: #555;
+}
+.nav-profile{
+    height: 70px;
+    display: flex;
+    align-items: center;
+}
+.nav-profile img{
+    border-radius: 50%;
+    height: 40px;
+    width: 40px;
+}
