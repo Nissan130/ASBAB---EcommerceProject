@@ -4,13 +4,45 @@
     margin: 10px 0;
 }
 .popularProducts-title{
-    margin-bottom: 10px;
+    margin: 20px 0;
 }
-.popularProducts-title hr{
-    color: #fff;
-    margin-top: 5px;
+.popularProducts-title h2{
+    text-align: center;
+    position: relative;
 }
+.popularProducts-title h2::before{
+    content: "";
+    position: absolute;
+    width: 39%;
+    height: 2px;
+    left: 0;
+    top: 50%;
+    background: #ccc;
+}
+.popularProducts-title h2::after{
+    content: "";
+    position: absolute;
+    width: 39%;
+    height: 2px;
+    right: 0;
+    top: 50%;
+    background: #ccc;
+}
+
 .products{
     display: grid;
     grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
+}
+.popularproduct-load-more{
+    text-align: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 150px;
+    margin: 25px auto;
+    padding: 10px;
+    background: #ff4141;
+    color: #fff;
+    border-radius: 5px;
+    cursor: pointer;
 }

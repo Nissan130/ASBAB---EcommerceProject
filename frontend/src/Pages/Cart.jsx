@@ -1,28 +1,27 @@
-import React, { useContext } from 'react';
+import React, { useContext } from "react";
 import { RiDeleteBin6Line } from "react-icons/ri";
 import { TbCurrencyTaka } from "react-icons/tb";
-import { CartContext } from '../Context/CartContext';
-import './CSS/Cart.css';
+import { CartContext } from "../Context/CartContext";
+import "./CSS/Cart.css";
+import { useNavigate } from "react-router-dom";
 
 const Cart = () => {
-  const { cartItems, deleteFromCart } = useContext(CartContext);
+  const { cartItems, deleteFromCart, updateCartQuantity } = useContext(CartContext); // Assuming updateCartQuantity is available
+  const navigate = useNavigate();
 
   return (
-    <div className='cart-container'>
-    {cartItems.length > 0 &&(
-     
-      <div className="cart-title-container">
-        <div className="product-image">Product</div>
-        <div className="product-title">Product Title</div>
-        <div className="product-price">Price</div>
-        <div className="product-quantity">Quantity</div>
-        <div className="product-total-price">Total Price</div>
-        <div className="product-remove">Remove</div>
-      </div>)}
-    
-    
+    <div className="cart-container">
+      {cartItems.length > 0 && (
+        <div className="cart-title-container">
+          <div className="product-image">Product</div>
+          <div className="product-title">Product Title</div>
+          <div className="product-price">Price</div>
+          <div className="product-quantity">Quantity</div>
+          <div className="product-total-price">Total Price</div>
+          <div className="product-remove">Remove</div>
+        </div>
+      )}
 
-     
       {cartItems.length > 0 ? (
         cartItems.map((item) => (
           <div className="cart-product-container" key={item.id}>
@@ -35,7 +34,12 @@ const Cart = () => {
               {item.new_price}
             </div>
             <div className="cart-item cart-product-quantity">
-              <button>{item.quantity}</button>
+              <input
+                type="number"
+                value={item.quantity}
+                onChange={(e) => updateCartQuantity(item.id, parseInt(e.target.value))} // Update the quantity
+                min="1"
+              />
             </div>
             <div className="cart-item cart-product-total-price">
               <TbCurrencyTaka />
@@ -47,37 +51,46 @@ const Cart = () => {
           </div>
         ))
       ) : (
-        <p style={{ textAlign: 'center', marginTop: '30px', color:'red', fontSize:'22px'}}>
+        <p
+          style={{
+            textAlign: "center",
+            marginTop: "30px",
+            color: "red",
+            fontSize: "22px",
+          }}
+        >
           Your cart is empty
         </p>
       )}
 
-      {/* Conditionally Render Cart Payment Section */}
+      {cartItems.length > 0 && (
+        <div className="update-cart-shopping">
+          <div className="continue-shopping">
+            <button onClick={() => navigate("/")}>Continue Shopping</button>
+          </div>
+          <div className="update-cart">
+            <button>Update Cart</button>
+          </div>
+        </div>
+      )}
+
       {cartItems.length > 0 && (
         <div className="cart-payment-container">
-          <div className="update-cart-container">
-            <div className="update-cart-shopping">
-              <div className="update-cart">
-                <button>Update Cart</button>
-              </div>
-              <div className="continue-shopping">
-                <button>Continue Shopping</button>
-              </div>
-            </div>
-            <div className="cupon-container">
-              <p>If you have any coupon code, enter it here</p>
-              <input type="text" placeholder="coupon code" />
-            </div>
+          <div className="cupon-container">
+            <p>If you have any coupon code, enter it here</p>
+            <input type="text" placeholder="coupon code" />
           </div>
 
-          {/* Checkout Section */}
           <div className="checkout-section-container">
             <h2>Cart Totals</h2>
             <div className="subtotal">
               <div className="subtotal-title">Subtotal</div>
               <div className="subtotal-fee">
                 <TbCurrencyTaka />
-                {cartItems.reduce((acc, item) => acc + item.new_price * item.quantity, 0)}
+                {cartItems.reduce(
+                  (acc, item) => acc + item.new_price * item.quantity,
+                  0
+                )}
               </div>
             </div>
             <hr />
@@ -108,6 +121,5 @@ const Cart = () => {
     </div>
   );
 };
-
 
 export default Cart;

@@ -9,7 +9,6 @@ const PopularProducts = () => {
     <div className='popularProducts'>
       <div className="popularProducts-title">
         <h2>POPULAR PRODUCTS</h2>
-        <hr />
       </div>
      <div className="products">
       {all_product.map((item,i) =>{
@@ -24,6 +23,10 @@ const PopularProducts = () => {
           />
         )
       })}
+     </div>
+
+     <div className="popularproduct-load-more">
+      Load More...
      </div>
     </div>
   )

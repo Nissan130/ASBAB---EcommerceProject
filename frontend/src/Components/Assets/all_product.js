@@ -103,7 +103,7 @@ let all_product = [
   {
     id: 11,
     name: "Striped Flutter Sleeve Overlap Collar Peplum Hem Blouse",
-    category: "laptop",
+    category: "facewash",
     image: facewash_img1,
     new_price: 50000,
     old_price: 80000,
@@ -111,7 +111,7 @@ let all_product = [
   {
     id: 12,
     name: "Striped Flutter Sleeve Overlap Collar Peplum Hem Blouse",
-    category: "mobile",
+    category: "facewash",
     image: facewash_img2,
     new_price: 50000,
     old_price: 80000,
@@ -119,7 +119,7 @@ let all_product = [
   {
     id: 13,
     name: "Striped Flutter Sleeve Overlap Collar Peplum Hem Blouse",
-    category: "mobile",
+    category: "facewash",
     image: facewash_img3,
     new_price: 50000,
     old_price: 80000,
@@ -127,7 +127,7 @@ let all_product = [
   {
     id: 14,
     name: "Striped Flutter Sleeve Overlap Collar Peplum Hem Blouse",
-    category: "mobile",
+    category: "facewash",
     image: facewash_img4,
     new_price: 50000,
     old_price: 80000,
@@ -135,7 +135,7 @@ let all_product = [
   {
     id: 15,
     name: "Striped Flutter Sleeve Overlap Collar Peplum Hem Blouse",
-    category: "mobile",
+    category: "facewash",
     image: facewash_img5,
     new_price: 50000,
     old_price: 80000,
@@ -143,7 +143,7 @@ let all_product = [
   {
     id: 16,
     name: "Striped Flutter Sleeve Overlap Collar Peplum Hem Blouse",
-    category: "laptop",
+    category: "tshirt",
     image: tshirt_img1,
     new_price: 50000,
     old_price: 80000,
@@ -151,7 +151,7 @@ let all_product = [
   {
     id: 17,
     name: "Striped Flutter Sleeve Overlap Collar Peplum Hem Blouse",
-    category: "mobile",
+    category: "tshirt",
     image: tshirt_img2,
     new_price: 50000,
     old_price: 80000,
@@ -159,7 +159,7 @@ let all_product = [
   {
     id: 18,
     name: "Striped Flutter Sleeve Overlap Collar Peplum Hem Blouse",
-    category: "mobile",
+    category: "tshirt",
     image: tshirt_img3,
     new_price: 50000,
     old_price: 80000,
@@ -167,7 +167,7 @@ let all_product = [
   {
     id: 19,
     name: "Striped Flutter Sleeve Overlap Collar Peplum Hem Blouse",
-    category: "mobile",
+    category: "tshirt",
     image: tshirt_img4,
     new_price: 50000,
     old_price: 80000,
@@ -175,7 +175,7 @@ let all_product = [
   {
     id: 20,
     name: "Striped Flutter Sleeve Overlap Collar Peplum Hem Blouse",
-    category: "mobile",
+    category: "tshirt",
     image: tshirt_img5,
     new_price: 50000,
     old_price: 80000,

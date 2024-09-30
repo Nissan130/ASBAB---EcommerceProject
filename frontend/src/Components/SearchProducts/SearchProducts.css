@@ -1,0 +1,9 @@
+.search-results{
+  margin: 10px 0;
+  background: #fff;
+  padding: 0px 10px;
+}
+.search-results-product-item{
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
+}

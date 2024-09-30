@@ -5,6 +5,7 @@ import { IoStar } from "react-icons/io5";
 import { FaRegHeart, FaHeart } from "react-icons/fa"; // Import both regular and filled heart icons
 import { FaPlus, FaMinus } from "react-icons/fa6";
 import { CartContext } from "../../Context/CartContext";
+import other_images from "../Assets/other_images";
 
 const DisplayProduct = ({ product }) => {
   const {
@@ -17,6 +18,7 @@ const DisplayProduct = ({ product }) => {
 
   // State to track if the product is in the favorites
   const [isFavourite, setIsFavourite] = useState(false);
+  const [mainImage, setMainImage] = useState(other_images);
 
   // Toggle favorite status
   const handleFavouriteClick = () => {
@@ -24,17 +26,38 @@ const DisplayProduct = ({ product }) => {
     setIsFavourite(!isFavourite);  // Toggle the local favorite state
   };
 
+  //handle dynamic ratings
+  // const renderStars = (rating) => {
+  //   const stars = [];
+  //   for (let i = 1; i <= 5; i++) {
+  //     stars.push(
+  //       <IoStar key={i} style={{ color: i <= rating ? "#ff4141" : "#ccc" }} />
+  //     );
+  //   }
+  //   return stars;
+  // };
+
   return (
     <div className="product-display">
       <div className="product-display-left">
         <div className="product-images">
+           {/* <img src={product.image} alt="" />
           <img src={product.image} alt="" />
           <img src={product.image} alt="" />
-          <img src={product.image} alt="" />
-          <img src={product.image} alt="" />
+          <img src={product.image} alt="" />  */}
+           {other_images.map((img, index) => (
+            <img
+              key={index}
+              src={img}
+              alt={`Preview ${index}`}
+              onMouseMove={() => setMainImage(img)} // Update main image on click
+              className={mainImage === img ? "active-image" : ""}
+            />
+          ))}
         </div>
         <div className="product-image-main">
           <img src={product.image} alt="" />
+          {/* <img src={mainImage} alt="" className="main-image"/> */}
         </div>
       </div>
       <div className="product-display-right">

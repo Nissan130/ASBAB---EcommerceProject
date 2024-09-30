@@ -8,7 +8,6 @@ const NewCollections = () => {
     <div className='newCollections-product'>
       <div className="newCollections-product-title">
         <h2>NEW COLLECTIONS</h2>
-        <hr />
       </div>
      <div className="newCollections-product-item">
       {new_collections_product.map((item,i) =>{
@@ -23,6 +22,10 @@ const NewCollections = () => {
           />
         )
       })}
+     </div>
+
+     <div className="newcollectioin-load-more">
+      Load More...
      </div>
     </div>
   )

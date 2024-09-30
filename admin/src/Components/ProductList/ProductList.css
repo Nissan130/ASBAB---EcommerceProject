@@ -1,7 +1,17 @@
 .product-list{
+   
     padding: 10px;
     background: #fff;
     width: 90vw;
     height: 85vh;
     margin: 10px;
+    font-size: 22px;
+    color: #555;
+}
+.product-list h2{
+    text-align: center;
+    font-weight: 700;
+    color: #555;
+    font-size: 30px;
+    margin-bottom: 10px;
 }

@@ -2,7 +2,7 @@
 .navbar-main {
     width: 100%;
     background-color: #ffffff;
-    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+    /* box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1); */
     /* font-family: 'Arial', sans-serif; */
 }
 
@@ -24,21 +24,26 @@
 /* === Search Bar === */
 .search-bar {
     display: flex;
+    align-items: center;
     width: 40%;
+    position: relative;
 }
 
-.search-bar input {
+.search-bar .search-input-field {
     width: 100%;
+    height: 40px;
     padding: 8px 12px;
-    border: 1px solid #ccc;
+    /* border: 1px solid #ccc; */
+    border: 1px solid #999999;
     border-radius: 4px 0 0 4px;
     outline: none;
     font-size: 16px;
 }
 
-.search-bar button {
+.search-bar .search-btn {
     /* background-color: #ff6f61; */
     background: #ff4141;
+    height: 40px;
     color: #fff;
     border: none;
     padding: 0 16px;
@@ -48,9 +53,65 @@
     align-items: center;
 }
 
-.search-bar button:hover {
+.search-bar .search-btn:hover {
     background-color: #e55c50;
 }
+
+.search-bar .search-input-field:focus{
+    border-color: lightblue;
+    box-shadow: 0 0 5px lightblue;
+    transition: box-shadow 0.3s ease;
+}
+
+
+/* =====design search product functionality======= */
+/* Container for the suggestions list */
+.search-suggestions {
+    position: absolute;
+    top: 100%; /* Positioned below the search input */
+    left: 0;
+    right: 0;
+    background-color: #ffffff; /* White background color for the suggestions */
+    border: none; /* No border */
+    z-index: 10; /* Ensure suggestions show above other content */
+    max-height: 200px;
+    overflow-y: auto; /* Allows scrolling if many suggestions */
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  }
+  
+  /* Individual suggestion item with the new class */
+  .search-suggestions .suggestions-list {
+    display: flex;
+    align-items: center;
+    padding: 10px;
+    border-bottom: 1px solid #f1f1f1;
+    cursor: pointer;
+    color: black; /* Text color */
+    background: white; /* Default background color */
+    transition: background-color 0.3s ease; /* Smooth transition */
+  }
+  
+  /* Hover effect for suggestions */
+  .search-suggestions .suggestions-list:hover {
+    background-color: #f5f5f5; 
+    color: #333; 
+  }
+  
+  /* Active suggestion during keyboard navigation */
+  .search-suggestions .suggestions-list.active {
+    background-color: #f9f9f9;
+    color: #333;
+  }
+  
+
+  
+  
+  
+  
+  
 
 /* === Login, Cart, Wishlist Container === */
 .login-cart-wishlist-container {
@@ -71,7 +132,8 @@
 
 .wishlist-container svg,
 .nav-cart-container svg {
-    font-size: 24px;
+    margin-right: 5px;
+    font-size: 20px;
     color: #333;
 }
 
@@ -88,18 +150,23 @@
     top: -10px;
 }
 
-.loginSignup-container button {
+
+
+.loginSignup-container .signin-btn {
     padding: 8px 16px;
-    border: 1px solid #ff4141;
-    background-color: transparent;
-    color: #ff4141;
+    /* border: 1px solid #ff4141; */
+    /* background-color: #fff; */
+    border: 1px solid #999999;
+    
+    background-color: #f0f0f0;
+    color: #555;
     font-weight: 600;
-    border-radius: 4px;
+    border-radius: 100px;
     cursor: pointer;
     transition: background-color 0.3s, color 0.3s;
 }
 
-.loginSignup-container button:hover {
+.loginSignup-container .signin-btn:hover {
     /* background-color: #ff6f61; */
     color: #fff;
     background: #ff4141;
@@ -110,29 +177,27 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    visibility: hidden;
-    /* width: 80px; */
+    /* visibility: hidden; */
     height: 25px;
-    /* background-color: #ccc; */
-    color: #333;
+    background-color: #333;
+    color: #fff;
     text-align: center;
-    border-radius: 4px;
-    padding: 5px;
+    border-radius: 5px;
+    padding: 5px 10px;
     position: absolute;
     z-index: 1;
-    /* bottom: 125%; Position above the icon */
     right: -100%;
     top: 120%;
     margin-left: -40px;
     border: 1px solid;
     font-size: 15px;
     opacity: 0;
-    transition: opacity 0.3s;
+    transition: opacity 0.5s;
 }
 
 .wishlist-container:hover .navbar-tooltip-text,
 .nav-cart-container:hover .navbar-tooltip-text {
-    visibility: visible;
+    /* visibility: visible; */
     opacity: 1;
 }
 
@@ -143,13 +208,19 @@
 }
 
 /* fixed the second navbar */
-.nav-second-fixed{
+.nav-first-fixed{
     position: fixed;
     top: 0;
     left: 0;
     width: 100%;
     z-index: 1000;
     background: #fff;
+    box-shadow: 0 3px 6px rgba(0, 0, 0, 0.1);
+    transition: padding 0.3s ease;
+}
+.nav-first.scroll-active {
+    padding: 5px 20px;
+    background-color: #fff;
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
 }
 
@@ -167,14 +238,20 @@
     position: relative;
     padding: 8px 16px;
     cursor: pointer;
-    transition: color 0.3s;
+    transition: color 0.3s, background-color 0.3s;
     font-size: 14px;
     font-weight: 600;
+    border-radius: 10px;
+}
+.category-navbar li:nth-child(n+2):hover{
+    background: #f1f1f1;
+    color: #ff4141;
+    transition: background-color 0.3s ease, color 0.3s ease;
 }
 
-/* .category-navbar li:hover {
-    color: #ff4141;
-} */
+
+
+
 
 .category-hover-list {
     display: flex;
@@ -197,7 +274,6 @@
 /* === Dropdown Menu === */
 .category-hover-list-items {
     list-style: none;
-    display: none;
     position: absolute;
     top: 100%;
     left: 0;
@@ -205,16 +281,21 @@
     color: #717171;
     min-width: 160px;
     box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
-    z-index: 1;
+    z-index: 100;
     /* border-radius: 4px; */
-    padding: 10px 0;
-    border: 1px solid #ccc;
+    /* padding: 10px 0; */
+    border: 1px solid #f1f1f1;
+    transition: .3s ease-in-out;
+    opacity: 0;
+    transform: scaleX(0.9);
+    transition: opacity .3s ease-in-out transform 0.3s ease-in-out;
+    pointer-events: none;
 }
 
 .category-hover-list-items li {
     padding: 10px 20px;
     white-space: nowrap;
-    border-bottom: 1px solid #ccc;
+    border-bottom: 1px solid #f1f1f1;
 }
 .category-hover-list-items li svg{
     padding-top: 5px;
@@ -222,20 +303,26 @@
 }
 
 .category-hover-list-items li:hover {
-    background-color: #f9f9f9;
+    background-color: #f5f5f5;
 }
 
 .category-hover-list:hover .category-hover-list-items {
-    display: block;
+    opacity: 1;
+    transform: scaleX(1);
+    pointer-events: auto;
 }
 
-
+.category-link{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 3px;
+}
 .newCollection-side-list{
     position: relative;
 }
  .newCollection-side-list ul{
     list-style: none;
-    display: none;
     position: absolute;
     top: 0;
     left: 100%;
@@ -246,10 +333,16 @@
     z-index: 1;
     /* border-radius: 4px; */
     padding: 10px 0;
-    border: 1px solid #ccc;
+    border: 1px solid #f1f1f1;
+    opacity: 0;
+    transform: scale(0.9);
+    transition: opacity .3s ease-in-out transform 0.3s ease-in-out;
+    pointer-events: none;
 }
 .newCollection-side-list:hover  ul {
-    display: block;
+    opacity: 1;
+    transform: scaleX(1);
+    pointer-events: auto;
 }
 
 
@@ -274,3 +367,148 @@
 .popularProducts-side-list:hover  ul {
     display: block;
 }
+
+/* =======design fashion category ====== */
+.fashion-category{
+    position: relative;
+}
+.fashion-category ul{
+    position: absolute;
+    list-style: none;
+    top: calc(100%);
+    left: 0;
+    background: #fff;
+    min-width: 160px;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+    /* border-radius: 4px; */
+    border: 1px solid #f1f1f1;
+    z-index: 100;
+    transition: .3s ease-in-out;
+    opacity: 0;
+    transform: scaleX(0.9);
+    transition: opacity .3s ease-in-out transform 0.3s ease-in-out;
+    pointer-events: none;
+}
+.fashion-category ul li {
+    padding: 10px 20px;
+    white-space: nowrap;
+    border-bottom: 1px solid #f1f1f1;
+    color: #555;
+}
+.fashion-category ul li:hover{
+    background: #f5f5f5;
+}
+.fashion-category:hover  ul{
+    opacity: 1;
+    transform: scaleX(1);
+    pointer-events: auto;
+}
+
+/* =======design footwear category ====== */
+.footwear-category{
+    position: relative;
+}
+.footwear-category ul{
+    position: absolute;
+    list-style: none;
+    top: calc(100%);
+    left: 0;
+    background: #fff;
+    min-width: 160px;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+    /* border-radius: 4px; */
+    border: 1px solid #f1f1f1;
+    z-index: 100;
+    transition: .3s ease-in-out;
+    opacity: 0;
+    transform: scaleX(0.9);
+    transition: opacity .3s ease-in-out transform 0.3s ease-in-out;
+    pointer-events: none;
+}
+.footwear-category ul li {
+    padding: 10px 20px;
+    white-space: nowrap;
+    border-bottom: 1px solid #f1f1f1;
+    color: #555;
+}
+.footwear-category ul li:hover{
+    background: #f5f5f5;
+}
+.footwear-category:hover  ul{
+    opacity: 1;
+    transform: scaleX(1);
+    pointer-events: auto;
+}
+
+/* =======design groceries category ====== */
+.groceries-category{
+    position: relative;
+}
+.groceries-category ul{
+    position: absolute;
+    list-style: none;
+    top: calc(100%);
+    left: 0;
+    background: #fff;
+    min-width: 160px;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+    /* border-radius: 4px; */
+    border: 1px solid #f1f1f1;
+    z-index: 100;
+    transition: .3s ease-in-out;
+    opacity: 0;
+    transform: scaleX(0.9);
+    transition: opacity .3s ease-in-out transform 0.3s ease-in-out;
+    pointer-events: none;
+}
+.groceries-category ul li {
+    padding: 10px 20px;
+    white-space: nowrap;
+    border-bottom: 1px solid #f1f1f1;
+    color: #555;
+}
+.groceries-category ul li:hover{
+    background: #f5f5f5;
+}
+.groceries-category:hover  ul{
+    opacity: 1;
+    transform: scaleX(1);
+    pointer-events: auto;
+}
+
+/* =======design electronics category ====== */
+.electronics-category{
+    position: relative;
+}
+.electronics-category ul{
+    position: absolute;
+    list-style: none;
+    top: calc(100%);
+    left: 0;
+    background: #fff;
+    min-width: 160px;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+    /* border-radius: 4px; */
+    border: 1px solid #f1f1f1;
+    z-index: 100;
+    transition: .3s ease-in-out;
+    opacity: 0;
+    transform: scaleX(0.9);
+    transition: opacity .3s ease-in-out transform 0.3s ease-in-out;
+    pointer-events: none;
+}
+.electronics-category ul li {
+    padding: 10px 20px;
+    white-space: nowrap;
+    border-bottom: 1px solid #f1f1f1;
+    color: #555;
+}
+.electronics-category ul li:hover{
+    background: #f5f5f5;
+}
+.electronics-category:hover  ul{
+    opacity: 1;
+    transform: scaleX(1);
+    pointer-events: auto;
+}
+

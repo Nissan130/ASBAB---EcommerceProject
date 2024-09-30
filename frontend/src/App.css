@@ -6,10 +6,15 @@
     font-family: "Open Sans", sans-serif;
 }
 body{
-    background: #f5f5f5;
+    
+    background: #f4f4f4;
     overflow-x: hidden;
 }
-
-
+h1, h2, h3 {
+    font-weight: 700;
+}
+p {
+    font-weight: 400;
+}
   
   
