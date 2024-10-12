@@ -16,5 +16,30 @@ h1, h2, h3 {
 p {
     font-weight: 400;
 }
+:root{
+    /* --main-bg-color: #ed174a; */
+    --main-bg-color: #ff4141;
+}
+  /* Customize the entire scrollbar */
+  ::-webkit-scrollbar {
+    width: 5px; /* width of the scrollbar */
+  }
+  
+  /* Customize the track (background of the scrollbar) */
+  ::-webkit-scrollbar-track {
+    background: #f1f1f1;
+    border-radius: 10px;
+  }
+  
+  /* Customize the handle (the part you can drag) */
+  ::-webkit-scrollbar-thumb {
+    background: #ccc; /* Scrollbar handle color */
+    border-radius: 10px;
+  }
+  
+  /* Handle on hover */
+  ::-webkit-scrollbar-thumb:hover {
+    background: #ccc; /* Darker color when hovered */
+  }
   
   

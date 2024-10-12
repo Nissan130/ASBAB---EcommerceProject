@@ -51,6 +51,14 @@
   color: #333;
   text-align: left;
   cursor: pointer;
+  display: -webkit-box;           /* For browsers that support it */
+  -webkit-box-orient: vertical;  /* Limit box to vertical orientation */
+  overflow: hidden;               /* Hide overflowing text */
+  text-overflow: ellipsis;       /* Add ellipsis (...) */
+  line-clamp: 2;                 /* Limit to 2 lines */
+  -webkit-line-clamp: 2;         /* For webkit browsers */
+  max-height: 3.4em;               /* 2 lines of text (line-height * number of lines) */
+  line-height: 1.5em;            /* Adjust this based on your design */
 }
 .cart-product-title:hover {
   text-decoration: underline;
@@ -119,12 +127,6 @@
   border-radius: 5px;
   /* box-shadow: 0px 0px 10px rgba(0,0,0,0.1);  */
 }
-
-
-
-
-
-
 
 .cupon-container{
   display: flex;
@@ -201,7 +203,7 @@
 }
 .checkout button {
   width: 100%;
-  background: #ff4d4d;
+  background: #ed174a;
   color: #fff;
   font-size: 1.2rem;
   border-radius: 6px;

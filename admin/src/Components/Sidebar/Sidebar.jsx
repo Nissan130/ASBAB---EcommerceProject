@@ -6,6 +6,19 @@ import { NavLink } from "react-router-dom";
 const Sidebar = () => {
   return (
     <div className="sidebar">
+
+<NavLink
+        to="/product-list"
+        className="sidebar-items"
+        activeClassName="active"
+        style={{ textDecoration: "none" }}
+      >
+        <div className="sidebaritem">
+          <PiNotepadDuotone />
+        </div>
+        <div className="sidebaritem">Product List</div>
+      </NavLink>
+      
       <NavLink
         to="/add-product"
         className="sidebar-items"
@@ -18,17 +31,7 @@ const Sidebar = () => {
         <div className="sidebaritem">Add Product</div>
       </NavLink>
 
-      <NavLink
-        to="/product-list"
-        className="sidebar-items"
-        activeClassName="active"
-        style={{ textDecoration: "none" }}
-      >
-        <div className="sidebaritem">
-          <PiNotepadDuotone />
-        </div>
-        <div className="sidebaritem">Product List</div>
-      </NavLink>
+     
 
       <NavLink
         to="/add-category"

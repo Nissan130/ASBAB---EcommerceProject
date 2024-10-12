@@ -1,25 +1,28 @@
-import React from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import './PopularProducts.css'
 import Item from '../Item/Item'
-import all_product from '../Assets/all_product'
+import { GlobalContext } from '../../Context/GlobalContext';
 
 
 const PopularProducts = () => {
+  const { products } = useContext(GlobalContext); 
+
   return (
     <div className='popularProducts'>
       <div className="popularProducts-title">
         <h2>POPULAR PRODUCTS</h2>
       </div>
      <div className="products">
-      {all_product.map((item,i) =>{
+      {products.map((item,i) =>{
         return (
           <Item 
-          key={i}
-          id={item.id}
-          name={item.name}
-          image={item.image}
-          new_price={item.new_price}
-          old_price={item.old_price}
+            key={item.product_id} // Ensure you have a unique identifier in your product data
+            product_id={item.product_id}
+            title={item.title} // Adjust property names based on your API response
+            main_image={item.main_image} // Adjust to match your API response
+            new_price={item.new_price}
+            old_price={item.old_price}
+            discount={item.discount}
           />
         )
       })}

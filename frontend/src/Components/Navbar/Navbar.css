@@ -1,10 +1,11 @@
 /* === Navbar Container === */
 .navbar-main {
     width: 100%;
-    background-color: #ffffff;
+    background-color: #fff;
     /* box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1); */
     /* font-family: 'Arial', sans-serif; */
 }
+
 
 /* === Nav First Row === */
 .nav-first {
@@ -122,7 +123,7 @@
 
 .wishlist-container,
 .nav-cart-container,
-.loginSignup-container {
+.nav-loginSignup {
     position: relative;
     margin-left: 20px;
     cursor: pointer;
@@ -139,20 +140,24 @@
 
 .wishlist-container span,
 .nav-cart-container span {
+    width: 20px;
+    height: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
     background-color: #ff4141;
     color: #fff;
     font-size: 12px;
-    padding: 2px 6px;
     border-radius: 50%;
-    margin-left: 4px;
     position: absolute;
     left: 12px;
     top: -10px;
+    text-align: center;
 }
 
 
 
-.loginSignup-container .signin-btn {
+.nav-loginSignup .signin-btn {
     padding: 8px 16px;
     /* border: 1px solid #ff4141; */
     /* background-color: #fff; */
@@ -164,12 +169,41 @@
     border-radius: 100px;
     cursor: pointer;
     transition: background-color 0.3s, color 0.3s;
+    position: relative;
 }
 
-.loginSignup-container .signin-btn:hover {
+.nav-loginSignup .signin-btn:hover {
     /* background-color: #ff6f61; */
     color: #fff;
     background: #ff4141;
+}
+.profile-dropdown{
+    position: absolute;
+    width: 130px;
+    top: calc(100% + 10px);
+    right: 10px;
+    background: #fff;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    padding:10px 0;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    z-index: 100;
+}
+.profile-dropdown::before{
+    content: '';
+    position: absolute;
+    border-left: 5px solid transparent;
+    border-right: 5px solid transparent;
+    border-bottom: 10px solid #fff;
+    top: -10px;
+    right: 20px;
+}
+.profile-dropdown ul li{
+    list-style: none;
+    padding: 10px;
+}
+.profile-dropdown ul li:hover{
+   background: #eee;
 }
 
 /* === Tooltip === */

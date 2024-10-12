@@ -6,7 +6,7 @@ const Breadcrums = (props) => {
   const {product} = props;
   return (
     <div className='breadcrums'>
-      <span>HOME</span> <MdChevronRight /><span>{product.category}</span> <MdChevronRight /> <span>{product.name}</span> 
+      <span>HOME</span> <MdChevronRight /><span>{product.category}</span> <MdChevronRight /> <span>{product.title}</span> 
     </div>
   )
 }

@@ -23,12 +23,20 @@
     font-size: 15px;
     font-weight: 600;
     padding: 10px;
+    display: -webkit-box;           /* For browsers that support it */
+    -webkit-box-orient: vertical;  /* Limit box to vertical orientation */
+    overflow: hidden;               /* Hide overflowing text */
+    text-overflow: ellipsis;       /* Add ellipsis (...) */
+    line-clamp: 2;                 /* Limit to 2 lines */
+    -webkit-line-clamp: 2;         /* For webkit browsers */
+    max-height: 3.6em;               /* 2 lines of text (line-height * number of lines) */
+    line-height: 1.5em;            /* Adjust this based on your design */
+    margin-bottom: 15px;
 }
 .productprice-container{
     display: flex;
     align-items: center;
     gap: 10px;
-   
     padding-bottom: 10px;
 }
 .productprice-new_price{

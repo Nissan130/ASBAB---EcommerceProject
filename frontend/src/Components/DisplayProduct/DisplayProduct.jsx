@@ -1,11 +1,10 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useState, useRef, useEffect } from "react";
 import "./DisplayProduct.css";
 import { TbCurrencyTaka } from "react-icons/tb";
 import { IoStar } from "react-icons/io5";
-import { FaRegHeart, FaHeart } from "react-icons/fa"; // Import both regular and filled heart icons
+import { FaRegHeart, FaHeart } from "react-icons/fa";
 import { FaPlus, FaMinus } from "react-icons/fa6";
-import { CartContext } from "../../Context/CartContext";
-import other_images from "../Assets/other_images";
+import { GlobalContext } from "../../Context/GlobalContext";
 
 const DisplayProduct = ({ product }) => {
   const {
@@ -14,55 +13,88 @@ const DisplayProduct = ({ product }) => {
     handleDecrementItem,
     addToCart,
     addToFavourite,
-  } = useContext(CartContext);
+  } = useContext(GlobalContext);
 
-  // State to track if the product is in the favorites
   const [isFavourite, setIsFavourite] = useState(false);
-  const [mainImage, setMainImage] = useState(other_images);
+  const [mainImage, setMainImage] = useState(product.main_image);
+  const [isZoomed, setIsZoomed] = useState(false);
+  const [zoomPosition, setZoomPosition] = useState({ x: 0, y: 0 });
+  const imageRef = useRef(null);
 
-  // Toggle favorite status
+  useEffect(() => {
+    setMainImage(product.main_image);
+  }, [product]);
+
+  const other_images = Array.isArray(product.other_images)
+    ? product.other_images
+    : JSON.parse(product.other_images || "[]");
+
   const handleFavouriteClick = () => {
-    addToFavourite(product);  // Call the function to add the product to the favorite list
-    setIsFavourite(!isFavourite);  // Toggle the local favorite state
+    addToFavourite(product);
+    setIsFavourite(!isFavourite);
   };
 
-  //handle dynamic ratings
-  // const renderStars = (rating) => {
-  //   const stars = [];
-  //   for (let i = 1; i <= 5; i++) {
-  //     stars.push(
-  //       <IoStar key={i} style={{ color: i <= rating ? "#ff4141" : "#ccc" }} />
-  //     );
-  //   }
-  //   return stars;
-  // };
+  const handleMouseMove = (e) => {
+    const imageRect = imageRef.current.getBoundingClientRect();
+    const x = e.clientX - imageRect.left; // Get x position relative to the image
+    const y = e.clientY - imageRect.top; // Get y position relative to the image
+
+    // Set the zoom position
+    setZoomPosition({ x, y });
+  };
+
+  const handleMouseEnter = () => {
+    setIsZoomed(true);
+  };
+
+  const handleMouseLeave = () => {
+    setIsZoomed(false);
+  };
 
   return (
     <div className="product-display">
       <div className="product-display-left">
         <div className="product-images">
-           {/* <img src={product.image} alt="" />
-          <img src={product.image} alt="" />
-          <img src={product.image} alt="" />
-          <img src={product.image} alt="" />  */}
-           {other_images.map((img, index) => (
+          <img
+            src={`http://localhost:5002/${product.main_image}`}
+            alt="Main"
+            onClick={() => setMainImage(product.main_image)}
+          />
+          {other_images.map((image, index) => (
             <img
               key={index}
-              src={img}
-              alt={`Preview ${index}`}
-              onMouseMove={() => setMainImage(img)} // Update main image on click
-              className={mainImage === img ? "active-image" : ""}
+              src={`http://localhost:5002/${image}`}
+              alt={`Product ${index + 1}`}
+              onClick={() => setMainImage(image)}
             />
           ))}
         </div>
-        <div className="product-image-main">
-          <img src={product.image} alt="" />
-          {/* <img src={mainImage} alt="" className="main-image"/> */}
+        <div
+          className="product-image-main"
+          onMouseMove={handleMouseMove}
+          onMouseEnter={handleMouseEnter}
+          onMouseLeave={handleMouseLeave}
+          ref={imageRef}
+        >
+          <img src={`http://localhost:5002/${mainImage}`} alt="" />
+          {isZoomed && (
+            <div
+              className="zoom-lens"
+              style={{
+                left: `${zoomPosition.x - 50}px`, // Center lens on cursor
+                top: `${zoomPosition.y - 50}px`, // Center lens on cursor
+                backgroundImage: `url(http://localhost:5002/${mainImage})`,
+                backgroundPosition: `-${zoomPosition.x * 2}px -${zoomPosition.y * 2}px`, // Adjust zoom based on lens position
+                backgroundSize: `${imageRef.current.offsetWidth * 2}px ${imageRef.current.offsetHeight * 2}px`, // Change this for zoom level
+              }}
+            />
+          )}
         </div>
       </div>
+
       <div className="product-display-right">
         <div className="product-name">
-          <h2>{product.name}</h2>
+          <h2>{product.title}</h2>
         </div>
         <div className="product-ratings">
           <span><IoStar /></span>
@@ -72,9 +104,7 @@ const DisplayProduct = ({ product }) => {
           <span className="fade-rating"><IoStar /></span>
           <span>(4.3)</span>
         </div>
-        <div className="review-counts">
-          (15 reviews)
-        </div>
+        <div className="review-counts">(15 reviews)</div>
         <div className="product-prices">
           <div className="product-prices-new">
             <TbCurrencyTaka />
@@ -84,7 +114,7 @@ const DisplayProduct = ({ product }) => {
             <TbCurrencyTaka />
             {product.old_price}
           </div>
-          <div className="product-offers">20% offer</div>
+          <div className="product-offers">{product.discount}% offer</div>
         </div>
         <div className="product-short-desc">
           Lorem ipsum, dolor sit amet consectetur adipisicing elit. Expedita exercitationem placeat laborum quae sunt nemo numquam repudiandae doloribus accusantium temporibus?
@@ -101,10 +131,8 @@ const DisplayProduct = ({ product }) => {
           </div>
           <div className="addCart-wislist-btn">
             <button onClick={() => addToCart(product)}>ADD TO CART</button>
-
-            {/* Conditionally render the heart icon based on whether the product is in favorites */}
             <span onClick={handleFavouriteClick}>
-              {isFavourite ? <FaHeart style={{ color: 'red' }} /> : <FaRegHeart />}
+              {isFavourite ? <FaHeart style={{ color: 'red', fontSize:'22px'}} /> : <FaRegHeart style={{fontSize:'22px'}} />}
             </span>
           </div>
         </div>

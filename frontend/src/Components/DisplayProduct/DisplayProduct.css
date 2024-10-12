@@ -1,91 +1,121 @@
-.product-display{
+.product-display {
     height: 75vh;
     display: flex;
     gap: 10px;
     padding: 10px 20px;
     background: #fff;
 }
-.product-display-left{
+
+.product-display-left {
     display: flex;
     width: 40%;
     height: 100%;
-    /* flex-direction: column; */
 }
-.product-images{
+
+.product-images {
     display: flex;
     flex-direction: column;
     border: 1px solid #ccc;
     padding: 2px;
     height: 90%;
 }
-.product-images img{
-    width: 70px;
-    height: 25%;
+
+.product-images img {
+    width: 60px;
+    height: 20%;
     border: 1px solid #ccc;
     margin-bottom: 2px;
+    cursor: pointer;
 }
-.product-image-main{
+
+.product-image-main {
+    position: relative;
     width: 100%;
     height: 90%;
+    overflow: hidden;
+    border: 1px solid #ccc;
 }
-.product-image-main img{
+
+.product-image-main img {
     width: 100%;
     height: 100%;
-    overflow: hidden;
+    object-fit: cover;
 }
-.product-display-right{
+
+.zoom-lens {
+    position: absolute;
+    border: 2px solid #ccc; /* Change border color as needed */
+    width: 100px; /* Lens size */
+    height: 100px; /* Lens size */
+    opacity: 0.7; /* Lens opacity */
+    pointer-events: none; /* Prevent interactions with the lens */
+    border-radius: 50%; /* Optional: round shape */
+    background-repeat: no-repeat;
+    background-size: 200%; /* Ensure this is double the image size for zoom */
+    z-index: 10; /* Ensure lens is above the image */
+    cursor: none; /* Hide cursor over lens */
+}
+
+.product-display-right {
     width: 60%;
     display: flex;
     flex-direction: column;
     margin-left: 15px;
 }
-.product-name h2{
+
+.product-name h2 {
     font-size: 20px;
     font-weight: 700;
     color: #333;
     margin-bottom: 2rem;
 }
-.product-ratings{
+
+.product-ratings {
     display: flex;
     align-items: center;
     gap: 5px;
-    /* margin-bottom: .5rem; */
 }
-.product-ratings span svg{
+
+.product-ratings span svg {
     color: #ff4141;
 }
-.product-ratings .fade-rating svg{
+
+.product-ratings .fade-rating svg {
     color: #aaa;
 }
-.review-counts{
+
+.review-counts {
     margin-bottom: 10px;
     font-size: 14px;
     cursor: pointer;
     color: #333;
     width: 100px;
 }
-.review-counts:hover{
+
+.review-counts:hover {
     color: #ff4141;
 }
 
-.product-prices{
+.product-prices {
     display: flex;
     align-items: center;
     gap: .6rem;
     margin-bottom: .7rem;  
 }
 
-.product-prices-new{
+.product-prices-new {
     display: flex;
     align-items: center;
     font-size: 1.5rem;
     font-weight: 600;
     color: #ff4141;
 }
-.product-prices-new svg{
+
+.product-prices-new svg {
     font-size: 20px;
 }
-.product-prices-old{
+
+.product-prices-old {
     display: flex;
     align-items: center;
     font-size: 1.2rem;
@@ -93,65 +123,58 @@
     color: #333;
     text-decoration: line-through 2px;
 }
-.product-prices-old svg{
+
+.product-prices-old svg {
     font-size: 20px;
 }
-.product-offers{
+
+.product-offers {
     background-color: #333;
-    padding: 5px;
-    border-radius: 5px;
-    /* z-index: 1000; */
-    color: #fff;
-    font-size: 1rem;
-    font-weight: 600;
+    color: white;
+    border-radius: 20px;
+    padding: 3px 10px;
 }
-.product-short-desc{
-    color: #333;
-    font-size: 15px;
-    margin-top: 20px;
-}
-.products-btns{
-    margin-top: 3rem;
-    display: flex;
-    align-items: center;
-    gap: 2rem;
-}
-.increase-decrease-item{
-    height: 2.5rem;
-    display: flex;
-    align-items: center;
-    border: 1px solid #999;
-    background: #ddd;
 
+.product-short-desc {
+    margin: 20px 0;
 }
-.increase-decrease-item button{
-    background: none;
-    width: 3rem;
-    height: 2.5rem;
-    border: none;
-    outline: none;
-    font-size: 1rem;
-    background: #ddd;
-}
-.minus, .plus{
-    cursor: pointer;
-}
-.addCart-wislist-btn{
+
+.products-btns {
     display: flex;
-    align-items: center;
-    font-size: 2.2rem;
+    flex-direction: column;
     gap: 10px;
-    cursor: pointer;
-}
-.addCart-wislist-btn button{
-    width: 140px;
-    height: 2.5rem;
-    border: none;
-    outline: none;
-    background-color: #ff4141;
-    color: #fff;
-    font-weight: 600;
-    cursor: pointer;
 }
 
+.increase-decrease-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.increase-decrease-item button {
+    border: 1px solid #ccc;
+    padding: 0.5rem;
+    background-color: white;
+    cursor: pointer;
+    width: 40px; /* Set a fixed width */
+}
+
+.addCart-wislist-btn {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+}
+
+.addCart-wislist-btn button {
+    padding: 10px 20px;
+    background-color: var(--main-bg-color);
+    color: white;
+    border: none;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.addCart-wislist-btn button:hover {
+    background-color: #e03e3e;
+}
 

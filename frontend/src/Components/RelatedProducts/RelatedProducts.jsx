@@ -1,9 +1,10 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import './RelatedProducts.css'
-import related_product from '../Assets/related_products'
 import Item from '../Item/Item'
+import { GlobalContext } from '../../Context/GlobalContext'
 
 const RelatedProducts = () => {
+  const {products} = useContext(GlobalContext);
   return (
     <div className='related-products'>
         <div className="related-products-title">
@@ -11,16 +12,17 @@ const RelatedProducts = () => {
             <hr />
         </div>
         <div className="related-product-items">
-               { related_product.map((item,i) => {
+               { products.map((item) => {
                     return (
-                        <Item
-                         key={i}
-                         id={item.id}
-                         name={item.name}
-                         image={item.image}
-                         new_price={item.new_price}
-                         old_price={item.old_price}
-                        />
+                      <Item 
+                      key={item.product_id} // Ensure you have a unique identifier in your product data
+                      product_id={item.product_id}
+                      title={item.title} // Adjust property names based on your API response
+                      main_image={item.main_image} // Adjust to match your API response
+                      new_price={item.new_price}
+                      old_price={item.old_price}
+                      discount={item.discount}
+                    />
                     )
                 })}
         </div>

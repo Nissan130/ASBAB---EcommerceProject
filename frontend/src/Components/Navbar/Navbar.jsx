@@ -7,8 +7,9 @@ import { FaRegHeart } from "react-icons/fa";
 import { BsCart3 } from "react-icons/bs";
 import { IoChevronDownSharp } from "react-icons/io5";
 import { RiMenuAddLine, RiArrowRightSLine } from "react-icons/ri";
-import { CartContext } from "../../Context/CartContext";
 import all_product from "../Assets/all_product";
+import MyProfile from "../MyProfile/MyProfile";
+import { GlobalContext } from "../../Context/GlobalContext";
 
 const Navbar = ({ setFilteredProducts }) => {
   const [isFixed, setIsFixed] = useState(false);
@@ -16,20 +17,53 @@ const Navbar = ({ setFilteredProducts }) => {
   const [filteredCategories, setFilteredCategories] = useState([]);
   const [activeSuggestionIndex, setActiveSuggestionIndex] = useState(0); // For keyboard navigation
   const searchInputRef = useRef(null); // Reference to search input for detecting outside clicks
+  const [showProfileDropdown, setShowProfileDropdown] = useState(false);
+  const dropdownRef = useRef(null); // Ref for the profile dropdown
   const navigate = useNavigate();
-  const { cartItems, favouriteCount } = useContext(CartContext);
 
-  const totalCartQuantity = cartItems.reduce((total, item) => total + item.quantity, 0);
+  const {products,cartItems, favouriteCount } = useContext(GlobalContext);
+
+  const totalCartQuantity = cartItems.reduce(
+    (total, item) => total + item.quantity,
+    0
+  );
+
+  const toggleProfileDropdown = () => {
+    setShowProfileDropdown(!showProfileDropdown);
+  };
+
+  const handleClickOutside = (event) => {
+    if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
+      setShowProfileDropdown(false); // Close the dropdown
+    }
+  };
+
+  useEffect(() => {
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, []);
+
+  const handleViewProfile = () => {
+    navigate("/profile"); // Safe to use after Router initialization
+    setShowProfileDropdown(false);
+  };
+
+  const handleLogout = () => {
+    localStorage.removeItem("userToken");
+    navigate("/"); // Safe to use after Router initialization
+  };
 
   useEffect(() => {
     const handleScroll = () => {
       const navFirst = document.querySelector(".nav-first");
       const navTop = navFirst.offsetTop;
       if (window.scrollY > navTop) {
-        navFirst.classList.add('scroll-active');
+        navFirst.classList.add("scroll-active");
         setIsFixed(true);
       } else {
-        navFirst.classList.remove('scroll-active');
+        navFirst.classList.remove("scroll-active");
         setIsFixed(false);
       }
     };
@@ -56,11 +90,15 @@ const Navbar = ({ setFilteredProducts }) => {
   // Only update the search results with a debounce delay
   const handleSearchFilter = (value) => {
     if (value.trim()) {
-      const filteredCats = [...new Set(
-        all_product
-          .filter((product) => product.category.toLowerCase().includes(value.toLowerCase()))
-          .map((product) => product.category)
-      )];
+      const filteredCats = [
+        ...new Set(
+          products
+            .filter((product) =>
+              product.category.toLowerCase().includes(value.toLowerCase())
+            )
+            .map((product) => product.category)
+        ),
+      ];
       setFilteredCategories(filteredCats);
       setActiveSuggestionIndex(0); // Reset active suggestion index
     } else {
@@ -78,7 +116,7 @@ const Navbar = ({ setFilteredProducts }) => {
   };
 
   const handleSearchSubmit = () => {
-    const filteredProds = all_product.filter(
+    const filteredProds = products.filter(
       (product) =>
         product.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
         product.category.toLowerCase().includes(searchTerm.toLowerCase())
@@ -86,16 +124,18 @@ const Navbar = ({ setFilteredProducts }) => {
     setFilteredProducts(filteredProds);
     setFilteredCategories([]);
     navigate(`/search-products?query=${searchTerm}`);
+    window.scrollTo(0, 0); // Scroll to the top of the page
   };
 
   const handleSuggestionClick = (category) => {
     setSearchTerm(category);
-    const filteredProds = all_product.filter(
+    const filteredProds = products.filter(
       (product) => product.category.toLowerCase() === category.toLowerCase()
     );
     setFilteredProducts(filteredProds);
     setFilteredCategories([]);
     navigate(`/search-products?category=${category}`);
+    window.scrollTo(0, 0); // Scroll to the top of the page
   };
 
   const handleKeyDown = (e) => {
@@ -136,7 +176,13 @@ const Navbar = ({ setFilteredProducts }) => {
   return (
     <div className="navbar-main">
       <div className={`nav-first ${isFixed ? "nav-first-fixed" : ""}`}>
-        <div className="nav-logo" onClick={() => { setSearchTerm(""); navigate("/"); }}>
+        <div
+          className="nav-logo"
+          onClick={() => {
+            setSearchTerm("");
+            navigate("/");
+          }}
+        >
           <img src={asbab_logo} alt="logo" />
         </div>
         <div className="search-bar" ref={searchInputRef}>
@@ -155,20 +201,24 @@ const Navbar = ({ setFilteredProducts }) => {
           {searchTerm && filteredCategories.length > 0 && (
             <ul className="search-suggestions">
               {filteredCategories.map((category, index) => (
-  <li
-    key={index}
-    onClick={() => handleSuggestionClick(category)}
-    className={`suggestions-list ${index === activeSuggestionIndex ? "active" : ""}`}
-  >
-    {/* <img src={product?.imageUrl} alt={product?.name} style={{ width: "30px", height: "30px", marginRight: "10px" }} /> */}
-    {category}
-  </li>
-))}
+                <li
+                  key={index}
+                  onClick={() => handleSuggestionClick(category)}
+                  className={`suggestions-list ${
+                    index === activeSuggestionIndex ? "active" : ""
+                  }`}
+                >
+                  {/* <img src={product?.imageUrl} alt={product?.name} style={{ width: "30px", height: "30px", marginRight: "10px" }} /> */}
+                  {category}
+                </li>
+              ))}
             </ul>
           )}
         </div>
 
+        {/* start login-cart-wishlist-container */}
         <div className="login-cart-wishlist-container">
+          {/* Wishlist */}
           <div
             className="wishlist-container"
             onClick={() => navigate("/wishlist")}
@@ -177,19 +227,46 @@ const Navbar = ({ setFilteredProducts }) => {
             <div className="navbar-tooltip-text">Favourite</div>
           </div>
 
-          {/* =======design cart container ====== */}
-          <div className="nav-cart-container" onClick={handleCartClick}>
+          {/* Cart */}
+          <div className="nav-cart-container" onClick={() => navigate("/cart")}>
             <BsCart3 /> <span>{totalCartQuantity}</span>
             <div className="navbar-tooltip-text">Cart</div>
           </div>
-          <div
-            className="loginSignup-container"
-            onClick={() => navigate("/signin")}
-          >
-            <button className="signin-btn">Sign In</button>
+
+          {/* Profile / Login Button */}
+          <div className="nav-loginSignup">
+            {localStorage.getItem("userToken") ? (
+              <>
+                <button className="signin-btn" onClick={toggleProfileDropdown}>
+                  My Profile
+                </button>
+                {showProfileDropdown && (
+                  // <MyProfile onClose={() => setShowProfileDropdown(false)} />
+                  <div className="profile-dropdown" ref={dropdownRef}>
+                    <ul>
+                      <li onClick={handleViewProfile}>View Profile</li>
+                      <li
+                        onClick={() => {
+                          localStorage.removeItem("userToken");
+                          setShowProfileDropdown(false);
+                          navigate('/');
+                        }}
+                      >
+                        Logout
+                      </li>
+                    </ul>
+                  </div>
+                )}
+              </>
+            ) : (
+              <button className="signin-btn" onClick={() => navigate("/login")}>
+                Login
+              </button>
+            )}
           </div>
         </div>
       </div>
+      {/* end login-cart-wishlist-container */}
 
       {/* === nav second start === */}
       {/* <div className={`nav-second ${isFixed ? 'nav-second-fixed' : ''}`}> */}
@@ -426,7 +503,6 @@ const Navbar = ({ setFilteredProducts }) => {
         </ul>
       </div>
       {/* === nav second end === */}
-
     </div>
   );
 };

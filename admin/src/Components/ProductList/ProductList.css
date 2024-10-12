@@ -1,17 +1,107 @@
-.product-list{
-   
+.product-list-container {
     padding: 10px;
     background: #fff;
     width: 90vw;
-    height: 85vh;
+    height: 84vh; 
     margin: 10px;
     font-size: 22px;
     color: #555;
+    border-radius: 5px;
+    position: relative;
+    overflow-y: auto; 
+    overflow-x: hidden;
 }
-.product-list h2{
+.product-list-container h2{
     text-align: center;
-    font-weight: 700;
+    font-size: 25px;
+    margin-bottom: 20px;
     color: #555;
-    font-size: 30px;
-    margin-bottom: 10px;
+}
+
+.product-list {
+    width: 100%;
+    max-height: 100%;
+    /* overflow-y: auto;
+    overflow-x: hidden; */
+    padding-bottom: 10px;
+}
+
+.productlist-title-container {
+    position: relative;
+    display: grid;
+    grid-template-columns: 0.3fr 0.7fr 2fr 1fr 1fr 1fr 0.5fr 0.5fr; /* Adjusted for better proportions */
+    gap: 10px; /* Space between columns */
+    font-size: 16px;
+    text-align: center;
+    font-weight: 500; /* Make headers bold for emphasis */
+}
+
+.productlist-product-container {
+    position: relative;
+    display: grid;
+    grid-template-columns: 0.3fr 0.7fr 2fr 1fr 1fr 1fr 0.5fr 0.5fr; /* Same as title for alignment */
+    gap: 10px; /* Space between columns */
+    font-size: 16px;
+    text-align: center;
+}
+.productlist-title-container::after,
+.productlist-product-container::after{
+  content: "";
+  height: 1px;
+  background-color: #ddd;
+  left: 0;
+  right: 0;
+  width: 100%;
+  top: calc(100% + 8px);
+  position: absolute;
+}
+
+.productlist-item {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: 10px;
+    padding: 10px; /* Adjust padding for items */
+}
+
+.productlist-image-item img{
+    width: 50px;
+    height: 50px;
+   
+}
+
+.productlist-title-item {
+    display: -webkit-box;           /* For browsers that support it */
+    -webkit-box-orient: vertical;  /* Limit box to vertical orientation */
+    overflow: hidden;               /* Hide overflowing text */
+    text-overflow: ellipsis;       /* Add ellipsis (...) */
+    line-clamp: 2;                 /* Limit to 2 lines */
+    -webkit-line-clamp: 2;         /* For webkit browsers */
+    max-height: 3.4em;               /* 2 lines of text (line-height * number of lines) */
+    line-height: 1.5em;            /* Adjust this based on your design */
+  }
+  
+
+.productlist-remove-item svg {
+    width: 40px;
+    height: 40px;
+    color: #ff4141;
+    cursor: pointer;
+    border-radius: 50%;
+    padding: 8px;
+}
+.productlist-remove-item svg:hover{
+    background-color: #eee;
+}
+.productlist-edit-item svg{
+    width: 40px;
+    height: 40px;
+    color: #555;
+    cursor: pointer;
+    border-radius: 50%;
+    padding: 8px;
+    z-index: 100;
+}
+.productlist-edit-item svg:hover{
+    background-color: #eee;
 }

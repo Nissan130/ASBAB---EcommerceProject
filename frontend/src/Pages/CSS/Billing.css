@@ -1,0 +1,170 @@
+/* Container and Layout */
+.billing-container {
+  max-width: 90%;
+  margin: 30px auto;
+  padding: 2rem;
+  background-color: #fff;
+  border-radius: 5px;
+  display: flex;
+  flex-direction: column;
+}
+
+.billing-container h2 {
+  text-align: center;
+  margin-bottom: 2.5rem;
+  color: #333;
+  position: relative;
+}
+
+.billing-container h2::before,
+.billing-container h2::after {
+  content: "";
+  width: 42%;
+  height: 2px;
+  position: absolute;
+  top: 50%;
+  background-color: #ccc;
+}
+
+.billing-container h2::before {
+  left: 0;
+}
+
+.billing-container h2::after {
+  right: 0;
+}
+
+/* Billing Details Container */
+.billing-details-container {
+  display: flex; /* Use flexbox to arrange items side by side */
+  justify-content: space-between; /* Add space between items */
+}
+
+/* Shipping Details */
+.shipping-details {
+  flex: 1; /* Allow shipping details to take full height */
+  padding: 1rem;
+  margin-right: 1rem; /* Add some space between shipping and order summary */
+}
+
+.shipping-details h3 {
+  font-size: 1.2rem;
+  margin-bottom: 1.25rem;
+  color: #333;
+}
+
+.shipping-details input {
+  width: 100%;
+  padding: 0.75rem;
+  margin: 0.5rem 0;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  box-sizing: border-box;
+  font-size: 1rem;
+  transition: border-color 0.3s ease-in-out;
+}
+
+.shipping-details input:focus {
+  border-color: #007bff;
+  outline: none;
+}
+
+/* Order Summary */
+.order-summary {
+  flex: 1; /* Allow order summary to take full height */
+  padding: 1rem; /* Add padding for aesthetics */
+  background-color: #fff; /* Ensure the background stays within the borders */
+  border: 1px solid #ddd; /* Add border around the summary */
+  border-radius: 8px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+  min-height: 150px; /* Set a minimum height */
+  max-height: 400px; /* Limit the maximum height for scrolling */
+  overflow-y: auto; /* Add scroll if content exceeds max height */
+}
+
+.order-summary h3 {
+  text-align: center;
+  margin-bottom: 1.25rem;
+  font-size: 1.3rem;
+  font-weight: 600;
+  color: #333;
+}
+
+.order-summary-header {
+  display: grid;
+  grid-template-columns: 2fr 1fr 1fr;
+  font-weight: 500;
+  margin-bottom: 1rem;
+  font-size: 1.1rem;
+  color: #555;
+  position: relative;
+}
+
+.order-summary-header::after {
+  position: absolute;
+  content: "";
+  width: 100%;
+  height: 2px;
+  left: 0;
+  top: 100%;
+  background-color: #ccc;
+  margin-top: 5px;
+}
+
+.order-summary-header span {
+  text-align: center;
+}
+
+.order-item {
+  display: grid;
+  grid-template-columns: 2fr 1fr 1fr;
+  padding: 0.75rem 0;
+  align-items: center;
+  font-size: 1rem;
+}
+
+.order-item span {
+  text-align: center;
+}
+
+/* Handle long product titles with ellipsis */
+.order-item .product-title {
+  text-align: left;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.order-total {
+  font-size: 1.3rem;
+  padding-top: 1.25rem;
+  border-top: 2px solid #e0e0e0;
+  text-align: right;
+  font-weight: bold;
+  color: #333;
+}
+
+.order-total strong {
+  margin-right: 10px;
+}
+
+/* Place Order Button */
+.place-order {
+  text-align: center;
+  margin-top: 1.5rem;
+}
+
+.place-order button {
+  background-color: var(--main-bg-color);
+  color: #fff;
+  padding: 0.75rem 1.5rem;
+  border: none;
+  border-radius: 5px;
+  font-size: 1.2rem;
+  cursor: pointer;
+  transition: background-color 0.3s ease-in-out;
+}
+
+.place-order button:hover {
+  background-color: #0056b3;
+}

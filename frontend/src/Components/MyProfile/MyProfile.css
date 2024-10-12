@@ -1,0 +1,26 @@
+.my-profile-dropdown {
+    position: absolute;
+    top: 50px; /* Adjust based on where you want to place it */
+    right: 0;
+    background-color: white;
+    border: 1px solid #ccc;
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+    padding: 10px;
+    z-index: 1000;
+  }
+  
+  .my-profile-dropdown ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+  
+  .my-profile-dropdown li {
+    padding: 10px;
+    cursor: pointer;
+  }
+  
+  .my-profile-dropdown li:hover {
+    background-color: #f0f0f0;
+  }
+  

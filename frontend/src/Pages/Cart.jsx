@@ -1,12 +1,12 @@
 import React, { useContext } from "react";
 import { RiDeleteBin6Line } from "react-icons/ri";
 import { TbCurrencyTaka } from "react-icons/tb";
-import { CartContext } from "../Context/CartContext";
 import "./CSS/Cart.css";
 import { useNavigate } from "react-router-dom";
+import { GlobalContext } from "../Context/GlobalContext";
 
 const Cart = () => {
-  const { cartItems, deleteFromCart, updateCartQuantity } = useContext(CartContext); // Assuming updateCartQuantity is available
+  const { cartItems, deleteFromCart, updateCartQuantity } = useContext(GlobalContext); // Assuming updateCartQuantity is available
   const navigate = useNavigate();
 
   return (
@@ -24,11 +24,11 @@ const Cart = () => {
 
       {cartItems.length > 0 ? (
         cartItems.map((item) => (
-          <div className="cart-product-container" key={item.id}>
+          <div className="cart-product-container" key={item.product_id}>
             <div className="cart-item cart-product-image">
-              <img src={item.image} alt={item.name} />
+              <img  src={`http://localhost:5002/${item.main_image}`} alt={item.name} />
             </div>
-            <div className="cart-item cart-product-title">{item.name}</div>
+            <div className="cart-item cart-product-title">{item.title}</div>
             <div className="cart-item cart-product-price">
               <TbCurrencyTaka />
               {item.new_price}
@@ -46,7 +46,7 @@ const Cart = () => {
               {item.new_price * item.quantity}
             </div>
             <div className="cart-item cart-product-remove">
-              <RiDeleteBin6Line onClick={() => deleteFromCart(item.id)} />
+              <RiDeleteBin6Line onClick={() => deleteFromCart(item.product_id)} />
             </div>
           </div>
         ))
@@ -113,7 +113,10 @@ const Cart = () => {
             </div>
             <hr />
             <div className="checkout">
-              <button>Proceed To Checkout</button>
+              <button onClick={()=>{
+                navigate('/billing');
+                window.scrollTo(0,0);
+                }}>Proceed To Checkout</button>
             </div>
           </div>
         </div>
