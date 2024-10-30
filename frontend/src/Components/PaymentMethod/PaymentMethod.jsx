@@ -2,22 +2,26 @@ import React, { useContext, useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import "./PaymentMethod.css";
 
-// Import logos (Make sure to place the images in the correct folder)
-import bkashLogo from "../assets/bkash_logo.png"; 
-import nagadLogo from "../assets/nagad_logo.png"; 
-import rocketLogo from "../assets/rocket_logo.png"; 
-import bankLogo from "../assets/bank_logo.jpg"; 
-import cashLogo from "../assets/cash_logo.webp"; 
-import mobile_banking_logo from "../assets/mobile_banking_logo.png"; 
+import bkashLogo from "../assets/bkash_logo.png";
+import nagadLogo from "../assets/nagad_logo.png";
+import rocketLogo from "../assets/rocket_logo.png";
+import bankLogo from "../assets/bank_logo.jpg";
+import cashLogo from "../assets/cash_logo.webp";
+import mobile_banking_logo from "../assets/mobile_banking_logo.png";
 import { GlobalContext } from "../../Context/GlobalContext";
 
 const PaymentMethod = () => {
-  const { cartItems, shippingAddress, updatePaymentMethod } = useContext(GlobalContext);
-  
-  // Set a default payment method, e.g., "Banking Method"
+  const { cartItems, shippingAddress, updatePaymentMethod } =
+    useContext(GlobalContext);
+
   const [paymentMethod, setPaymentMethod] = useState("Banking Method");
-  const [bankDetails, setBankDetails] = useState({ bankName: "", accountNumber: "" });
-  const [mobileBankingDetails, setMobileBankingDetails] = useState({ mobileNumber: "", mobileBank: "" });
+  const [mobileBankingDetails, setMobileBankingDetails] = useState({
+    mobileBank: "",
+  });
+  const [bankDetails, setBankDetails] = useState({
+    bankName: "",
+    accountNumber: "",
+  });
   const [showWarning, setShowWarning] = useState(false);
   const navigate = useNavigate();
 
@@ -27,14 +31,22 @@ const PaymentMethod = () => {
     }
   }, [paymentMethod]);
 
+  useEffect(() => {
+    // Dismiss warning after 3 seconds if it is shown
+    if (showWarning) {
+      const timer = setTimeout(() => {
+        setShowWarning(false);
+      }, 3000); // 3 seconds
+
+      // Clean up the timeout when the component is unmounted or warning is dismissed
+      return () => clearTimeout(timer);
+    }
+  }, [showWarning]);
+
   const handlePaymentMethodChange = (e) => {
     setPaymentMethod(e.target.value);
-    setMobileBankingDetails({ mobileNumber: "", mobileBank: "" });
-  };
-
-  const handleBankDetailsChange = (e) => {
-    const { name, value } = e.target;
-    setBankDetails({ ...bankDetails, [name]: value });
+    setMobileBankingDetails({ mobileBank: "" });
+    setBankDetails({ bankName: "", accountNumber: "" });
   };
 
   const handleMobileBankingChange = (e) => {
@@ -42,12 +54,23 @@ const PaymentMethod = () => {
     setMobileBankingDetails({ ...mobileBankingDetails, [name]: value });
   };
 
+  const handleBankDetailsChange = (e) => {
+    const { name, value } = e.target;
+    setBankDetails({ ...bankDetails, [name]: value });
+  };
+
   const handleSubmit = async (e) => {
-    window.scrollTo(0,0);
+    window.scrollTo(0, 0);
     e.preventDefault();
 
-    if (!paymentMethod || (paymentMethod === "Mobile Banking" && !mobileBankingDetails.mobileNumber)) {
-      setShowWarning(true);
+    // Validation
+    if (
+      (paymentMethod === "Mobile Banking" && !mobileBankingDetails.mobileBank) ||
+      (paymentMethod === "Banking Method" &&
+        (!bankDetails.bankName || !bankDetails.accountNumber)) ||
+      !paymentMethod
+    ) {
+      setShowWarning(true);  // Show warning if validation fails
       return;
     }
 
@@ -58,11 +81,16 @@ const PaymentMethod = () => {
       paymentMethod,
       items: cartItems,
       totalAmount: totalAmount,
-      bankDetails: paymentMethod === "Banking Method" ? bankDetails : null,
-      mobileBankingDetails: paymentMethod === "Mobile Banking" ? { 
-        mobileNumber: mobileBankingDetails.mobileNumber, 
-        bank: mobileBankingDetails.mobileBank 
-      } : null,
+      mobileBankingDetails:
+        paymentMethod === "Mobile Banking"
+          ? {
+              bank: mobileBankingDetails.mobileBank,
+            }
+          : null,
+      bankDetails:
+        paymentMethod === "Banking Method"
+          ? { bankName: bankDetails.bankName, accountNumber: bankDetails.accountNumber }
+          : null,
     };
 
     try {
@@ -85,7 +113,9 @@ const PaymentMethod = () => {
     }
   };
 
-  const totalAmount = cartItems.reduce((acc, item) => acc + item.new_price * item.quantity, 0) + 10; // Add delivery charge if needed
+  const totalAmount =
+    cartItems.reduce((acc, item) => acc + item.new_price * item.quantity, 0) +
+    10;
 
   return (
     <div className="payment-container">
@@ -98,9 +128,12 @@ const PaymentMethod = () => {
       <h2>Choose Payment Method</h2>
 
       <div className="payment-layout">
-        {/* Sidebar for Payment Methods */}
         <div className="payment-method-options">
-          <label>
+          <label
+            className={
+              paymentMethod === "Banking Method" ? "active-method" : ""
+            }
+          >
             <input
               type="radio"
               value="Banking Method"
@@ -111,7 +144,11 @@ const PaymentMethod = () => {
             <img src={bankLogo} alt="Banking Method" className="payment-icon" />
             Banking Method
           </label>
-          <label>
+          <label
+            className={
+              paymentMethod === "Mobile Banking" ? "active-method" : ""
+            }
+          >
             <input
               type="radio"
               value="Mobile Banking"
@@ -119,10 +156,18 @@ const PaymentMethod = () => {
               onChange={handlePaymentMethodChange}
               required
             />
-            <img src={mobile_banking_logo} alt="Mobile Banking" className="payment-icon" />
+            <img
+              src={mobile_banking_logo}
+              alt="Mobile Banking"
+              className="payment-icon"
+            />
             Mobile Banking
           </label>
-          <label>
+          <label
+            className={
+              paymentMethod === "Cash on Delivery" ? "active-method" : ""
+            }
+          >
             <input
               type="radio"
               value="Cash on Delivery"
@@ -130,12 +175,15 @@ const PaymentMethod = () => {
               onChange={handlePaymentMethodChange}
               required
             />
-            <img src={cashLogo} alt="Cash on Delivery" className="payment-icon" />
+            <img
+              src={cashLogo}
+              alt="Cash on Delivery"
+              className="payment-icon"
+            />
             Cash on Delivery
           </label>
         </div>
 
-        {/* Content area for selected payment method details */}
         <div className="payment-details">
           {paymentMethod === "Banking Method" && (
             <div className="bank-details-form">
@@ -157,11 +205,16 @@ const PaymentMethod = () => {
               />
             </div>
           )}
-
           {paymentMethod === "Mobile Banking" && (
             <div className="mobile-banking-form">
               <h4>Select Mobile Banking Method:</h4>
-              <label>
+              <label
+                className={
+                  mobileBankingDetails.mobileBank === "bkash"
+                    ? "active-method"
+                    : ""
+                }
+              >
                 <input
                   type="radio"
                   name="mobileBank"
@@ -170,9 +223,14 @@ const PaymentMethod = () => {
                   required
                 />
                 <img src={bkashLogo} alt="bKash" className="mobile-logo" />
-              
               </label>
-              <label>
+              <label
+                className={
+                  mobileBankingDetails.mobileBank === "nagad"
+                    ? "active-method"
+                    : ""
+                }
+              >
                 <input
                   type="radio"
                   name="mobileBank"
@@ -181,9 +239,14 @@ const PaymentMethod = () => {
                   required
                 />
                 <img src={nagadLogo} alt="Nagad" className="mobile-logo" />
-               
               </label>
-              <label>
+              <label
+                className={
+                  mobileBankingDetails.mobileBank === "rocket"
+                    ? "active-method"
+                    : ""
+                }
+              >
                 <input
                   type="radio"
                   name="mobileBank"
@@ -192,29 +255,20 @@ const PaymentMethod = () => {
                   required
                 />
                 <img src={rocketLogo} alt="Rocket" className="mobile-logo" />
-               
               </label>
-              <input
-              
-                type="text"
-                name="mobileNumber"
-                placeholder="Mobile Number"
-                value={mobileBankingDetails.mobileNumber}
-                onChange={handleMobileBankingChange}
-                required
-              />
             </div>
           )}
 
           {paymentMethod === "Cash on Delivery" && (
             <div className="cash-on-delivery-details">
-              <p>Pay with cash when your order is delivered to your doorstep.</p>
+              <p>
+                Pay with cash when your order is delivered to your doorstep.
+              </p>
             </div>
           )}
         </div>
       </div>
 
-      {/* Display the total amount */}
       <div className="total-amount">
         <h3>Total Amount: ${totalAmount.toFixed(2)}</h3>
       </div>

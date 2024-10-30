@@ -1,26 +1,42 @@
-.my-profile-dropdown {
-    position: absolute;
-    top: 50px; /* Adjust based on where you want to place it */
-    right: 0;
-    background-color: white;
-    border: 1px solid #ccc;
-    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
-    padding: 10px;
-    z-index: 1000;
-  }
-  
-  .my-profile-dropdown ul {
-    list-style: none;
-    margin: 0;
-    padding: 0;
-  }
-  
-  .my-profile-dropdown li {
-    padding: 10px;
-    cursor: pointer;
-  }
-  
-  .my-profile-dropdown li:hover {
-    background-color: #f0f0f0;
-  }
-  
+.profile-container {
+  display: flex;
+  padding: 20px;
+  background-color: #fff;
+  margin: 10px;
+  border-radius: 8px;
+}
+
+.profile-sidebar {
+  width: 20%;
+  border-right: 1px solid #ddd;
+  padding-right: 20px;
+}
+
+.profile-sidebar ul {
+  list-style: none;
+  padding: 0;
+}
+
+.profile-sidebar li {
+  padding: 10px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  border-radius: 5px;
+  margin-bottom: 5px;
+
+}
+
+.profile-sidebar li.active {
+  background-color: #e0f7fa;
+  font-weight: bold;
+  border: 1px solid;
+  border-color: #00acc1;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.profile-content {
+  flex: 1;
+  padding-left: 20px;
+}

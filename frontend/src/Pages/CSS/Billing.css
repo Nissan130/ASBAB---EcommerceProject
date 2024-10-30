@@ -41,21 +41,21 @@
 }
 
 /* Shipping Details */
-.shipping-details {
-  flex: 1; /* Allow shipping details to take full height */
+.billing-shipping-details {
+  flex: 2; /* Allow shipping details to take full height */
   padding: 1rem;
   margin-right: 1rem; /* Add some space between shipping and order summary */
 }
 
-.shipping-details h3 {
+.billing-shipping-details h3 {
   font-size: 1.2rem;
   margin-bottom: 1.25rem;
   color: #333;
 }
 
-.shipping-details input {
+.billing-shipping-details input {
   width: 100%;
-  padding: 0.75rem;
+  padding: 1rem;
   margin: 0.5rem 0;
   border: 1px solid #ddd;
   border-radius: 5px;
@@ -64,25 +64,25 @@
   transition: border-color 0.3s ease-in-out;
 }
 
-.shipping-details input:focus {
+.billing-shipping-details input:focus {
   border-color: #007bff;
   outline: none;
 }
 
 /* Order Summary */
-.order-summary {
+.billing-order-summary {
   flex: 1; /* Allow order summary to take full height */
   padding: 1rem; /* Add padding for aesthetics */
   background-color: #fff; /* Ensure the background stays within the borders */
   border: 1px solid #ddd; /* Add border around the summary */
   border-radius: 8px;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+  /* box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05); */
   min-height: 150px; /* Set a minimum height */
   max-height: 400px; /* Limit the maximum height for scrolling */
   overflow-y: auto; /* Add scroll if content exceeds max height */
 }
 
-.order-summary h3 {
+.billing-order-summary h3 {
   text-align: center;
   margin-bottom: 1.25rem;
   font-size: 1.3rem;
@@ -90,7 +90,7 @@
   color: #333;
 }
 
-.order-summary-header {
+.billing-order-summary-header {
   display: grid;
   grid-template-columns: 2fr 1fr 1fr;
   font-weight: 500;
@@ -100,7 +100,7 @@
   position: relative;
 }
 
-.order-summary-header::after {
+.billing-order-summary-header::after {
   position: absolute;
   content: "";
   width: 100%;
@@ -111,7 +111,7 @@
   margin-top: 5px;
 }
 
-.order-summary-header span {
+.billing-order-summary-header span {
   text-align: center;
 }
 
@@ -135,7 +135,7 @@
   text-overflow: ellipsis;
 }
 
-.order-total {
+.billing-order-total {
   font-size: 1.3rem;
   padding-top: 1.25rem;
   border-top: 2px solid #e0e0e0;
@@ -144,27 +144,24 @@
   color: #333;
 }
 
-.order-total strong {
+.billing-order-total strong {
   margin-right: 10px;
 }
 
 /* Place Order Button */
-.place-order {
+.billing-place-order {
   text-align: center;
   margin-top: 1.5rem;
 }
 
-.place-order button {
-  background-color: var(--main-bg-color);
+.billing-place-order button {
   color: #fff;
+  background-color: #ed174a;
   padding: 0.75rem 1.5rem;
   border: none;
   border-radius: 5px;
   font-size: 1.2rem;
   cursor: pointer;
-  transition: background-color 0.3s ease-in-out;
 }
 
-.place-order button:hover {
-  background-color: #0056b3;
-}
+

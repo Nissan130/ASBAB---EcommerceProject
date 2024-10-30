@@ -6,8 +6,11 @@ import { useNavigate } from "react-router-dom";
 import { GlobalContext } from "../Context/GlobalContext";
 
 const Cart = () => {
-  const { cartItems, deleteFromCart, updateCartQuantity } = useContext(GlobalContext); // Assuming updateCartQuantity is available
+  const {cartItems, deleteFromCart, updateCartQuantity } = useContext(GlobalContext); // Assuming updateCartQuantity is available
   const navigate = useNavigate();
+  
+ 
+  
 
   return (
     <div className="cart-container">

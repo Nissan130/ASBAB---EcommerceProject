@@ -7,8 +7,8 @@ import { FaRegHeart } from "react-icons/fa";
 import { BsCart3 } from "react-icons/bs";
 import { IoChevronDownSharp } from "react-icons/io5";
 import { RiMenuAddLine, RiArrowRightSLine } from "react-icons/ri";
-import all_product from "../Assets/all_product";
-import MyProfile from "../MyProfile/MyProfile";
+import { FaCircleUser } from "react-icons/fa6";
+import { RiLogoutCircleRLine } from "react-icons/ri";
 import { GlobalContext } from "../../Context/GlobalContext";
 
 const Navbar = ({ setFilteredProducts }) => {
@@ -21,7 +21,7 @@ const Navbar = ({ setFilteredProducts }) => {
   const dropdownRef = useRef(null); // Ref for the profile dropdown
   const navigate = useNavigate();
 
-  const {products,cartItems, favouriteCount } = useContext(GlobalContext);
+  const { products, cartItems, favouriteCount,logoutUser} = useContext(GlobalContext);
 
   const totalCartQuantity = cartItems.reduce(
     (total, item) => total + item.quantity,
@@ -51,8 +51,9 @@ const Navbar = ({ setFilteredProducts }) => {
   };
 
   const handleLogout = () => {
-    localStorage.removeItem("userToken");
-    navigate("/"); // Safe to use after Router initialization
+    logoutUser();
+    setShowProfileDropdown(false);
+    navigate("/");
   };
 
   useEffect(() => {
@@ -244,15 +245,21 @@ const Navbar = ({ setFilteredProducts }) => {
                   // <MyProfile onClose={() => setShowProfileDropdown(false)} />
                   <div className="profile-dropdown" ref={dropdownRef}>
                     <ul>
-                      <li onClick={handleViewProfile}>View Profile</li>
+                      <li onClick={handleViewProfile}>
+                        <span>
+                          <FaCircleUser />
+                        </span>
+                        <span>View Profile</span>
+                      </li>
                       <li
-                        onClick={() => {
-                          localStorage.removeItem("userToken");
-                          setShowProfileDropdown(false);
-                          navigate('/');
-                        }}
+                        onClick={
+                          handleLogout
+                        }
                       >
-                        Logout
+                        <span className="logout-icon">
+                          <RiLogoutCircleRLine />
+                        </span>
+                        <span>Logout</span>
                       </li>
                     </ul>
                   </div>

@@ -5,7 +5,7 @@ import { GlobalContext } from '../../Context/GlobalContext';
 
 const NewCollections = () => {
   const { products } = useContext(GlobalContext); //fetch products
-  console.log(products.new_price);
+  // console.log(products.new_price);
   
 
   return (

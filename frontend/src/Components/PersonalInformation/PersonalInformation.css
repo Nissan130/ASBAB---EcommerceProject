@@ -1,0 +1,56 @@
+.personal-information-container{
+    border: 1px solid #00acc1;
+    border-radius: 5px;
+    padding: 5px 10px;
+    min-height: 230px;
+    position: relative;
+}
+.personal-information-container h2{
+    position: absolute;
+    color: #444;
+    background-color: #fff;
+    top: -17px;
+    padding: 0 8px;
+    margin-left: 10px;
+    font-size: 1.2rem;
+}
+.personal-information{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 20px;
+}
+.personalInfo-inputBox-row{
+    width: 100%;
+    display: flex;
+}
+.personalInfo-inputBox-row .info{
+    padding: 10px 0;
+    width: 50%;
+}
+.personalInfo-inputBox-row .info label{
+    font-weight: 600;
+    color: #333;
+    font-size: .9rem;
+}
+.personalInfo-inputBox-row .info input{
+    width: 80%;
+    padding: 10px;
+    font-size: .9rem;
+    margin-top: 5px;
+    outline: none;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+}
+.update-personal-info input{
+    width: 200px;
+    margin: 10px 0;
+    border: none;
+    padding: 10px;
+    background-color: #ff4141;
+    color: #fff;
+    font-weight: 600;
+    font-size: 1rem;
+    border-radius: 5px;
+    cursor: pointer;
+}

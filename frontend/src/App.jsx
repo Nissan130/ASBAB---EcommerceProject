@@ -14,6 +14,7 @@ import GlobalContextProvider from './Context/GlobalContext';
 import Billing from './Pages/Billing';
 import OrderConfirmation from './Components/OrderConfirmation/OrderConfirmation';
 import PaymentMethod from './Components/PaymentMethod/PaymentMethod';
+import Favorites from './Components/Favorites/Favorites';
 
 function App() {
   const [filteredProducts, setFilteredProducts] = useState([]);
@@ -33,6 +34,7 @@ function App() {
         <Route path='/billing' element={<Billing />} />
         <Route path='/payment' element={<PaymentMethod />} />
         <Route path='/order-confirmation' element={<OrderConfirmation />} />
+        <Route path='/favorites' element={<Favorites />} />
       </Routes>
       <Footer />
       </GlobalContextProvider>

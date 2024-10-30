@@ -55,10 +55,10 @@ const upload = multer({ storage });
 
 // SignUp Route
 app.post("/signup", (req, res) => {
-  const { fullname, email, mobile, password } = req.body;
+  const {username, fullname, email, mobile, password } = req.body;
 
   // Validate input
-  if (!fullname || !email || !mobile || !password) {
+  if ( !fullname || !username || !email || !mobile || !password) {
     return res.status(400).json({ error: "All fields are required" });
   }
 
@@ -80,8 +80,8 @@ app.post("/signup", (req, res) => {
       }
 
       // Insert the new user into the database
-      const insertQuery = `INSERT INTO users (fullname, email, mobile, password) VALUES (?, ?, ?, ?)`;
-      db.query(insertQuery, [fullname, email, mobile, hash], (err, result) => {
+      const insertQuery = `INSERT INTO users (fullname, username, email, mobile, password) VALUES (?, ?, ?, ?, ?)`;
+      db.query(insertQuery, [fullname, username, email, mobile, hash], (err, result) => {
         if (err) {
           return res.status(500).json({ error: "Error registering user" });
         }
@@ -301,6 +301,31 @@ app.delete("/cart", (req, res) => {
   });
 });
 
+// Route to fetch user information
+app.get("/user/:userId", (req, res) => {
+  const { userId } = req.params; // Get the userId from the request parameters
+
+  // Validate input
+  if (!userId) {
+    return res.status(400).json({ error: "User ID is required" });
+  }
+
+  // SQL query to fetch user details based on userId
+  const query = `SELECT fullname, username, email, mobile FROM users WHERE user_id = ?`;
+
+  db.query(query, [userId], (err, result) => {
+    if (err) {
+      console.error("Error fetching user information:", err);
+      return res.status(500).json({ error: "Error fetching user information" });
+    }
+
+    if (result.length === 0) {
+      return res.status(404).json({ error: "User not found" });
+    }
+
+    res.status(200).json(result[0]); // Return the user information
+  });
+});
 
 
 // Start the server

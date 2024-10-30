@@ -3,23 +3,27 @@
   margin: 0 auto;
   padding: 20px;
   border: 1px solid #ccc;
-  border-radius: 5px;
+  border-radius: 8px;
   background: #fff;
-  margin-top: 15px;
+  margin-top: 20px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
 h2 {
   text-align: left;
-  margin-bottom: 20px;
+  margin-bottom: 25px;
+  font-size: 24px;
+  color: #333;
 }
 
 .payment-layout {
   display: flex;
+  flex-wrap: wrap;
   gap: 20px;
 }
 
 .payment-method-options {
-  width: 30%;
+  flex: 1 1 30%;
   display: flex;
   flex-direction: column;
   gap: 20px;
@@ -30,14 +34,22 @@ h2 {
   align-items: center;
   gap: 10px;
   cursor: pointer;
-  padding: 10px;
+  padding: 15px;
   border: 1px solid #ddd;
   border-radius: 8px;
-  transition: 0.3s;
+  transition: background-color 0.3s, box-shadow 0.3s;
+  background-color: #fff;
 }
 
 .payment-method-options label:hover {
   background-color: #f9f9f9;
+  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.05);
+}
+
+.payment-method-options label.active-method {
+  background-color: #e0f7fa;
+  border-color: #00acc1;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
 .payment-icon {
@@ -46,43 +58,55 @@ h2 {
 }
 
 .payment-details {
-  width: 70%;
+  flex: 1 1 65%;
   padding: 20px;
   border: 1px solid #ddd;
   border-radius: 8px;
+  background-color: #fafafa;
 }
 
-.bank-details-form, .mobile-banking-form, .cash-on-delivery-details {
+.bank-details-form, 
+.mobile-banking-form, 
+.cash-on-delivery-details {
   display: flex;
   flex-direction: column;
-  gap: 10px;
+  gap: 15px;
 }
-input[type="text"] {
-  padding: 10px;
+
+.bank-details-form input[type="text"] {
+  padding: 12px;
   border: 1px solid #ccc;
   border-radius: 4px;
+  font-size: 16px;
 }
-.mobile-banking-form label{
+
+.mobile-banking-form label {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 10px;
   border: 1px solid #ccc;
-  padding: 0 20px;
-  text-align: center;
-  width: 100%;
   border-radius: 5px;
-  transition: 0.3s;
+  transition: background-color 0.3s, border-color 0.3s, box-shadow 0.3s;
+  cursor: pointer;
 }
-.mobile-banking-form label img{
+
+.mobile-banking-form label.active-method {
+  background-color: #e0f7fa;
+  border-color: #00acc1;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.mobile-banking-form label img {
   width: 70px;
   height: 50px;
   object-fit: contain;
 }
-.mobile-banking-form label:hover{
-  background: #f3f3f3;
-  cursor: pointer;
+
+.mobile-banking-form label:hover {
+  background-color: #f3f3f3;
 }
 
-input[type="radio"] {
-  display: none;
-}
 .mobile-banking-form input[type="text"] {
   padding: 15px 10px;
   border: 1px solid #ccc;
@@ -90,8 +114,13 @@ input[type="radio"] {
   margin-top: 10px;
 }
 
+.payment-method-options input[type="radio"],
+.mobile-banking-form input[type="radio"] {
+  display: none;
+}
+
 .total-amount {
-  margin-top: 20px;
+  margin-top: 25px;
   text-align: right;
   font-size: 18px;
   font-weight: bold;
@@ -100,25 +129,49 @@ input[type="radio"] {
 .place-order {
   display: flex;
   justify-content: flex-end;
-  margin-top: 20px;
+  margin-top: 30px;
 }
 
 .place-order button {
-  background-color: #ff4141;
+  background-color: #ed174a;
   color: white;
-  padding: 10px 20px;
+  padding: 12px 24px;
   border: none;
   border-radius: 4px;
   font-size: 16px;
   cursor: pointer;
+  transition: background-color 0.3s;
 }
 
 .place-order button:hover {
-  background-color: #e66000;
+  background-color: #c10e3b;
 }
 
 .warning-message {
   color: red;
   text-align: left;
-  margin-bottom: 10px;
+  margin-bottom: 15px;
+  font-size: 14px;
+}
+
+@media (max-width: 768px) {
+  .payment-layout {
+    flex-direction: column;
+  }
+
+  .payment-method-options {
+    width: 100%;
+  }
+
+  .payment-details {
+    width: 100%;
+  }
+
+  .total-amount {
+    text-align: left;
+  }
+
+  .place-order {
+    justify-content: center;
+  }
 }

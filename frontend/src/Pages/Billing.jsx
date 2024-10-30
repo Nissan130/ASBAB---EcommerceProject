@@ -41,7 +41,7 @@ const Billing = () => {
       <h2>Billing Details</h2>
       <form className="form" onSubmit={handleSubmit}>
         <div className="billing-details-container">
-          <div className="shipping-details">
+          <div className="billing-shipping-details">
             <h3>Shipping Address</h3>
             <input
               type="text"
@@ -85,9 +85,9 @@ const Billing = () => {
             />
           </div>
 
-          <div className="order-summary">
+          <div className="billing-order-summary">
             <h3>Order Summary</h3>
-            <div className="order-summary-header">
+            <div className="billing-order-summary-header">
               <span>Product</span>
               <span>Qty</span>
               <span>Subtotal</span>
@@ -102,14 +102,14 @@ const Billing = () => {
                 </span>
               </div>
             ))}
-            <div className="order-total">
+            <div className="billing-order-total">
               <strong>Total:</strong>
               <TbCurrencyTaka />
               {totalAmount}
             </div>
           </div>
         </div>
-        <div className="place-order">
+        <div className="billing-place-order">
           <button type="submit">Continue to Payment</button>
         </div>
       </form>
