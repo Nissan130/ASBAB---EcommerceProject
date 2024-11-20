@@ -33,7 +33,7 @@
     display: grid;
     grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
 }
-.popularproduct-load-more{
+.popularproduct-load-more button{
     text-align: center;
     display: flex;
     align-items: center;
@@ -43,6 +43,7 @@
     padding: 10px;
     background: #ff4141;
     color: #fff;
+    border: none;
     border-radius: 5px;
     cursor: pointer;
 }

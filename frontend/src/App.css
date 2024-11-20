@@ -22,7 +22,7 @@ p {
 }
   /* Customize the entire scrollbar */
   ::-webkit-scrollbar {
-    width: 5px; /* width of the scrollbar */
+    width: 10px; /* width of the scrollbar */
   }
   
   /* Customize the track (background of the scrollbar) */

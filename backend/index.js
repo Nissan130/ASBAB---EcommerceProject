@@ -139,74 +139,6 @@ app.post("/login", (req, res) => {
   });
 });
 
-
-
-
-
-// ============ Admin Panel Product Routes ============
-
-// Add Product Route (Handles Image Upload)
-app.post("/add-product", upload.fields([{ name: 'main_img' }, { name: 'other_images', maxCount: 4 }]), (req, res) => {
-  const {
-    product_title,
-    old_price,
-    new_price,
-    category,
-    sub_category,
-    discount_offer,
-  } = req.body;
-
-  // Validate input
-  if (!product_title || !old_price || !new_price || !category || !req.files.main_img) {
-    return res.status(400).json({ error: "All required fields must be filled" });
-  }
-
-  const main_img_path = req.files.main_img[0].path; // Path of the main image
-  const other_images_paths = req.files.other_images ? req.files.other_images.map(file => file.path) : []; // Paths for other images
-
-  // SQL query to insert product details into the database
-  const query = `
-    INSERT INTO product_list (title, old_price, new_price, category, sub_category, discount, main_image, other_images) 
-    VALUES (?, ?, ?, ?, ?, ?, ?, ?)
-  `;
-
-  db.query(
-    query,
-    [
-      product_title,
-      old_price,
-      new_price,
-      category,
-      sub_category,
-      discount_offer,
-      main_img_path,
-      JSON.stringify(other_images_paths), // Store other images as a JSON array
-    ],
-    (err, result) => {
-      if (err) {
-        console.error("Error inserting product:", err);
-        return res.status(500).json({ error: "Error adding product" });
-      }
-      res.status(201).json({ message: "Product added successfully" });
-    }
-  );
-});
-// Serve all files in the "uploads" folder (this includes the "uploads/images" folder)
-app.use('/uploads', express.static('uploads'));
-// Route to fetch all products
-app.get("/products", (req, res) => {
-  const query = `SELECT * FROM product_list`;
-
-  db.query(query, (err, result) => {
-    if (err) {
-      console.error("Error fetching products:", err);
-      return res.status(500).json({ error: "Error fetching products" });
-    }
-    res.status(200).json(result); // Return the products as JSON
-  });
-});
-
-
 // =========frontend design ===========
 
 // Route to add an item to the cart
@@ -326,6 +258,134 @@ app.get("/user/:userId", (req, res) => {
     res.status(200).json(result[0]); // Return the user information
   });
 });
+
+
+
+
+
+
+
+
+
+
+// ============ Admin Panel Product Routes ============//////////
+
+// Add Product Route (Handles Image Upload)
+app.post("/add-product", upload.fields([{ name: 'main_img' }, { name: 'other_images', maxCount: 4 }]), (req, res) => {
+  const {
+    product_title,
+    product_keyword,
+    product_description,
+    old_price,
+    new_price,
+    category,
+    sub_category,
+    product_brand,
+    discount_offer,
+  } = req.body;
+
+  // Validate input
+  if (!product_title || !product_keyword || !product_description || !old_price || !new_price || !category || !sub_category || !product_brand || !req.files.main_img) {
+    return res.status(400).json({ error: "All required fields must be filled" });
+  }
+
+  const main_img_path = req.files.main_img[0].path; // Path of the main image
+  const other_images_paths = req.files.other_images ? req.files.other_images.map(file => file.path) : []; // Paths for other images
+
+  // SQL query to insert product details into the database
+  const query = `
+    INSERT INTO product_list (title,product_keyword,product_description, old_price, new_price, category, sub_category,product_brand, discount, main_image, other_images) 
+    VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+  `;
+
+  db.query(
+    query,
+    [
+      product_title,
+      product_keyword,
+      product_description,
+      old_price,
+      new_price,
+      category,
+      sub_category,
+      product_brand,
+      discount_offer,
+      main_img_path,
+      JSON.stringify(other_images_paths), // Store other images as a JSON array
+    ],
+    (err, result) => {
+      if (err) {
+        console.error("Error inserting product:", err);
+        return res.status(500).json({ error: "Error adding product" });
+      }
+      res.status(201).json({ message: "Product added successfully" });
+    }
+  );
+});
+// Serve all files in the "uploads" folder (this includes the "uploads/images" folder)
+app.use('/uploads', express.static('uploads'));
+
+
+// Route to fetch all products
+app.get("/products", (req, res) => {
+  const query = `SELECT * FROM product_list`;
+
+  db.query(query, (err, result) => {
+    if (err) {
+      console.error("Error fetching products:", err);
+      return res.status(500).json({ error: "Error fetching products" });
+    }
+    res.status(200).json(result); // Return the products as JSON
+  });
+});
+
+
+
+// Route to fetch a product by its product_id
+app.get("/products/:product_id", (req, res) => {
+  const { product_id } = req.params;
+ // Get product_id from URL parameters
+
+ console.log('Requested product ID:', product_id);
+
+  // SQL query to fetch product by product_id
+  const query = `SELECT * FROM product_list WHERE product_id = ?`;
+
+  db.query(query, [product_id], (err, result) => {
+    if (err) {
+      console.error("Error fetching product:", err);
+      return res.status(500).json({ error: "Error fetching product" });
+    }
+    // If no product is found with the given product_id
+    if (result.length === 0) {
+      return res.status(404).json({ error: "Product not found" });
+    }
+    // Send the product data as a JSON response
+    res.status(200).json(result[0]); // result[0] because only one product is expected by product_id
+  });
+});
+
+
+
+
+//Route to fetch all users info
+app.get("/users",(req,res)=>{
+  const query = `SELECT * FROM users`;
+
+  db.query(query,(err,result)=>{
+    if(err){
+      console.error("Error fetching users info",err);
+      return res.status(500).json({error:"Error fetching users info"});
+    }
+    res.status(200).json(result);
+  });
+});
+
+
+
+
+
+
 
 
 // Start the server

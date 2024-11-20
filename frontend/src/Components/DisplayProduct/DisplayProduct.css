@@ -4,7 +4,52 @@
     gap: 10px;
     padding: 10px 20px;
     background: #fff;
+    position: relative;
 }
+#showAddToCartAlert_snackbar {
+    visibility: hidden; 
+    min-width: 250px; 
+    margin-left: -125px; 
+    background-color: #ff4141; 
+    color: #fff;
+    text-align: center;
+    border-radius: 4px;
+    padding: 16px; 
+    position: absolute; 
+    z-index: 100; 
+    top: -10%;
+    right: 30px; 
+    font-weight: 600;
+  }
+  
+  
+  #showAddToCartAlert_snackbar.showAddToCartAlert-Snackbar {
+    visibility: visible;
+    -webkit-animation: fadein 0.3s, fadeout 0.5s 2.5s;
+    animation: fadein 0.3s, fadeout 0.5s 2.5s;
+  }
+  
+  /* Animations to fade the snackbar in and out */
+  @-webkit-keyframes fadein {
+    from {right: 0; opacity: 0;}
+    to {right: 30px; opacity: 1;}
+  }
+  
+  @keyframes fadein {
+    from {right: 0; opacity: 0;}
+    to {right: 30px; opacity: 1;}
+  }
+  
+  @-webkit-keyframes fadeout {
+    from {right: 30px; opacity: 1;}
+    to {right: 0; opacity: 0;}
+  }
+  
+  @keyframes fadeout {
+    from {right: 30px; opacity: 1;}
+    to {right: 0; opacity: 0;}
+  }
+
 
 .product-display-left {
     display: flex;
@@ -166,15 +211,17 @@
 }
 
 .addCart-wislist-btn button {
+    border-radius: 4px;
     padding: 10px 20px;
-    background-color: var(--main-bg-color);
+    background-color: #ff4141;
     color: white;
     border: none;
     cursor: pointer;
-    transition: background-color 0.3s;
+    transition: background-color 0.5s;
 }
 
 .addCart-wislist-btn button:hover {
-    background-color: #e03e3e;
+    /* background-color: #e03e3e; */
+    background-color: #0048ba;
 }
 

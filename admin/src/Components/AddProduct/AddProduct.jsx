@@ -4,10 +4,13 @@ import "./AddProduct.css";
 const AddProduct = () => {
   const [formData, setFormData] = useState({
     product_title: "",
+    product_keyword: "",
+    product_description: "",
     old_price: "",
     new_price: "",
     category: "electronics",
     sub_category: "electronics",
+    product_brand: "",
     discount_offer: "",
     main_img: null,
     other_images: [null, null, null, null],
@@ -50,10 +53,13 @@ const AddProduct = () => {
     // Prepare form data to send to backend
     const formDataToSend = new FormData();
     formDataToSend.append("product_title", formData.product_title);
+    formDataToSend.append("product_keyword", formData.product_keyword);
+    formDataToSend.append("product_description", formData.product_description);
     formDataToSend.append("old_price", formData.old_price);
     formDataToSend.append("new_price", formData.new_price);
     formDataToSend.append("category", formData.category);
     formDataToSend.append("sub_category", formData.sub_category);
+    formDataToSend.append("product_brand", formData.product_brand);
     formDataToSend.append("discount_offer", formData.discount_offer);
     formDataToSend.append("main_img", formData.main_img);
 
@@ -74,10 +80,13 @@ const AddProduct = () => {
         // Reset form data and image previews after submission
         setFormData({
           product_title: "",
+          product_keyword: "",
+          product_description: "",
           old_price: "",
           new_price: "",
-          category: "electronics",
-          sub_category: "electronics",
+          category: "",
+          sub_category: "",
+          product_brand:"",
           discount_offer: "",
           main_img: null,
           other_images: [null, null, null, null], // Reset other images to null
@@ -107,6 +116,32 @@ const AddProduct = () => {
               onChange={handleChange}
               required
             />
+          </div>
+        </div>
+         {/* Product keywords Input */}
+         <div className="addproduct-format">
+          <div className="product-keyword">
+            <label className="label" htmlFor="product_keyword">Product Keywords</label>
+            <input
+              type="text"
+              name="product_keyword"
+              placeholder="Type here"
+              value={formData.product_keyword}
+              onChange={handleChange}
+              required
+            />
+          </div>
+        </div>
+         {/* Product description Input */}
+         <div className="addproduct-format">
+          <div className="product-description">
+            <label className="label" htmlFor="product_description">Description</label>
+            <textarea
+            name="product_description"
+            placeholder="Product description"
+            value={formData.product_description}
+            onChange={handleChange}
+          />
           </div>
         </div>
         
@@ -143,16 +178,18 @@ const AddProduct = () => {
           <div className="category">
             <label className="label" htmlFor="category">Select Category</label>
             <select name="category" value={formData.category} onChange={handleChange}>
-              <option value="electronics">Electronics</option>
-              <option value="groceries">Groceries</option>
-              <option value="furniture">Furniture</option>
-              <option value="laptop">Laptop</option>
-              <option value="pentablet">Pen Tablet</option>
-              <option value="DSLR Camera">DSLR Camera</option>
-              <option value="Music Player">Music Player</option>
-              <option value="Mens dress">Mens dress</option>
-              <option value="Fashion">Fashion</option>
-              <option value="Mobile">Mobile</option>
+              <option value="Fashion & Apparel">Fashion & Apparel</option>
+              <option value="Electronics & Gadgets">Electronics & Gadgets</option>
+              <option value="furniture">Beauty & Wellness</option>
+              <option value="Home & Living">Home & Living</option>
+              <option value="Sports & Outdoors">Sports & Outdoors</option>
+              <option value="Groceries & Food">Groceries & Food</option>
+              <option value="Baby & Kids">Baby & Kids</option>
+              <option value="Pet Supplies">Pet Supplies</option>
+              <option value="Books, Art & Hobbies">Books, Art & Hobbies</option>
+              <option value="Seasonal & Gifts
+">Seasonal & Gifts
+              </option>
 
             </select>
           </div>
@@ -160,27 +197,32 @@ const AddProduct = () => {
           <div className="sub_category">
             <label className="label" htmlFor="sub_category">Select Sub Category</label>
             <select name="sub_category" value={formData.sub_category} onChange={handleChange}>
-              <option value="electronics">Electronics</option>
-              <option value="groceries">Groceries</option>
-              <option value="furniture">Furniture</option>
-              <option value="hp">HP</option>
-              <option value="huion">Huion</option>
-              <option value="canon">Canon</option>
-              <option value="Radio">Radio</option>
-              <option value="Mouse">Mouse</option>
-              <option value="acer">Acer</option>
-              <option value="keyboard">Keyboard</option>
-              <option value="charger">Charger</option>
-              <option value="tshirt">tshirt</option>
-              <option value="boy school bag">boy school bag</option>
-              <option value="girls hand bag">girls hand bag</option>
-              <option value="Iphone">Iphone</option>
+              <option value="Smartphones">Smartphones</option>
+              <option value="Tablets">Tablets</option>
+              <option value="Laptops">Laptops</option>
+              <option value="Computers">Computers</option>
+              <option value="Gaming Consoles">Gaming Consoles</option>
+              <option value="Smartwatches">Smartwatches</option>
+              <option value="Cameras">Cameras</option>
+              <option value="Drones">Drones</option>
+              <option value="Headphones">Headphones</option>
+              <option value="Computer Accessories">Computer Accessories</option>
             </select>
           </div>
         </div>
 
         {/* Discount, Main Image, and Other Images */}
         <div className="addproduct-format">
+        <div className="product-brand">
+            <label className="label" htmlFor="product_brand">Select Brand</label>
+            <select name="product_brand" value={formData.product_brand} onChange={handleChange}>
+              <option value="HP">HP</option>
+              <option value="ASUS">ASUS</option>
+              <option value="DELL">DELL</option>
+              <option value="ACER">ACER</option>
+              <option value="MAC">MAC</option>
+            </select>
+          </div>
           <div className="discount_offer">
             <label className="label" htmlFor="discount_offer">Discount</label>
             <input
@@ -192,7 +234,11 @@ const AddProduct = () => {
               required
             />
           </div>
-          <div className="product-main_img">
+          
+        </div>
+
+        <div className="addproduct-format">
+        <div className="product-main_img">
             <label className="label" htmlFor="main_img">Product Main Image</label>
             <input
               type="file"

@@ -54,15 +54,15 @@
 
 .input-box .input-field:focus,
 .input-box .input-field:valid{
-    border: 2px solid  #0A8A0A;
+    border: 2px solid  #0048ba;
     z-index: 1;
 }
 .input-box .input-field:focus + .label-line,
 .input-box .input-field:valid + .label-line{
-    color:  #0A8A0A;
+    color:  #0048ba;
     transform: translate(-17px,-25px) scale(0.88);
     background: #fff;
-    font-weight: 500;
+    font-weight: 600;
     z-index: 1;
 }
 
@@ -79,6 +79,7 @@
     color: #444;
 }
 .form .checkbox .check-have-account p .signInLink{
+    color: #0048ba;
     font-weight: 600;
     cursor: pointer;
 }
@@ -128,12 +129,15 @@
     font-weight: 500;
     cursor: pointer;
     outline: none;
+    padding: 10px;
+    background-color: #0048ba;
+    color: #fff;
     border: 1px solid #ccc;
     border-radius: 3px;
 }
 .signup-google button svg{
     margin-right: 10px;
 }
-.signup-google button:hover{
+/* .signup-google button:hover{
     background: #f5f5f5;
-}
+} */

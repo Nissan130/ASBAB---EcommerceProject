@@ -98,7 +98,7 @@ const LoginSignup = () => {
       alert("Login successful!");
       navigate('/');
     } catch (error) {
-      console.error("Error logging in:", error);
+      setErrorMessage("Invalid email or password! Try Again");
     }
   };
 
@@ -226,7 +226,7 @@ const LoginSignup = () => {
           </div>
         </div>
 
-        {errorMessage && <div className="error-message">{errorMessage}</div>}
+        {errorMessage && <div className="error-message" style={{color:'red'}}>{errorMessage}</div>}
 
         {state === "SignUp" ? (
           <>

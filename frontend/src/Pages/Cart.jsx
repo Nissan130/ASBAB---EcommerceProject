@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext, useEffect } from "react";
 import { RiDeleteBin6Line } from "react-icons/ri";
 import { TbCurrencyTaka } from "react-icons/tb";
 import "./CSS/Cart.css";
@@ -6,14 +6,31 @@ import { useNavigate } from "react-router-dom";
 import { GlobalContext } from "../Context/GlobalContext";
 
 const Cart = () => {
-  const {cartItems, deleteFromCart, updateCartQuantity } = useContext(GlobalContext); // Assuming updateCartQuantity is available
+  const { 
+    cartItems, 
+    deleteFromCart, 
+    updateCartQuantity,
+    showAddToCartMessage ,
+    showAddToCartAlert,
+    setShowAddToCartAlert,
+    } = useContext(GlobalContext); // Assuming updateCartQuantity is available
   const navigate = useNavigate();
-  
- 
-  
+
+  //show product added to cart message
+  useEffect(()=>{
+    if(showAddToCartAlert){
+      const timer = setTimeout(() => {
+        setShowAddToCartAlert(false)
+      }, 2000);
+      return ()=> clearTimeout(timer);
+    }
+},[showAddToCartAlert,setShowAddToCartAlert])
+
 
   return (
     <div className="cart-container">
+      {<div id="showAddToCartAlert_snackbar" className={showAddToCartAlert ? "showAddToCartAlert-Snackbar" : " "}>{showAddToCartMessage}</div>
+      }
       {cartItems.length > 0 && (
         <div className="cart-title-container">
           <div className="product-image">Product</div>
@@ -29,7 +46,10 @@ const Cart = () => {
         cartItems.map((item) => (
           <div className="cart-product-container" key={item.product_id}>
             <div className="cart-item cart-product-image">
-              <img  src={`http://localhost:5002/${item.main_image}`} alt={item.name} />
+              <img
+                src={`http://localhost:5002/${item.main_image}`}
+                alt={item.name}
+              />
             </div>
             <div className="cart-item cart-product-title">{item.title}</div>
             <div className="cart-item cart-product-price">
@@ -40,7 +60,9 @@ const Cart = () => {
               <input
                 type="number"
                 value={item.quantity}
-                onChange={(e) => updateCartQuantity(item.id, parseInt(e.target.value))} // Update the quantity
+                onChange={(e) =>
+                  updateCartQuantity(item.id, parseInt(e.target.value))
+                } // Update the quantity
                 min="1"
               />
             </div>
@@ -49,7 +71,9 @@ const Cart = () => {
               {item.new_price * item.quantity}
             </div>
             <div className="cart-item cart-product-remove">
-              <RiDeleteBin6Line onClick={() => deleteFromCart(item.product_id)} />
+              <RiDeleteBin6Line
+                onClick={() => deleteFromCart(item.product_id)}
+              />
             </div>
           </div>
         ))
@@ -100,7 +124,8 @@ const Cart = () => {
             <div className="shipping">
               <div className="shipping-title">Shipping Fee</div>
               <div className="shipping-fee">
-                <TbCurrencyTaka />10
+                <TbCurrencyTaka />
+                10
               </div>
             </div>
             <hr />
@@ -116,10 +141,14 @@ const Cart = () => {
             </div>
             <hr />
             <div className="checkout">
-              <button onClick={()=>{
-                navigate('/billing');
-                window.scrollTo(0,0);
-                }}>Proceed To Checkout</button>
+              <button
+                onClick={() => {
+                  navigate("/billing");
+                  window.scrollTo(0, 0);
+                }}
+              >
+                Proceed To Checkout
+              </button>
             </div>
           </div>
         </div>

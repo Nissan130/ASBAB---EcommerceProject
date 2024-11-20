@@ -15,6 +15,8 @@ import Billing from './Pages/Billing';
 import OrderConfirmation from './Components/OrderConfirmation/OrderConfirmation';
 import PaymentMethod from './Components/PaymentMethod/PaymentMethod';
 import Favorites from './Components/Favorites/Favorites';
+import PopularProducts from './Components/PopularProducts/PopularProducts';
+import NewCollections from './Components/NewCollections/NewCollections';
 
 function App() {
   const [filteredProducts, setFilteredProducts] = useState([]);
@@ -35,6 +37,8 @@ function App() {
         <Route path='/payment' element={<PaymentMethod />} />
         <Route path='/order-confirmation' element={<OrderConfirmation />} />
         <Route path='/favorites' element={<Favorites />} />
+        <Route path='/popular-products' element={<PopularProducts />} />
+        <Route path='/new-collections' element={<NewCollections />} />
       </Routes>
       <Footer />
       </GlobalContextProvider>

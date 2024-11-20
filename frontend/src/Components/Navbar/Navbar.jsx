@@ -1,12 +1,14 @@
 import React, { useContext, useState, useEffect, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import "./Navbar.css";
-import asbab_logo from "../Assets/ASBAB_logo.png";
+import asbab_logo from "../Assets/asbab_logo.jpg";
 import { FiSearch } from "react-icons/fi";
 import { FaRegHeart } from "react-icons/fa";
 import { BsCart3 } from "react-icons/bs";
 import { IoChevronDownSharp } from "react-icons/io5";
-import { RiMenuAddLine, RiArrowRightSLine } from "react-icons/ri";
+import { HiMenu } from "react-icons/hi";
+import { IoMdArrowDropdown, IoMdArrowDropright  } from "react-icons/io";
+import { CiMenuFries } from "react-icons/ci";
 import { FaCircleUser } from "react-icons/fa6";
 import { RiLogoutCircleRLine } from "react-icons/ri";
 import { GlobalContext } from "../../Context/GlobalContext";
@@ -181,12 +183,16 @@ const Navbar = ({ setFilteredProducts }) => {
           className="nav-logo"
           onClick={() => {
             setSearchTerm("");
+            window.scrollTo(0,0);
             navigate("/");
           }}
         >
           <img src={asbab_logo} alt="logo" />
         </div>
         <div className="search-bar" ref={searchInputRef}>
+          <div className="nav-search-icon">
+          <FiSearch />
+          </div>
           <input
             type="text"
             placeholder="Search products"
@@ -210,7 +216,7 @@ const Navbar = ({ setFilteredProducts }) => {
                   }`}
                 >
                   {/* <img src={product?.imageUrl} alt={product?.name} style={{ width: "30px", height: "30px", marginRight: "10px" }} /> */}
-                  {category}
+                  <FiSearch style={{marginRight:"12px"}} />{category}
                 </li>
               ))}
             </ul>
@@ -279,234 +285,555 @@ const Navbar = ({ setFilteredProducts }) => {
       {/* <div className={`nav-second ${isFixed ? 'nav-second-fixed' : ''}`}> */}
       <div className={`nav-second ${isFixed ? "nav-second-fixed" : ""}`}>
         <ul className="category-navbar">
-          <li className="category-hover-list">
-            All Categories <RiMenuAddLine />
-            <ul className="category-hover-list-items">
+
+          {/* all category dropdown starts  */}
+          <li className="allcategory-list">
+            All Categories <HiMenu style={{fontSize: "18px", strokeWidth: "1.5"}}/>
+            <ul className="allcategory-list-items">
               <li className="newCollection-side-list category-link">
-                <div className="category-link-item">New Collections</div>
+                <div onClick={()=>{
+                  window.scrollTo(0,0);
+                  navigate('/new-collections');
+                }} 
+                className="category-link-item">New Collections</div>
+                
                 <div className="category-right-arrow">
-                  <RiArrowRightSLine />
+                  <IoMdArrowDropright />
                 </div>
                 <ul>
                   <li className="category-link">
                     <div className="category-link-item">Mens</div>
                     <div className="category-right-arrow">
-                      <RiArrowRightSLine />
+                      <IoMdArrowDropright />
                     </div>
                   </li>
                   <li className="category-link">
                     <div className="category-link-item">Womens</div>
                     <div className="category-right-arrow">
-                      <RiArrowRightSLine />
+                      <IoMdArrowDropright />
                     </div>
                   </li>
                   <li className="category-link">
                     <div className="category-link-item">Kids</div>
                     <div className="category-right-arrow">
-                      <RiArrowRightSLine />
+                      <IoMdArrowDropright />
                     </div>
                   </li>
                 </ul>
               </li>
+
               <li className="popularProducts-side-list category-link">
-                <div className="category-link-item">Popular Products</div>
+                <div onClick={()=>{
+                  window.scrollTo(0,0);
+                  navigate('/popular-products');
+
+                }} className="category-link-item">Popular Products</div>
                 <div className="category-right-arrow">
-                  <RiArrowRightSLine />
+                  <IoMdArrowDropright />
                 </div>
                 <ul>
                   <li className="category-link">
                     <div className="category-link-item">Mens</div>
                     <div className="category-right-arrow">
-                      <RiArrowRightSLine />
+                      <IoMdArrowDropright />
                     </div>
                   </li>
                   <li className="category-link">
-                    <div className="category-link-item">Mens</div>
+                    <div className="category-link-item">Womens</div>
                     <div className="category-right-arrow">
-                      <RiArrowRightSLine />
+                      <IoMdArrowDropright />
                     </div>
                   </li>
                   <li className="category-link">
-                    <div className="category-link-item">Mens</div>
+                    <div className="category-link-item">Kids</div>
                     <div className="category-right-arrow">
-                      <RiArrowRightSLine />
+                      <IoMdArrowDropright />
                     </div>
                   </li>
                 </ul>
               </li>
+
+
               <li className="category-link">
-                <div className="category-link-item">Computer Assets</div>
+                <div className="category-link-item">Fashion & Apparel</div>
                 <div className="category-right-arrow">
-                  <RiArrowRightSLine />
+                  <IoMdArrowDropright />
+                </div>
+              </li>
+
+              <li className="category-link">
+                <div className="category-link-item">Electronics & Gadgets</div>
+                <div className="category-right-arrow">
+                  <IoMdArrowDropright />
                 </div>
               </li>
               <li className="category-link">
-                <div className="category-link-item">Mens Collections</div>
+                <div className="category-link-item">Beauty & Wellness</div>
                 <div className="category-right-arrow">
-                  <RiArrowRightSLine />
+                  <IoMdArrowDropright />
+                </div>
+              </li>
+
+              <li className="category-link">
+                <div className="category-link-item">Home & Living</div>
+                <div className="category-right-arrow">
+                  <IoMdArrowDropright />
                 </div>
               </li>
               <li className="category-link">
-                <div className="category-link-item">Womens Collections</div>
+                <div className="category-link-item">Sports & Outdoors</div>
                 <div className="category-right-arrow">
-                  <RiArrowRightSLine />
+                  <IoMdArrowDropright />
                 </div>
               </li>
               <li className="category-link">
-                <div className="category-link-item">Kids Collections</div>
+                <div className="category-link-item">Groceries & Food</div>
                 <div className="category-right-arrow">
-                  <RiArrowRightSLine />
+                  <IoMdArrowDropright />
+                </div>
+              </li>
+              <li className="category-link">
+                <div className="category-link-item">Baby & Kids</div>
+                <div className="category-right-arrow">
+                  <IoMdArrowDropright />
+                </div>
+              </li>
+              <li className="category-link">
+                <div className="category-link-item">Pet Supplies</div>
+                <div className="category-right-arrow">
+                  <IoMdArrowDropright />
+                </div>
+              </li>
+              <li className="category-link">
+                <div className="category-link-item">Books, Art & Hobbies</div>
+                <div className="category-right-arrow">
+                  <IoMdArrowDropright />
+                </div>
+              </li>
+              <li className="category-link">
+                <div className="category-link-item">Seasonal & Gifts</div>
+                <div className="category-right-arrow">
+                  <IoMdArrowDropright />
                 </div>
               </li>
             </ul>
           </li>
+          {/* all category dropdown end  */}
 
-          <li
-            onClick={() => {
-              navigate("/");
-              window.scrollTo(0, 0);
-            }}
-          >
-            HOME
+
+          {/* Home & Living starts */}
+          <li className="home-living-category category-link"> 
+          <div className="category-link-item">Home & Living<IoMdArrowDropdown  /></div>
+          <ul>
+              <li className="category-link">
+                <div className="category-link-item">Kitchenware</div>
+                <div className="category-right-arrow">
+                  <IoMdArrowDropright />
+                </div>
+              </li>
+              <li className="category-link">
+                <div className="category-link-item">Furniture</div>
+                <div className="category-right-arrow">
+                  <IoMdArrowDropright />
+                </div>
+              </li>
+              <li className="category-link">
+                <div className="category-link-item">Home Decor</div>
+                <div className="category-right-arrow">
+                  <IoMdArrowDropright />
+                </div>
+              </li>
+              <li className="category-link">
+                <div className="category-link-item">Bedding</div>
+                <div className="category-right-arrow">
+                  <IoMdArrowDropright />
+                </div>
+              </li>
+              <li className="category-link">
+                <div className="category-link-item">Linens</div>
+                <div className="category-right-arrow">
+                  <IoMdArrowDropright />
+                </div>
+              </li>
+              <li className="category-link">
+                <div className="category-link-item">Storage Solutions</div>
+                <div className="category-right-arrow">
+                  <IoMdArrowDropright />
+                </div>
+              </li>
+              <li className="category-link">
+                <div className="category-link-item">Lighting</div>
+                <div className="category-right-arrow">
+                  <IoMdArrowDropright />
+                </div>
+              </li>
+              <li className="category-link">
+                <div className="category-link-item">Bath Essentials</div>
+                <div className="category-right-arrow">
+                  <IoMdArrowDropright />
+                </div>
+              </li>
+              <li className="category-link">
+                <div className="category-link-item">Cleaning Supplies</div>
+                <div className="category-right-arrow">
+                  <IoMdArrowDropright />
+                </div>
+              </li>
+              
+          </ul>
           </li>
+           {/* Home & Living starts */}
 
-          {/* ======design fashion category ======= */}
+          {/* ======fashion category starts======= */}
           <li className="fashion-category category-link">
-            <div className="category-link-item">FASHION</div>
-            <div className="category-right-arrow">
-              <IoChevronDownSharp />
-            </div>
+            <div className="category-link-item">Fashion<IoMdArrowDropdown  /></div>
             <ul>
               <li className="category-link">
-                <div className="category-link-item">Men</div>
+                <div className="category-link-item">Men's Fashion</div>
                 <div className="category-right-arrow">
-                  <RiArrowRightSLine />
+                  <IoMdArrowDropright />
                 </div>
               </li>
               <li className="category-link">
-                <div className="category-link-item">Women</div>
+                <div className="category-link-item">Women's Fashion</div>
                 <div className="category-right-arrow">
-                  <RiArrowRightSLine />
+                  <IoMdArrowDropright />
                 </div>
               </li>
               <li className="category-link">
-                <div className="category-link-item">Boys</div>
+                <div className="category-link-item">Kids' Clothing</div>
                 <div className="category-right-arrow">
-                  <RiArrowRightSLine />
+                  <IoMdArrowDropright />
                 </div>
               </li>
               <li className="category-link">
-                <div className="category-link-item">Girls</div>
+                <div className="category-link-item">Shoes</div>
                 <div className="category-right-arrow">
-                  <RiArrowRightSLine />
+                  <IoMdArrowDropright />
                 </div>
               </li>
               <li className="category-link">
-                <div className="category-link-item">Kids</div>
+                <div className="category-link-item">Bags</div>
                 <div className="category-right-arrow">
-                  <RiArrowRightSLine />
+                  <IoMdArrowDropright />
+                </div>
+              </li>
+              <li className="category-link">
+                <div className="category-link-item">Activewear</div>
+                <div className="category-right-arrow">
+                  <IoMdArrowDropright />
+                </div>
+              </li>
+              <li className="category-link">
+                <div className="category-link-item">Accessories</div>
+                <div className="category-right-arrow">
+                  <IoMdArrowDropright />
                 </div>
               </li>
             </ul>
           </li>
+            {/* ======fashion category ends======= */}
 
-          {/* ======design footwear category ======= */}
+
+          {/* ======Footwear category starts======= */}
           <li className="footwear-category category-link">
-            <div className="category-link-item">FOOTWEAR</div>
+            <div className="category-link-item">Footwear</div>
             <div className="category-right-arrow">
-              <IoChevronDownSharp />
+              <IoMdArrowDropdown />
             </div>
             <ul>
               <li className="category-link">
                 <div className="category-link-item">Mens Footwear</div>
                 <div className="category-right-arrow">
-                  <RiArrowRightSLine />
+                  <IoMdArrowDropright />
                 </div>
               </li>
               <li className="category-link">
                 <div className="category-link-item">Womens Footwear</div>
                 <div className="category-right-arrow">
-                  <RiArrowRightSLine />
+                  <IoMdArrowDropright />
                 </div>
               </li>
               <li className="category-link">
                 <div className="category-link-item">Kids Footwear</div>
                 <div className="category-right-arrow">
-                  <RiArrowRightSLine />
+                  <IoMdArrowDropright />
                 </div>
               </li>
             </ul>
           </li>
+           {/* ======Footwear category end======= */}
+          
 
-          {/* ======design electronics category ======= */}
+          {/* ======Electronics category start======= */}
           <li className="electronics-category category-link">
-            <div className="category-link-item">ELECTRONICS</div>
-            <div className="category-right-arrow">
-              <IoChevronDownSharp />
-            </div>
+            <div className="category-link-item">Electronics<IoMdArrowDropdown /></div>
             <ul>
               <li className="category-link">
-                <div className="category-link-item">Mobile</div>
+                <div className="category-link-item">Smartphones</div>
                 <div className="category-right-arrow">
-                  <RiArrowRightSLine />
+                  <IoMdArrowDropright />
                 </div>
               </li>
               <li className="category-link">
-                <div className="category-link-item">laptop</div>
+                <div className="category-link-item">Tablets</div>
                 <div className="category-right-arrow">
-                  <RiArrowRightSLine />
+                  <IoMdArrowDropright />
                 </div>
               </li>
               <li className="category-link">
-                <div className="category-link-item">Watches</div>
+                <div className="category-link-item">Laptops</div>
                 <div className="category-right-arrow">
-                  <RiArrowRightSLine />
+                  <IoMdArrowDropright />
                 </div>
               </li>
               <li className="category-link">
-                <div className="category-link-item">TV</div>
+                <div className="category-link-item">Computers</div>
                 <div className="category-right-arrow">
-                  <RiArrowRightSLine />
+                  <IoMdArrowDropright />
                 </div>
               </li>
               <li className="category-link">
-                <div className="category-link-item">Refrigerator</div>
+                <div className="category-link-item">Gaming Consoles</div>
                 <div className="category-right-arrow">
-                  <RiArrowRightSLine />
+                  <IoMdArrowDropright />
                 </div>
               </li>
               <li className="category-link">
-                <div className="category-link-item">Computer Accesories</div>
+                <div className="category-link-item">Smartwatches</div>
                 <div className="category-right-arrow">
-                  <RiArrowRightSLine />
+                  <IoMdArrowDropright />
+                </div>
+              </li>
+              <li className="category-link">
+                <div className="category-link-item">Cameras</div>
+                <div className="category-right-arrow">
+                  <IoMdArrowDropright />
+                </div>
+              </li>
+              <li className="category-link">
+                <div className="category-link-item">Drones</div>
+                <div className="category-right-arrow">
+                  <IoMdArrowDropright />
+                </div>
+              </li>
+              <li className="category-link">
+                <div className="category-link-item">Headphones</div>
+                <div className="category-right-arrow">
+                  <IoMdArrowDropright />
+                </div>
+              </li>
+              <li className="category-link">
+                <div className="category-link-item">Computer Accessories</div>
+                <div className="category-right-arrow">
+                  <IoMdArrowDropright />
                 </div>
               </li>
             </ul>
           </li>
-          {/* ======design groceries category ======= */}
+           {/* ======Electronics category end======= */}
+
+
+          {/* ======groceries category start ======= */}
           <li className="groceries-category category-link">
-            <div className="category-link-item">GROCERIES</div>
-            <div className="category-right-arrow">
-              <IoChevronDownSharp />
-            </div>
+            <div className="category-link-item">Groceries<IoMdArrowDropdown /></div>
             <ul>
               <li className="category-link">
-                <div className="category-link-item">Cooking</div>
+                <div className="category-link-item">Snacks</div>
                 <div className="category-right-arrow">
-                  <RiArrowRightSLine />
+                  <IoMdArrowDropright />
                 </div>
               </li>
               <li className="category-link">
-                <div className="category-link-item">Home Care</div>
+                <div className="category-link-item">Beverages</div>
                 <div className="category-right-arrow">
-                  <RiArrowRightSLine />
+                  <IoMdArrowDropright />
+                </div>
+              </li>
+              <li className="category-link">
+                <div className="category-link-item">Coffee</div>
+                <div className="category-right-arrow">
+                  <IoMdArrowDropright />
+                </div>
+              </li>
+              <li className="category-link">
+                <div className="category-link-item">Tea</div>
+                <div className="category-right-arrow">
+                  <IoMdArrowDropright />
+                </div>
+              </li>
+              <li className="category-link">
+                <div className="category-link-item">Baking Essentials</div>
+                <div className="category-right-arrow">
+                  <IoMdArrowDropright />
                 </div>
               </li>
             </ul>
           </li>
-          <li>BAGS</li>
-          <li>JUWELLARY</li>
-          <li>WELLNESS</li>
+          {/* ======groceries category end ======= */}
+
+          {/* ======sports & outdoor category start ======= */}
+          <li className="groceries-category category-link">
+            <div className="category-link-item">Sports & Outdoors<IoMdArrowDropdown /></div>
+            <ul>
+              <li className="category-link">
+                <div className="category-link-item">Fitness Equipment</div>
+                <div className="category-right-arrow">
+                  <IoMdArrowDropright />
+                </div>
+              </li>
+              <li className="category-link">
+                <div className="category-link-item">Outdoor Gear</div>
+                <div className="category-right-arrow">
+                  <IoMdArrowDropright />
+                </div>
+              </li>
+              <li className="category-link">
+                <div className="category-link-item">Cycling</div>
+                <div className="category-right-arrow">
+                  <IoMdArrowDropright />
+                </div>
+              </li>
+              <li className="category-link">
+                <div className="category-link-item">Camping</div>
+                <div className="category-right-arrow">
+                  <IoMdArrowDropright />
+                </div>
+              </li>
+              <li className="category-link">
+                <div className="category-link-item">Sports Accessories</div>
+                <div className="category-right-arrow">
+                  <IoMdArrowDropright />
+                </div>
+              </li>
+              <li className="category-link">
+                <div className="category-link-item">Swimwear</div>
+                <div className="category-right-arrow">
+                  <IoMdArrowDropright />
+                </div>
+              </li>
+              <li className="category-link">
+                <div className="category-link-item">Yoga</div>
+                <div className="category-right-arrow">
+                  <IoMdArrowDropright />
+                </div>
+              </li>
+            </ul>
+          </li>
+          {/* ======sports & outdoor end ======= */}
+
+
+           {/* ======baby & kids category start ======= */}
+           <li className="groceries-category category-link">
+            <div className="category-link-item">Baby & Kids<IoMdArrowDropdown /></div>
+            <ul>
+              <li className="category-link">
+                <div className="category-link-item">Toys</div>
+                <div className="category-right-arrow">
+                  <IoMdArrowDropright />
+                </div>
+              </li>
+              <li className="category-link">
+                <div className="category-link-item">Baby Clothing</div>
+                <div className="category-right-arrow">
+                  <IoMdArrowDropright />
+                </div>
+              </li>
+              <li className="category-link">
+                <div className="category-link-item">Strollers</div>
+                <div className="category-right-arrow">
+                  <IoMdArrowDropright />
+                </div>
+              </li>
+              <li className="category-link">
+                <div className="category-link-item">Camping</div>
+                <div className="category-right-arrow">
+                  <IoMdArrowDropright />
+                </div>
+              </li>
+              <li className="category-link">
+                <div className="category-link-item">Nursery Essentials</div>
+                <div className="category-right-arrow">
+                  <IoMdArrowDropright />
+                </div>
+              </li>
+              <li className="category-link">
+                <div className="category-link-item">Diapers</div>
+                <div className="category-right-arrow">
+                  <IoMdArrowDropright />
+                </div>
+              </li>
+              <li className="category-link">
+                <div className="category-link-item">Feeding Supplies</div>
+                <div className="category-right-arrow">
+                  <IoMdArrowDropright />
+                </div>
+              </li>
+              <li className="category-link">
+                <div className="category-link-item">Educational Toys</div>
+                <div className="category-right-arrow">
+                  <IoMdArrowDropright />
+                </div>
+              </li>
+            </ul>
+          </li>
+          {/* ======baby & kids end ======= */}
+
+           {/* ======Beauty & Wellness category start ======= */}
+           <li className="groceries-category category-link">
+            <div className="category-link-item">Beauty & Wellness<IoMdArrowDropdown /></div>
+            <ul>
+              <li className="category-link">
+                <div className="category-link-item">Skincare</div>
+                <div className="category-right-arrow">
+                  <IoMdArrowDropright />
+                </div>
+              </li>
+              <li className="category-link">
+                <div className="category-link-item">Hair Care</div>
+                <div className="category-right-arrow">
+                  <IoMdArrowDropright />
+                </div>
+              </li>
+              <li className="category-link">
+                <div className="category-link-item">Makeup</div>
+                <div className="category-right-arrow">
+                  <IoMdArrowDropright />
+                </div>
+              </li>
+              <li className="category-link">
+                <div className="category-link-item">Perfumes</div>
+                <div className="category-right-arrow">
+                  <IoMdArrowDropright />
+                </div>
+              </li>
+              <li className="category-link">
+                <div className="category-link-item">Health Supplements</div>
+                <div className="category-right-arrow">
+                  <IoMdArrowDropright />
+                </div>
+              </li>
+              <li className="category-link">
+                <div className="category-link-item">Personal Care</div>
+                <div className="category-right-arrow">
+                  <IoMdArrowDropright />
+                </div>
+              </li>
+              <li className="category-link">
+                <div className="category-link-item">Fitness Equipment</div>
+                <div className="category-right-arrow">
+                  <IoMdArrowDropright />
+                </div>
+              </li>
+              <li className="category-link">
+                <div className="category-link-item">Spa Essentials</div>
+                <div className="category-right-arrow">
+                  <IoMdArrowDropright />
+                </div>
+              </li>
+            </ul>
+          </li>
+          {/* ======Beauty & Wellness end ======= */}
         </ul>
       </div>
       {/* === nav second end === */}

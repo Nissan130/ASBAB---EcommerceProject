@@ -30,10 +30,13 @@
   }
   
   .product-title,
+  .product-keyword,
+  .product-description,
   .product-old_price,
   .product-new_price,
   .category,
   .sub_category,
+  .product-brand,
   .discount_offer,
   .product-main_img,
   .other_img1,
@@ -60,6 +63,7 @@
   
   input[type="text"],
   select,
+  textarea,
   input[type="file"] {
     width: 100%;
     padding: 10px;

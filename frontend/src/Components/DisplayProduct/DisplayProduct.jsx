@@ -13,6 +13,9 @@ const DisplayProduct = ({ product }) => {
     handleDecrementItem,
     addToCart,
     addToFavourite,
+    showAddToCartAlert,
+    setShowAddToCartAlert,
+    showAddToCartMessage
   } = useContext(GlobalContext);
 
   const [isFavourite, setIsFavourite] = useState(false);
@@ -51,8 +54,19 @@ const DisplayProduct = ({ product }) => {
     setIsZoomed(false);
   };
 
+  //show product added to cart message
+  useEffect(()=>{
+          if(showAddToCartAlert){
+            const timer = setTimeout(() => {
+              setShowAddToCartAlert(false)
+            }, 2000);
+            return ()=> clearTimeout(timer);
+          }
+  },[showAddToCartAlert,setShowAddToCartAlert])
+
   return (
     <div className="product-display">
+      { <div id="showAddToCartAlert_snackbar" className={showAddToCartAlert?"showAddToCartAlert-Snackbar": ""}> {showAddToCartMessage}</div>}
       <div className="product-display-left">
         <div className="product-images">
           <img
@@ -131,7 +145,7 @@ const DisplayProduct = ({ product }) => {
           </div>
           <div className="addCart-wislist-btn">
             <button onClick={() => addToCart(product)}>ADD TO CART</button>
-            <span onClick={handleFavouriteClick}>
+            <span onClick={handleFavouriteClick} style={{cursor:'pointer'}}>
               {isFavourite ? <FaHeart style={{ color: 'red', fontSize:'22px'}} /> : <FaRegHeart style={{fontSize:'22px'}} />}
             </span>
           </div>

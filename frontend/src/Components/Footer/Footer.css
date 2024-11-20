@@ -1,9 +1,10 @@
 .footer-container{
     width: 100%;
     margin-top: 20px;
-    background: #fff;
+    background: #0048ba;
     padding: 10px 20px;
     position: relative;
+    color: #fff;
 }
 .footer-features{
     display: flex;
@@ -25,7 +26,7 @@
 }
 .feature-box svg{
     font-size: 20px;
-    color: #ff4141;
+    color: #fff;
 }
 .footer-container hr{
     margin: 30px;
@@ -48,7 +49,7 @@
 }
 .footer-logo p{
     font-weight: 500;
-    color: #717171;
+    /* color: #717171; */
 }
 .social-media-contact{
     display: flex;
@@ -71,7 +72,7 @@
 
 .customer-service-box h3, .aboutUs-box h3, .contactUs-box h3{
     margin-bottom: 10px;
-    color: #555;
+    /* color: #555; */
 }
 .customer-service-box ul, .aboutUs-box ul, .contactUs-box ul{
     list-style: none;
@@ -106,7 +107,7 @@
     width: 50px;
 }
 .footer-payment-methods h4{
-    color: #555;
+    /* color: #555; */
     font-weight: 500;
 }
 .footer-payment-methods h4::after{

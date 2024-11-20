@@ -2,6 +2,7 @@ import React from "react";
 import "./Sidebar.css";
 import { PiNotepadDuotone } from "react-icons/pi";
 import { NavLink } from "react-router-dom";
+import { FaListAlt, FaPlusCircle, FaPlusSquare, FaThList, FaUser, FaPlus,FaListUl} from 'react-icons/fa';
 
 const Sidebar = () => {
   return (
@@ -14,7 +15,7 @@ const Sidebar = () => {
         style={{ textDecoration: "none" }}
       >
         <div className="sidebaritem">
-          <PiNotepadDuotone />
+          <FaListAlt />
         </div>
         <div className="sidebaritem">Product List</div>
       </NavLink>
@@ -26,7 +27,7 @@ const Sidebar = () => {
         style={{ textDecoration: "none" }}
       >
         <div className="sidebaritem">
-          <PiNotepadDuotone />
+          <FaPlusCircle />
         </div>
         <div className="sidebaritem">Add Product</div>
       </NavLink>
@@ -40,7 +41,7 @@ const Sidebar = () => {
         style={{ textDecoration: "none" }}
       >
         <div className="sidebaritem">
-          <PiNotepadDuotone />
+          <FaPlusSquare  />
         </div>
         <div className="sidebaritem">Add Category</div>
       </NavLink>
@@ -52,7 +53,7 @@ const Sidebar = () => {
         style={{ textDecoration: "none" }}
       >
         <div className="sidebaritem">
-          <PiNotepadDuotone />
+          <FaListUl  />
         </div>
         <div className="sidebaritem">Category List</div>
       </NavLink>
@@ -64,7 +65,7 @@ const Sidebar = () => {
         style={{ textDecoration: "none" }}
       >
         <div className="sidebaritem">
-          <PiNotepadDuotone />
+          <FaPlus  />
         </div>
         <div className="sidebaritem">Add Sub-Category</div>
       </NavLink>
@@ -76,7 +77,7 @@ const Sidebar = () => {
         style={{ textDecoration: "none" }}
       >
         <div className="sidebaritem">
-          <PiNotepadDuotone />
+          <FaThList  />
         </div>
         <div className="sidebaritem">Sub-Category List</div>
       </NavLink>
@@ -88,7 +89,7 @@ const Sidebar = () => {
         style={{ textDecoration: "none" }}
       >
         <div className="sidebaritem">
-          <PiNotepadDuotone />
+          <FaUser  />
         </div>
         <div className="sidebaritem">Users</div>
       </NavLink>

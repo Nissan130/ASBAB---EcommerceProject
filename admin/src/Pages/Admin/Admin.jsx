@@ -9,6 +9,8 @@ import CategoryList from '../../Components/CategoryList/CategoryList';
 import AddSubCategory from '../../Components/AddSubCategory/AddSubCategory';
 import SubCategoryList from '../../Components/SubCategoryList/SubCategoryList';
 import UsersList from '../../Components/UsersList/UsersList';
+import ProductDetailedInfo from '../../Components/ProductDetailedInfo/ProductDetailedInfo';
+import EditProductInformation from '../../Components/EditProductInformation/EditProductInformation';
 
 const Admin = () => {
   return (
@@ -26,6 +28,9 @@ const Admin = () => {
         <Route path='/add-sub-category' element={<AddSubCategory />} />
         <Route path='/sub-category-list' element={<SubCategoryList />} />
         <Route path='/users-list' element={<UsersList />} />
+        <Route path='/product-list/product-detailed-info/:product_id' element={<ProductDetailedInfo />} />
+        <Route path='/product-list/product-detailed-info/:product_id/edit-product-info' element={<EditProductInformation />} />
+
       </Routes>
     </div>
   );

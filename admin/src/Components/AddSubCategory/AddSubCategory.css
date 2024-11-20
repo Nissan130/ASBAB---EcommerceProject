@@ -1,0 +1,99 @@
+.add-subCategory-container {
+    padding: 20px;
+    background: #fff;
+    width: 100%;
+    max-width: 800px;
+    height: 85vh;
+    margin: auto;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 8px;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+  }
+  
+  .add-subCategories {
+    border: 1px solid #ddd;
+    width: 100%;
+    max-width: 500px;
+    padding: 20px;
+    border-radius: 8px;
+    /* box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1); */
+    background-color: #fff;
+  }
+  
+  .add-subCategories h2 {
+    text-align: center;
+    margin-top: 0;
+    color: #333;
+    font-weight: 600;
+  }
+  
+  .add-subCategories form {
+    margin-top: 20px;
+  }
+  
+  .add-subCategories .input-box {
+    position: relative;
+    margin: 20px 0;
+  }
+  
+  .input-box .input-field {
+    width: 100%;
+    padding: 14px 12px 10px;
+    outline: none;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 16px;
+    transition: border-color 0.3s ease;
+    background-color: transparent;
+  }
+  
+  .input-box .label-line {
+    position: absolute;
+    top: 40%;
+    left: 12px;
+    transform: translateY(-50%);
+    font-size: 16px;
+    color: #777;
+    transition: 0.3s ease;
+    pointer-events: none; /* Prevents interfering with input focus */
+    background: #fff;
+    padding: 0 5px;
+  }
+  
+  .input-box .input-field:focus,
+  .input-box .input-field:valid {
+    border: 2px solid #0a8a0a;
+  }
+  
+  .input-box .input-field:focus + .label-line,
+  .input-box .input-field:valid + .label-line {
+    color: #0a8a0a;
+    top: -8px;
+    font-size: 14px;
+    transform: translateY(0);
+    padding: 0 6px;
+  }
+  
+  .category-insert {
+    display: flex;
+    justify-content: center;
+    margin-top: 20px;
+  }
+  
+  .category-insert input {
+    background-color: #28a745;
+    color: white;
+    border: none;
+    padding: 12px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: background-color 0.3s ease;
+  }
+  
+  .category-insert input:hover {
+    background-color: #218838;
+  }
+  

@@ -96,11 +96,10 @@
 .productlist-edit-item svg{
     width: 40px;
     height: 40px;
-    color: #555;
+    color: #0048ba;
     cursor: pointer;
     border-radius: 50%;
     padding: 8px;
-    z-index: 100;
 }
 .productlist-edit-item svg:hover{
     background-color: #eee;

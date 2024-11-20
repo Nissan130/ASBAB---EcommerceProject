@@ -1,0 +1,87 @@
+.product-detailed-info-container{
+    min-width: 80vw;
+    height: 86vh;
+    margin: 5px;
+    padding: 20px;
+    background-color: #fff;
+
+}
+.form{
+    position: relative;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    padding: 10px;
+    background: #fff;
+}
+.heading{
+    position: absolute;
+    top: -20px;
+    left: 26px;
+    background-color: #fff;
+    padding: 0 7px;
+    color: #333;
+    z-index: 100;
+}
+.product-detailed-info{
+    height: 75vh;
+    overflow-y: auto;
+    margin-top: 20px;
+    padding: 20px;
+    background-color: #fff;
+    border-radius: 10px;
+    display: flex;
+    flex-direction: column;
+    overflow-x: none;
+    position: relative;
+}
+.product-detailed-info-row{
+    display: flex;
+    justify-content: space-between;
+    gap: 20px;
+    margin-bottom: 10px;
+}
+.product-info{
+    flex: 1;
+    min-width: 250px;
+}
+.product-images{
+    min-width: 170px;
+}
+
+.edit-info{
+    position: absolute;
+    right: 32px;
+    z-index: 1000;
+}
+.edit-info button{
+    width: 80px;
+    padding: 8px;
+    border: none;
+    background: #0048ba;
+    color: #fff;
+    font-size: 17px;
+    font-weight: 600;
+    border-radius: 5px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.product-info label{
+    font-weight: 600;
+}
+.product-info input{
+    margin-top: 8px;
+    outline: none;
+    padding: 15px;
+}
+.product-info textarea{
+    margin-top: 8px;
+    outline: none;
+}
+.product-images img{
+    width: 100px;
+    height: 100px;
+    object-fit: contain;
+}
