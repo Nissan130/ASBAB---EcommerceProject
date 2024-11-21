@@ -7,6 +7,11 @@ const cors = require("cors");
 const multer = require("multer");
 const path = require("path");
 const fs = require('fs');
+const SSLCommerzPayment = require('sslcommerz-lts');
+// require('dotenv').config();
+
+const { log } = require("console");
+const { url } = require("inspector");
 
 const app = express();
 
@@ -31,6 +36,11 @@ db.connect((err) => {
   }
   console.log("Connected to MySQL database");
 });
+
+
+
+
+
 
 //upload images to database
 const uploadDir = path.join(__dirname, 'uploads/images');
@@ -141,6 +151,62 @@ app.post("/login", (req, res) => {
 
 // =========frontend design ===========
 
+//fetch product keywords and category for seraching
+// Route to fetch search suggestions (category and keyword)
+app.get("/search-suggestions", (req, res) => {
+  const { query } = req.query; // Get the user's search input from the query parameter
+
+  if (!query) {
+    return res.status(400).json({ error: "Search query is required" });
+  }
+
+  const searchQuery = `
+    SELECT DISTINCT category,product_keyword
+    FROM product_list
+    WHERE category LIKE ? OR product_keyword LIKE ?
+  `;
+  
+  const searchTerm = `%${query}%`; // Add wildcards for partial matches
+
+  db.query(searchQuery, [searchTerm, searchTerm], (err, result) => {
+    if (err) {
+      console.error("Error fetching search suggestions:", err);
+      return res.status(500).json({ error: "Error fetching search suggestions" });
+    }
+
+    res.status(200).json(result); // Return the matched categories and keywords
+  });
+});
+
+
+// Route to fetch products based on search query or category
+app.get("/searched-products", (req, res) => {
+  const { query } = req.query; // Get query parameter from URL
+
+  if (!query) {
+    return res.status(400).json({ error: "Query is required" });
+  }
+
+  const searchQuery = `
+    SELECT * FROM product_list
+    WHERE category LIKE ? OR product_keyword LIKE ?
+  `;
+
+  const searchTerm = `%${query}%`;
+
+  db.query(searchQuery, [searchTerm, searchTerm], (err, result) => {
+    if (err) {
+      console.error("Error fetching products:", err);
+      return res.status(500).json({ error: "Error fetching products" });
+    }
+
+    res.status(200).json(result); // Return filtered products
+  });
+});
+
+
+
+
 // Route to add an item to the cart
 app.post("/cart", (req, res) => {
   const { userId, productId, quantity } = req.body;
@@ -233,6 +299,89 @@ app.delete("/cart", (req, res) => {
   });
 });
 
+//ssLcommerze sandbox
+require('dotenv').config();
+const store_id = process.env.STORE_ID;
+const store_passwd = process.env.STORE_PASS;
+const is_live = false //true for live, false for sandbox
+console.log(store_id);
+console.log(store_passwd);
+
+
+//sslcommerze payment method
+app.post("/order", async (req, res) => {
+  const { shippingAddress, products, totalAmount } = req.body;
+
+  if (!shippingAddress || !products || !totalAmount) {
+    return res.status(400).json({ error: "Missing required fields." });
+  }
+  const tran_id = "REF" + new Date().getTime();
+
+  const orderData = {
+        total_amount: totalAmount,
+        currency: 'BDT',
+        tran_id: tran_id, // use unique tran_id for each api call
+        success_url: `http://localhost:5002/payment/success/${tran_id}`,
+        fail_url: 'http://localhost:3030/fail',
+        cancel_url: 'http://localhost:3030/cancel',
+        ipn_url: 'http://localhost:3030/ipn',
+        shipping_method: 'Courier',
+        product_name: products.map((p) => `Product ID: ${p.product_id}`).join(", "),
+        product_category: 'Electronic',
+        product_profile: 'general',
+        cus_name: shippingAddress.name,
+        cus_email: 'customer@example.com',
+        cus_add1: shippingAddress.address,
+        cus_add2: 'Dhaka',
+        cus_city: shippingAddress.city,
+        cus_state: 'Dhaka',
+        cus_postcode: shippingAddress.country,
+        cus_country: 'Bangladesh',
+        cus_phone: '01711111111',
+        cus_fax: '01711111111',
+        ship_name: 'Customer Name',
+        ship_add1: 'Dhaka',
+        ship_add2: 'Dhaka',
+        ship_city: 'Dhaka',
+        ship_state: 'Dhaka',
+        ship_postcode: shippingAddress.postalCode,
+        ship_country: shippingAddress.country,
+  };
+
+  console.log(orderData);
+  
+  const sslcz = new SSLCommerzPayment(store_id, store_passwd, is_live);
+  sslcz
+  .init(orderData)
+  .then((apiResponse) => {
+    console.log("API Response: ", apiResponse);  // Log the entire API response
+    const GatewayPageURL = apiResponse.GatewayPageURL;
+    if (!GatewayPageURL) {
+      console.error("GatewayPageURL not found in the response");
+    } else {
+      console.log("Redirecting to: ", GatewayPageURL);
+      res.send({ url: GatewayPageURL });
+    }
+  })
+  .catch((error) => {
+    console.error("SSLCommerz Initialization Error:", error);
+    res.status(500).json({ error: "Payment gateway initialization failed" });
+  });
+
+
+  app.post('/payment/success/:tranId', async(req,res)=>{
+      console.log('transaction id: ',req.params.tranId);
+      
+  });
+
+});
+
+
+
+
+
+
+
 // Route to fetch user information
 app.get("/user/:userId", (req, res) => {
   const { userId } = req.params; // Get the userId from the request parameters
@@ -260,6 +409,8 @@ app.get("/user/:userId", (req, res) => {
 });
 
 
+
+// ===============payment gateway implementation================
 
 
 

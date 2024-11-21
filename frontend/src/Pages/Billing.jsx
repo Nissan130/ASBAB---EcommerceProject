@@ -5,7 +5,7 @@ import { useNavigate } from "react-router-dom";
 import "./CSS/Billing.css";
 
 const Billing = () => {
-  const { cartItems, updateShippingAddress } = useContext(GlobalContext);
+  const { cartItems } = useContext(GlobalContext);
 
   const [shippingAddress, setShippingAddress] = useState({
     name: "",
@@ -22,6 +22,7 @@ const Billing = () => {
     setShippingAddress({ ...shippingAddress, [name]: value });
   };
 
+
   const handleSubmit = (e) => {
     e.preventDefault();
 
@@ -30,11 +31,36 @@ const Billing = () => {
       return;
     }
 
-    updateShippingAddress(shippingAddress);
-    navigate("/payment");
+    // updateShippingAddress(shippingAddress);
+    // navigate("/payment");
+
+    const orderData = {
+      shippingAddress,
+      products: cartItems.map((item) => ({
+        product_id: item.product_id,
+        quantity: item.quantity,
+      })),
+      totalAmount, // Add totalAmount to the order data.
+    };
+
+    fetch("http://localhost:5002/order", {
+      method: "POST",
+      headers: { "Content-type": "application/json" },
+      body: JSON.stringify(orderData),
+    })
+    .then((res)=>res.json())
+    .then((result)=>{
+      window.location.replace(result.url);
+      console.log(result);
+    });
+    // console.log(orderData);
   };
+ 
+  
 
   const totalAmount = cartItems.reduce((acc, item) => acc + item.new_price * item.quantity, 0) + 10; // Add delivery charge if needed
+  console.log(shippingAddress);
+  
 
   return (
     <div className="billing-container">

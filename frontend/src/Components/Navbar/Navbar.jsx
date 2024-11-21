@@ -6,24 +6,25 @@ import { FiSearch } from "react-icons/fi";
 import { FaRegHeart } from "react-icons/fa";
 import { BsCart3 } from "react-icons/bs";
 import { IoChevronDownSharp } from "react-icons/io5";
-import { HiMenu } from "react-icons/hi";
-import { IoMdArrowDropdown, IoMdArrowDropright  } from "react-icons/io";
 import { CiMenuFries } from "react-icons/ci";
+import { HiMenu } from "react-icons/hi";
+import { IoMdArrowDropdown, IoMdArrowDropright } from "react-icons/io";
 import { FaCircleUser } from "react-icons/fa6";
 import { RiLogoutCircleRLine } from "react-icons/ri";
 import { GlobalContext } from "../../Context/GlobalContext";
 
-const Navbar = ({ setFilteredProducts }) => {
+const Navbar = () => {
   const [isFixed, setIsFixed] = useState(false);
-  const [searchTerm, setSearchTerm] = useState("");
-  const [filteredCategories, setFilteredCategories] = useState([]);
-  const [activeSuggestionIndex, setActiveSuggestionIndex] = useState(0); // For keyboard navigation
-  const searchInputRef = useRef(null); // Reference to search input for detecting outside clicks
-  const [showProfileDropdown, setShowProfileDropdown] = useState(false);
-  const dropdownRef = useRef(null); // Ref for the profile dropdown
-  const navigate = useNavigate();
+  const [searchInput, setSearchInput] = useState(""); // User's input in the search bar
+  const [suggestions, setSuggestions] = useState([]); // Suggestions fetched from the backend
+  const [filteredSuggestions, setFilteredSuggestions] = useState([]); // Filtered suggestions based on search input
+  const [products, setProducts] = useState([]); // Store the fetched products
 
-  const { products, cartItems, favouriteCount,logoutUser} = useContext(GlobalContext);
+  const searchInputRef = useRef(null); // Ref for the search bar input
+  const [showProfileDropdown, setShowProfileDropdown] = useState(false);
+  const dropdownRef = useRef(null); // Ref for profile dropdown
+  const navigate = useNavigate();
+  const { cartItems, favouriteCount, logoutUser } = useContext(GlobalContext);
 
   const totalCartQuantity = cartItems.reduce(
     (total, item) => total + item.quantity,
@@ -48,7 +49,7 @@ const Navbar = ({ setFilteredProducts }) => {
   }, []);
 
   const handleViewProfile = () => {
-    navigate("/profile"); // Safe to use after Router initialization
+    navigate("/profile");
     setShowProfileDropdown(false);
   };
 
@@ -77,95 +78,94 @@ const Navbar = ({ setFilteredProducts }) => {
     };
   }, []);
 
-  // Debounce function to delay the execution of search filtering
-  const debounce = (func, delay) => {
-    let timeoutId;
-    return (...args) => {
-      if (timeoutId) {
-        clearTimeout(timeoutId);
-      }
-      timeoutId = setTimeout(() => {
-        func(...args);
-      }, delay);
-    };
-  };
-
-  // Only update the search results with a debounce delay
-  const handleSearchFilter = (value) => {
-    if (value.trim()) {
-      const filteredCats = [
-        ...new Set(
-          products
-            .filter((product) =>
-              product.category.toLowerCase().includes(value.toLowerCase())
-            )
-            .map((product) => product.category)
-        ),
-      ];
-      setFilteredCategories(filteredCats);
-      setActiveSuggestionIndex(0); // Reset active suggestion index
-    } else {
-      setFilteredCategories([]);
+ // Fetch search suggestions from the backend
+ const fetchSuggestions = async (query) => {
+  try {
+    const response = await fetch(`http://localhost:5002/search-suggestions?query=${query}`);
+    if (!response.ok) {
+      throw new Error("Failed to fetch suggestions");
     }
-  };
+    const data = await response.json();
+    setSuggestions(data); // Store fetched suggestions
+  } catch (error) {
+    console.error("Error fetching search suggestions:", error);
+  }
+};
 
-  const debouncedHandleSearchFilter = debounce(handleSearchFilter, 300);
+// Update suggestions when search input changes
+useEffect(() => {
+  if (searchInput.trim() === "") {
+    setFilteredSuggestions([]);
+  } else {
+    fetchSuggestions(searchInput); // Fetch suggestions from backend
+  }
+}, [searchInput]);
 
-  // Update search term immediately, but filter the results with debounce
-  const handleSearchChange = (e) => {
-    const searchValue = e.target.value;
-    setSearchTerm(searchValue); // Update input field in real-time
-    debouncedHandleSearchFilter(searchValue); // Filter search results after debounce
-  };
+const handleSearchChange = (e) => {
+  const value = e.target.value;
+  setSearchInput(value);
 
-  const handleSearchSubmit = () => {
-    const filteredProds = products.filter(
-      (product) =>
-        product.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        product.category.toLowerCase().includes(searchTerm.toLowerCase())
-    );
-    setFilteredProducts(filteredProds);
-    setFilteredCategories([]);
-    navigate(`/search-products?query=${searchTerm}`);
-    window.scrollTo(0, 0); // Scroll to the top of the page
-  };
 
-  const handleSuggestionClick = (category) => {
-    setSearchTerm(category);
-    const filteredProds = products.filter(
-      (product) => product.category.toLowerCase() === category.toLowerCase()
-    );
-    setFilteredProducts(filteredProds);
-    setFilteredCategories([]);
-    navigate(`/search-products?category=${category}`);
-    window.scrollTo(0, 0); // Scroll to the top of the page
-  };
+  // Filter suggestions locally (optional, for responsiveness)
+  const filtered = suggestions.filter(
+    (suggestion) =>
+      suggestion.category.toLowerCase().includes(value.toLowerCase()) ||
+      suggestion.product_keyword.toLowerCase().includes(value.toLowerCase())
+  );
+  setFilteredSuggestions(filtered);
+};
 
-  const handleKeyDown = (e) => {
-    if (e.key === "ArrowDown") {
-      if (activeSuggestionIndex < filteredCategories.length - 1) {
-        setActiveSuggestionIndex(activeSuggestionIndex + 1);
-      }
-    } else if (e.key === "ArrowUp") {
-      if (activeSuggestionIndex > 0) {
-        setActiveSuggestionIndex(activeSuggestionIndex - 1);
-      }
-    } else if (e.key === "Enter") {
-      if (filteredCategories.length > 0) {
-        handleSuggestionClick(filteredCategories[activeSuggestionIndex]);
-      }
+
+// Fetch searched products
+const fetchSearchProducts = async (query) => {
+  try {
+    const response = await fetch(`http://localhost:5002/searched-products?query=${query}`);
+    if (!response.ok) {
+      throw new Error("Failed to fetch searched products");
     }
-  };
+    const data = await response.json();
+    setProducts(data); // Store fetched products in the state
+  } catch (error) {
+    console.error("Error fetching searched products:", error);
+  }
+};
 
-  const handleCartClick = () => {
-    setSearchTerm(""); // Clear search input when clicking Cart
-    navigate("/cart");
-    window.scrollTo(0, 0);
-  };
+
+const handleSuggestionClick = (keyword) => {
+  setSearchInput(keyword); // Set input field to clicked keyword
+  setFilteredSuggestions([]); // Clear suggestions
+
+  // Fetch the products based on the selected suggestion keyword
+  fetchSearchProducts(keyword); 
+
+  // Navigate to the products page with the search query
+  window.scrollTo(0,0);
+  navigate(`/search-products?query=${keyword}`);
+};
+
+const handleSearchSubmit = () => {
+  if (searchInput.trim()) {
+    // Fetch the products based on the current search input
+    fetchSearchProducts(searchInput.trim());
+    setFilteredSuggestions([]); // Clear suggestions
+    
+    // Navigate to the products page with the search query
+    window.scrollTo(0,0);
+    navigate(`/search-products?query=${searchInput.trim()}`);
+  }
+};
+
+// Handle "Enter" key press for search
+const handleKeyDown = (e) => {
+  if (e.key === "Enter") {
+    handleSearchSubmit(); // Trigger search on "Enter" key press
+  }
+};
+
 
   const handleOutsideClick = (e) => {
     if (searchInputRef.current && !searchInputRef.current.contains(e.target)) {
-      setFilteredCategories([]); // Hide suggestions when clicking outside
+      setFilteredSuggestions([]); // Hide suggestions when clicking outside
     }
   };
 
@@ -182,46 +182,65 @@ const Navbar = ({ setFilteredProducts }) => {
         <div
           className="nav-logo"
           onClick={() => {
-            setSearchTerm("");
-            window.scrollTo(0,0);
+            window.scrollTo(0, 0);
             navigate("/");
+            setSearchInput("");
           }}
         >
           <img src={asbab_logo} alt="logo" />
         </div>
-        <div className="search-bar" ref={searchInputRef}>
-          <div className="nav-search-icon">
-          <FiSearch />
-          </div>
-          <input
-            type="text"
-            placeholder="Search products"
-            value={searchTerm}
-            onChange={handleSearchChange}
-            onKeyDown={handleKeyDown}
-            className="search-input-field"
-          />
-          <button onClick={handleSearchSubmit} className="search-btn">
-            <FiSearch />
-          </button>
 
-          {searchTerm && filteredCategories.length > 0 && (
-            <ul className="search-suggestions">
-              {filteredCategories.map((category, index) => (
-                <li
-                  key={index}
-                  onClick={() => handleSuggestionClick(category)}
-                  className={`suggestions-list ${
-                    index === activeSuggestionIndex ? "active" : ""
-                  }`}
-                >
-                  {/* <img src={product?.imageUrl} alt={product?.name} style={{ width: "30px", height: "30px", marginRight: "10px" }} /> */}
-                  <FiSearch style={{marginRight:"12px"}} />{category}
-                </li>
-              ))}
-            </ul>
-          )}
+        <div className="search-bar" ref={searchInputRef}>
+        <div className="nav-search-icon">
+          <FiSearch />
         </div>
+        <input
+          type="text"
+          placeholder="Search products..."
+          value={searchInput}
+          onChange={handleSearchChange}
+          onKeyDown={handleKeyDown}
+          className="search-input-field"
+        />
+        <button onClick={handleSearchSubmit} className="search-btn">
+          <FiSearch />
+        </button>
+
+        {filteredSuggestions.length > 0 && (
+          <div className="search-suggestions">
+            <div className="categories-list">
+              {filteredSuggestions.map((suggestion, index) => (
+                <div
+                  key={index}
+                  className="category-item"
+                  onClick={() => handleSuggestionClick(suggestion.category)}
+                >
+                  <FiSearch style={{ marginRight: "8px" }} />
+                  {suggestion.category}
+                </div>
+              ))}
+            </div>
+            <div className="keywords-list">
+              {filteredSuggestions.flatMap((suggestion) =>
+                suggestion.product_keyword
+                  .split(",")
+                  .map((keyword, idx) => (
+                    <div
+                      key={`${suggestion.category}-${idx}`}
+                      className="keyword-item"
+                      onClick={() => handleSuggestionClick(keyword.trim())}
+                    >
+                      <FiSearch style={{ marginRight: "8px" }} />
+                      {keyword.trim()}
+                    </div>
+                  ))
+              )}
+            </div>
+          </div>
+        )}
+      </div>
+
+
 
         {/* start login-cart-wishlist-container */}
         <div className="login-cart-wishlist-container">
@@ -257,11 +276,7 @@ const Navbar = ({ setFilteredProducts }) => {
                         </span>
                         <span>View Profile</span>
                       </li>
-                      <li
-                        onClick={
-                          handleLogout
-                        }
-                      >
+                      <li onClick={handleLogout}>
                         <span className="logout-icon">
                           <RiLogoutCircleRLine />
                         </span>
@@ -285,18 +300,22 @@ const Navbar = ({ setFilteredProducts }) => {
       {/* <div className={`nav-second ${isFixed ? 'nav-second-fixed' : ''}`}> */}
       <div className={`nav-second ${isFixed ? "nav-second-fixed" : ""}`}>
         <ul className="category-navbar">
-
           {/* all category dropdown starts  */}
           <li className="allcategory-list">
-            All Categories <HiMenu style={{fontSize: "18px", strokeWidth: "1.5"}}/>
+            All Categories{" "}
+            <HiMenu style={{ fontSize: "18px", strokeWidth: "1.5" }} />
             <ul className="allcategory-list-items">
               <li className="newCollection-side-list category-link">
-                <div onClick={()=>{
-                  window.scrollTo(0,0);
-                  navigate('/new-collections');
-                }} 
-                className="category-link-item">New Collections</div>
-                
+                <div
+                  onClick={() => {
+                    window.scrollTo(0, 0);
+                    navigate("/new-collections");
+                  }}
+                  className="category-link-item"
+                >
+                  New Collections
+                </div>
+
                 <div className="category-right-arrow">
                   <IoMdArrowDropright />
                 </div>
@@ -323,11 +342,15 @@ const Navbar = ({ setFilteredProducts }) => {
               </li>
 
               <li className="popularProducts-side-list category-link">
-                <div onClick={()=>{
-                  window.scrollTo(0,0);
-                  navigate('/popular-products');
-
-                }} className="category-link-item">Popular Products</div>
+                <div
+                  onClick={() => {
+                    window.scrollTo(0, 0);
+                    navigate("/popular-products");
+                  }}
+                  className="category-link-item"
+                >
+                  Popular Products
+                </div>
                 <div className="category-right-arrow">
                   <IoMdArrowDropright />
                 </div>
@@ -352,7 +375,6 @@ const Navbar = ({ setFilteredProducts }) => {
                   </li>
                 </ul>
               </li>
-
 
               <li className="category-link">
                 <div className="category-link-item">Fashion & Apparel</div>
@@ -420,11 +442,13 @@ const Navbar = ({ setFilteredProducts }) => {
           </li>
           {/* all category dropdown end  */}
 
-
           {/* Home & Living starts */}
-          <li className="home-living-category category-link"> 
-          <div className="category-link-item">Home & Living<IoMdArrowDropdown  /></div>
-          <ul>
+          <li className="home-living-category category-link">
+            <div className="category-link-item">
+              Home & Living
+              <IoMdArrowDropdown />
+            </div>
+            <ul>
               <li className="category-link">
                 <div className="category-link-item">Kitchenware</div>
                 <div className="category-right-arrow">
@@ -479,14 +503,16 @@ const Navbar = ({ setFilteredProducts }) => {
                   <IoMdArrowDropright />
                 </div>
               </li>
-              
-          </ul>
+            </ul>
           </li>
-           {/* Home & Living starts */}
+          {/* Home & Living starts */}
 
           {/* ======fashion category starts======= */}
           <li className="fashion-category category-link">
-            <div className="category-link-item">Fashion<IoMdArrowDropdown  /></div>
+            <div className="category-link-item">
+              Fashion
+              <IoMdArrowDropdown />
+            </div>
             <ul>
               <li className="category-link">
                 <div className="category-link-item">Men's Fashion</div>
@@ -532,8 +558,7 @@ const Navbar = ({ setFilteredProducts }) => {
               </li>
             </ul>
           </li>
-            {/* ======fashion category ends======= */}
-
+          {/* ======fashion category ends======= */}
 
           {/* ======Footwear category starts======= */}
           <li className="footwear-category category-link">
@@ -562,12 +587,14 @@ const Navbar = ({ setFilteredProducts }) => {
               </li>
             </ul>
           </li>
-           {/* ======Footwear category end======= */}
-          
+          {/* ======Footwear category end======= */}
 
           {/* ======Electronics category start======= */}
           <li className="electronics-category category-link">
-            <div className="category-link-item">Electronics<IoMdArrowDropdown /></div>
+            <div className="category-link-item">
+              Electronics
+              <IoMdArrowDropdown />
+            </div>
             <ul>
               <li className="category-link">
                 <div className="category-link-item">Smartphones</div>
@@ -631,12 +658,14 @@ const Navbar = ({ setFilteredProducts }) => {
               </li>
             </ul>
           </li>
-           {/* ======Electronics category end======= */}
-
+          {/* ======Electronics category end======= */}
 
           {/* ======groceries category start ======= */}
           <li className="groceries-category category-link">
-            <div className="category-link-item">Groceries<IoMdArrowDropdown /></div>
+            <div className="category-link-item">
+              Groceries
+              <IoMdArrowDropdown />
+            </div>
             <ul>
               <li className="category-link">
                 <div className="category-link-item">Snacks</div>
@@ -674,7 +703,10 @@ const Navbar = ({ setFilteredProducts }) => {
 
           {/* ======sports & outdoor category start ======= */}
           <li className="groceries-category category-link">
-            <div className="category-link-item">Sports & Outdoors<IoMdArrowDropdown /></div>
+            <div className="category-link-item">
+              Sports & Outdoors
+              <IoMdArrowDropdown />
+            </div>
             <ul>
               <li className="category-link">
                 <div className="category-link-item">Fitness Equipment</div>
@@ -722,10 +754,12 @@ const Navbar = ({ setFilteredProducts }) => {
           </li>
           {/* ======sports & outdoor end ======= */}
 
-
-           {/* ======baby & kids category start ======= */}
-           <li className="groceries-category category-link">
-            <div className="category-link-item">Baby & Kids<IoMdArrowDropdown /></div>
+          {/* ======baby & kids category start ======= */}
+          <li className="groceries-category category-link">
+            <div className="category-link-item">
+              Baby & Kids
+              <IoMdArrowDropdown />
+            </div>
             <ul>
               <li className="category-link">
                 <div className="category-link-item">Toys</div>
@@ -779,9 +813,12 @@ const Navbar = ({ setFilteredProducts }) => {
           </li>
           {/* ======baby & kids end ======= */}
 
-           {/* ======Beauty & Wellness category start ======= */}
-           <li className="groceries-category category-link">
-            <div className="category-link-item">Beauty & Wellness<IoMdArrowDropdown /></div>
+          {/* ======Beauty & Wellness category start ======= */}
+          <li className="groceries-category category-link">
+            <div className="category-link-item">
+              Beauty & Wellness
+              <IoMdArrowDropdown />
+            </div>
             <ul>
               <li className="category-link">
                 <div className="category-link-item">Skincare</div>

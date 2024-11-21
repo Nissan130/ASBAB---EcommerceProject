@@ -1,58 +1,53 @@
-import React, { useContext, useEffect, useState } from 'react';
-import { useSearchParams } from 'react-router-dom';
-import './SearchProducts.css';
-import Item from '../Item/Item';
-import { GlobalContext } from '../../Context/GlobalContext';
+import React, { useEffect, useState } from "react";
+import { useSearchParams } from "react-router-dom";
+import Item from "../Item/Item"; // Assuming you have a component to render items
+import "./SearchProducts.css";
 
-const SearchProducts = ({ filteredProducts = [] }) => {
-  const { products } = useContext(GlobalContext);
+const SearchProducts = () => {
   const [searchParams] = useSearchParams();
-  const [searchProd, setSearchProd] = useState(filteredProducts);
+  const [products, setProducts] = useState([]);
 
-  const queryFromUrl = searchParams.get('query');
-  const categoryFromUrl = searchParams.get('category');
+  const queryFromUrl = searchParams.get("query"); // Get the query from URL parameters
 
   useEffect(() => {
-    let filteredProds;
-
     if (queryFromUrl) {
-      // Filter products based on the search term from URL
-      filteredProds = filteredProducts.filter(
-        (product) =>
-          product.title.toLowerCase().includes(queryFromUrl.toLowerCase()) ||
-          product.category.toLowerCase().includes(queryFromUrl.toLowerCase())
-      );
-    } else if (categoryFromUrl) {
-      // Filter products based on the category from URL
-      filteredProds = filteredProducts.filter(
-        (product) => product.category.toLowerCase() === categoryFromUrl.toLowerCase()
-      );
-    } else {
-      filteredProds = filteredProducts; // Reset to initial products if no filters
-    }
+      // Fetch products based on the query from URL
+      const fetchProducts = async () => {
+        try {
+          const response = await fetch(`http://localhost:5002/searched-products?query=${queryFromUrl}`);
+          if (!response.ok) {
+            throw new Error("Failed to fetch searched products");
+          }
+          const data = await response.json();
+          setProducts(data); // Store fetched products
+        } catch (error) {
+          console.error("Error fetching products:", error);
+        }
+      };
 
-    setSearchProd(filteredProds);
-  }, [queryFromUrl, categoryFromUrl, filteredProducts]);
+      fetchProducts();
+    }
+  }, [queryFromUrl]);
 
   return (
     <div className="search-results">
-      <div className='search-results-product-item'>
-        {searchProd.length > 0 ? (
-          searchProd.map((item) => (  // Change from products to prod
-            <Item 
-              key={item.product_id} // Ensure you have a unique identifier in your product data
-              product_id={item.product_id}
-              title={item.title} // Adjust property names based on your API response
-              main_image={item.main_image} // Adjust to match your API response
-              new_price={item.new_price}
-              old_price={item.old_price}
-              discount={item.discount}
-            />
-          ))
-        ) : (
-          <p>No products found</p>
-        )}
-      </div> 
+      <div className="search-results-product-item">
+      {products.length > 0 ? (
+        products.map((item) => (
+          <Item
+            key={item.product_id}
+            product_id={item.product_id}
+            title={item.title}
+            main_image={item.main_image}
+            new_price={item.new_price}
+            old_price={item.old_price}
+            discount={item.discount}
+          />
+        ))
+      ) : (
+        <p>No products found</p>
+      )}
+      </div>
     </div>
   );
 };

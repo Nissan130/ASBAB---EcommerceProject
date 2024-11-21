@@ -32,7 +32,7 @@ function App() {
         <Route path='/login' element={<LoginSignup />} />
         <Route path='/profile' element={<MyProfile />} />
         <Route path='/product/:productId' element={<ProductDetails />} />
-        <Route path="/search-products" element={<SearchProducts filteredProducts={filteredProducts} />} />
+        <Route path="/search-products" element={<SearchProducts/>} />
         <Route path='/billing' element={<Billing />} />
         <Route path='/payment' element={<PaymentMethod />} />
         <Route path='/order-confirmation' element={<OrderConfirmation />} />

@@ -15,13 +15,13 @@ const GlobalContextProvider = ({ children }) => {
   const [showAddToCartMessage, setShowAddToCartMessage] = useState('');
   const [searchTerm, setSearchTerm] = useState(""); //searching products
 
-  const [shippingAddress, setShippingAddress] = useState({
-    name: "",
-    address: "",
-    city: "",
-    postalCode: "",
-    country: "",
-  });
+  // const [shippingAddress, setShippingAddress] = useState({
+  //   name: "",
+  //   address: "",
+  //   city: "",
+  //   postalCode: "",
+  //   country: "",
+  // });
   const [paymentMethod, setPaymentMethod] = useState("");
   const [userId, setUserId] = useState(null); // State for user ID
   const [userInfo, setUserInfo] = useState(null); // State to hold user information
@@ -45,7 +45,7 @@ const GlobalContextProvider = ({ children }) => {
     fetchProducts();
   }, []); // Empty dependency array means this effect runs once on mount
 
-  console.log(products);
+  // console.log(products);
 
 
   //=========search products by typing==========
@@ -283,9 +283,9 @@ const GlobalContextProvider = ({ children }) => {
     favouriteCount,
     handleFavouriteClick,
     isFavourite,
-    shippingAddress,
+    // shippingAddress,
     paymentMethod,
-    updateShippingAddress,
+    // updateShippingAddress,
     updatePaymentMethod,
     userId,
     userInfo,
