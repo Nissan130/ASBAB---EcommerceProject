@@ -367,22 +367,20 @@ app.post("/order", async (req, res) => {
     }
 
     const pendingOrderQuery = `
-  INSERT INTO pending_orders (transaction_id, user_id,products_id_qty,products_title,total_amount, total_quantity, shipping_address)
-  VALUES (?, ?, ?, ?, ?, ?, ?)
-`;
-console.log("transaction id before pending: ",tran_id);
-db.query(
-  pendingOrderQuery,[tran_id, userId,products_id_qty,products_title,totalAmount, totalQuantity, JSON.stringify(shippingAddress)],
-  (err, result) => {
-    if (err) {
-      console.error("Error inserting pending order:", err);
-      return res.status(500).json({ error: "Failed to save pending order details." });
+    INSERT INTO pending_orders (transaction_id, user_id, products_id_qty, products_title, total_amount, total_quantity, shipping_address)
+    VALUES (?, ?, ?, ?, ?, ?, ?)
+  `;
+  db.query(
+    pendingOrderQuery,
+    [tran_id, userId, products_id_qty, products_title, totalAmount, totalQuantity, JSON.stringify(shippingAddress)],
+    (err, result) => {
+      if (err) {
+        console.error("Error inserting pending order:", err);
+        return res.status(500).json({ error: "Failed to save pending order details." });
+      }
+      console.log("Pending order saved successfully");
     }
-    console.log("Pending order saved successfully");
-  }
-);
-
-    
+  );
   })
   .catch((error) => {
     console.error("SSLCommerz Initialization Error:", error);
@@ -405,16 +403,16 @@ app.post('/payment/success/:tranId', async(req,res)=>{
       return res.status(500).json({ error: "Failed to fetch pending order details." });
     }
   
-    const { user_id, total_amount, total_quantity, shipping_address } = rows[0];
+    const { user_id,products_title, total_amount, total_quantity, shipping_address } = rows[0];
   
     // Insert into orders table
     const insertOrderQuery = `
-      INSERT INTO orders (user_id, transaction_id, total_amount, product_count, shipping_address)
-      VALUES (?, ?, ?, ?, ?)
+      INSERT INTO orders (user_id, transaction_id, products_title,total_quantity, total_price_amount, shipping_address)
+      VALUES (?, ?, ?, ?, ?, ?)
     `;
     db.query(
       insertOrderQuery,
-      [user_id, transaction_id, total_amount, total_quantity, shipping_address],
+      [user_id, transaction_id,products_title,total_quantity,total_amount, shipping_address],
       (err, result) => {
         if (err) {
           console.error("Error inserting order:", err);

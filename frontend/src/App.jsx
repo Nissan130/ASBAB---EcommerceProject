@@ -19,6 +19,7 @@ import PopularProducts from './Components/PopularProducts/PopularProducts';
 import NewCollections from './Components/NewCollections/NewCollections';
 import PaymentResult from './Components/PaymentResult/PaymentResult';
 import PaymentFail from './Components/PaymentFail/PaymentFail';
+import OrderHistory from './Components/OrderHistory/OrderHistory';
 
 function App() {
   const [filteredProducts, setFilteredProducts] = useState([]);
@@ -43,7 +44,8 @@ function App() {
         <Route path='/new-collections' element={<NewCollections />} />
         {/* <Route path='/payment/success/:tranId' element={<PaymentSuccess />} /> */}
         <Route path='/payment/result' element={<PaymentResult/>} />
-        {/* <Route path='/payment/fail/:tranId' element={<Billing />} /> */}
+        {/* <Route path='/profile/order-history' element={<OrderHistory/>} /> */}
+       
       </Routes>
       <Footer />
       </GlobalContextProvider>

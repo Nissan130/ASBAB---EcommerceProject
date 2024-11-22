@@ -1,9 +1,11 @@
-import React, { useEffect } from 'react'
+import React from 'react'
 import './PaymentResult.css'
-import { useLocation } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
 
 const PaymentResult = () => {
+    const navigate =useNavigate();
+
     const query = new URLSearchParams(useLocation().search);
     const status = query.get('status'); // 'success' or 'fail'
     const transactionId = query.get('tranId'); // Transaction ID
@@ -14,6 +16,7 @@ const PaymentResult = () => {
         <div className='payment-success'>
           <h1>Payment Successfull</h1>
           <p>Transaction ID: {transactionId}</p>
+          {/* <p className='see-order-history' onClick={()=>navigate('/profile/order-history')}>See Order History</p> */}
         </div>
         :
         <div className='payment-fail'>

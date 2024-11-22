@@ -8,6 +8,7 @@ import { FaCreditCard } from "react-icons/fa";
 import { FaLock } from "react-icons/fa";
 import PersonalInformation from "../PersonalInformation/PersonalInformation";
 import Favorites from "../Favorites/Favorites";
+import OrderHistory from "../OrderHistory/OrderHistory";
 
 const MyProfile = () => {
   const [activeTab, setActiveTab] = useState("personalInfo");
@@ -81,12 +82,12 @@ const MyProfile = () => {
 
 
 
-const OrderHistory = () => (
-  <div>
-    <h2>Order History</h2>
-    {/* Display the list of orders */}
-  </div>
-);
+// const OrderHistory = () => (
+//   <div>
+//     <h2>Order History</h2>
+//     {/* Display the list of orders */}
+//   </div>
+// );
 
 const Addresses = () => (
   <div>

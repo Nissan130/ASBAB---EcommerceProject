@@ -18,3 +18,7 @@
 .payment-fail h1{
     color: red;
 }
+.see-order-history:hover{
+    color: #0048ba;
+    text-decoration: underline;
+}

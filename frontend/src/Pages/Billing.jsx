@@ -1,11 +1,11 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { TbCurrencyTaka } from "react-icons/tb";
 import { GlobalContext } from "../Context/GlobalContext";
 import { useNavigate } from "react-router-dom";
 import "./CSS/Billing.css";
 
 const Billing = () => {
-  const { cartItems, userId } = useContext(GlobalContext);
+  const { cartItems, userId} = useContext(GlobalContext);
   // console.log(cartItems);
   
 
@@ -24,6 +24,8 @@ const Billing = () => {
     setShippingAddress({ ...shippingAddress, [name]: value });
   };
 
+  
+
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -33,20 +35,26 @@ const Billing = () => {
       return;
     }
 
+
+
     // updateShippingAddress(shippingAddress);
     // navigate("/payment");
 
     const orderData = {
       userId,
       shippingAddress,
-      products: cartItems.map((item) => ({
-        product_id: item.product_id,
-        title: item.title,
-        quantity: item.quantity,
-      })),
+      // products: cartItems.map((item) => ({
+      //   product_id: item.product_id,
+      //   title: item.title,
+      //   quantity: item.quantity,
+      // })),
+      products: cartItems,
       totalAmount, // Add totalAmount to the order data.
       totalQuantity,
     };
+
+    //save order data in the local storage
+    // localStorage.setItem("pendingOrder", JSON.stringify(orderData));
 
     fetch("http://localhost:5002/order", {
       method: "POST",
@@ -57,6 +65,9 @@ const Billing = () => {
     .then((result)=>{
       window.location.replace(result.url);
       // console.log(result);
+    })
+    .catch((err) => {
+      console.error("Payment initiation error:", err);
     });
     // console.log(orderData);
   };
