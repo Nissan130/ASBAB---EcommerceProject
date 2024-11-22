@@ -5,7 +5,7 @@ import { useNavigate } from "react-router-dom";
 import "./CSS/Billing.css";
 
 const Billing = () => {
-  const { cartItems } = useContext(GlobalContext);
+  const { cartItems, userId } = useContext(GlobalContext);
 
   const [shippingAddress, setShippingAddress] = useState({
     name: "",
@@ -35,12 +35,14 @@ const Billing = () => {
     // navigate("/payment");
 
     const orderData = {
+      userId,
       shippingAddress,
       products: cartItems.map((item) => ({
         product_id: item.product_id,
         quantity: item.quantity,
       })),
       totalAmount, // Add totalAmount to the order data.
+      totalQuantity
     };
 
     fetch("http://localhost:5002/order", {
@@ -55,10 +57,15 @@ const Billing = () => {
     });
     // console.log(orderData);
   };
+
+ 
  
   
 
   const totalAmount = cartItems.reduce((acc, item) => acc + item.new_price * item.quantity, 0) + 10; // Add delivery charge if needed
+  const totalQuantity = cartItems.reduce((acc, item) => acc + item.quantity, 0); 
+  console.log("Total quantity: ",totalQuantity);
+  
   console.log(shippingAddress);
   
 

@@ -14,7 +14,7 @@ const LoginSignup = () => {
   const [errorMessage, setErrorMessage] = useState(""); // Error message state
   const navigate = useNavigate();
 
-  const { loginUser } = useContext(GlobalContext);
+  const { loginUser, setUserId } = useContext(GlobalContext);
 
   // Handle Signup
   const handleSignup = async (e) => {
@@ -43,39 +43,7 @@ const LoginSignup = () => {
     }
   };
 
-  // Handle Login
-  // const handleLogin = async (e) => {
-  //   e.preventDefault();
-  //   const loginData = { email, password }; // Collect login data
 
-  //   try {
-  //     const response = await fetch("http://localhost:5002/login", {
-  //       method: "POST",
-  //       headers: {
-  //         "Content-Type": "application/json",
-  //       },
-  //       body: JSON.stringify(loginData), // Send login data in JSON format
-  //     });
-
-  //     if (!response.ok) {
-  //       throw new Error("Failed to login");
-  //     }
-
-  //     const data = await response.json();
-
-
-  //     if (response.ok) {
-  //       localStorage.setItem("userToken", data.userToken); // Store JWT userToken in localStorage
-  //       alert("Login successful");
-  //       navigate('/');
-  //       // Redirect to a protected/authenticated route (if needed)
-  //     } else {
-  //       setErrorMessage(data.error); // Show login error message
-  //     }
-  //   } catch (error) {
-  //     setErrorMessage("Something went wrong. Please try again.");
-  //   }
-  // };
 
   const handleLogin = async (e) => {
     e.preventDefault();
@@ -94,9 +62,21 @@ const LoginSignup = () => {
       }
   
       const data = await response.json();
-      loginUser(data.userToken); // Call loginUser with the token after successful login
-      alert("Login successful!");
-      navigate('/');
+      // console.log(data.userId);
+      // setUserId(data.userId);
+      // loginUser(data.userToken); // Call loginUser with the token after successful login
+      // alert("Login successful!");
+      // navigate('/');
+
+      if(data.userId){
+        console.log(data.userId);
+        setUserId(data.userId);
+        loginUser(data.userToken); // Call loginUser with the token after successful login
+        alert("Login successful!");
+        navigate('/');
+        window.location.reload(); // Reload to reset state
+       
+      }
     } catch (error) {
       setErrorMessage("Invalid email or password! Try Again");
     }

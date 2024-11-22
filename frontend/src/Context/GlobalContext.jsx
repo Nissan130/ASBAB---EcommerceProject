@@ -103,8 +103,7 @@ const GlobalContextProvider = ({ children }) => {
   // When userId changes, fetch user info and load cart items
   useEffect(() => {
     fetchUserInfo(); // Fetch user info when userId changes
-
-    const loadCart = async () => {
+ const loadCart = async () => {
       const token = localStorage.getItem("userToken");
 
       if (token && userId) {
@@ -139,6 +138,8 @@ const GlobalContextProvider = ({ children }) => {
     return () => clearInterval(intervalId); // Cleanup interval when component unmounts
   }, [userId]); // Re-run when userId changes
 
+
+
   // Handle user logout
   const logoutUser = () => {
     localStorage.removeItem("userToken"); // Clear token from localStorage
@@ -152,6 +153,8 @@ const GlobalContextProvider = ({ children }) => {
   useEffect(() => {
     localStorage.setItem("cartItems", JSON.stringify(cartItems));
   }, [cartItems]);
+
+
 
   // Add product to cart and update the backend
   const addToCart = async (product) => {
@@ -300,6 +303,8 @@ const GlobalContextProvider = ({ children }) => {
     searchTerm,
     setSearchTerm,
     searchProducts,
+    userId, 
+    setUserId
   };
 
   return (

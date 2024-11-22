@@ -149,8 +149,8 @@ app.post("/login", (req, res) => {
   });
 });
 
-// =========frontend design ===========
 
+// =========frontend design ===========
 //fetch product keywords and category for seraching
 // Route to fetch search suggestions (category and keyword)
 app.get("/search-suggestions", (req, res) => {
@@ -310,9 +310,9 @@ console.log(store_passwd);
 
 //sslcommerze payment method
 app.post("/order", async (req, res) => {
-  const { shippingAddress, products, totalAmount } = req.body;
+  const {userId,shippingAddress, products, totalAmount,totalQuantity} = req.body;
 
-  if (!shippingAddress || !products || !totalAmount) {
+  if (!userId || !shippingAddress || !products || !totalAmount || !totalQuantity) {
     return res.status(400).json({ error: "Missing required fields." });
   }
   const tran_id = "REF" + new Date().getTime();
@@ -322,7 +322,7 @@ app.post("/order", async (req, res) => {
         currency: 'BDT',
         tran_id: tran_id, // use unique tran_id for each api call
         success_url: `http://localhost:5002/payment/success/${tran_id}`,
-        fail_url: 'http://localhost:3030/fail',
+        fail_url: `http://localhost:5002/payment/fail/${tran_id}`,
         cancel_url: 'http://localhost:3030/cancel',
         ipn_url: 'http://localhost:3030/ipn',
         shipping_method: 'Courier',
@@ -362,6 +362,25 @@ app.post("/order", async (req, res) => {
       console.log("Redirecting to: ", GatewayPageURL);
       res.send({ url: GatewayPageURL });
     }
+
+    const pendingOrderQuery = `
+  INSERT INTO pending_orders (transaction_id, user_id, total_amount, total_quantity, shipping_address)
+  VALUES (?, ?, ?, ?, ?)
+`;
+
+db.query(
+  pendingOrderQuery,
+  [tran_id, userId, totalAmount, totalQuantity, JSON.stringify(shippingAddress)],
+  (err, result) => {
+    if (err) {
+      console.error("Error inserting pending order:", err);
+      return res.status(500).json({ error: "Failed to save pending order details." });
+    }
+    console.log("Pending order saved successfully");
+  }
+);
+
+    
   })
   .catch((error) => {
     console.error("SSLCommerz Initialization Error:", error);
@@ -369,9 +388,62 @@ app.post("/order", async (req, res) => {
   });
 
 
-  app.post('/payment/success/:tranId', async(req,res)=>{
-      console.log('transaction id: ',req.params.tranId);
-      
+app.post('/payment/success/:tranId', async(req,res)=>{
+
+   const transaction_id = req.params.tranId;
+    const getOrderQuery = `
+    SELECT * FROM pending_orders WHERE transaction_id = ?
+  `;
+  
+  db.query(getOrderQuery, [transaction_id], (err, rows) => {
+    if (err || rows.length === 0) {
+      console.error("Error fetching pending order:", err || "No data found");
+      return res.status(500).json({ error: "Failed to fetch pending order details." });
+    }
+  
+    const { user_id, total_amount, total_quantity, shipping_address } = rows[0];
+  
+    // Insert into orders table
+    const insertOrderQuery = `
+      INSERT INTO orders (user_id, transaction_id, total_amount, product_count, shipping_address)
+      VALUES (?, ?, ?, ?, ?)
+    `;
+    db.query(
+      insertOrderQuery,
+      [user_id, transaction_id, total_amount, total_quantity, shipping_address],
+      (err, result) => {
+        if (err) {
+          console.error("Error inserting order:", err);
+          return res.status(500).json({ error: "Failed to save order details." });
+        }
+  
+        // Reset user's cart
+        const resetCartQuery = `
+          DELETE FROM cart_items WHERE user_id = ?
+        `;
+        db.query(resetCartQuery, [user_id], (err, result) => {
+          if (err) {
+            console.error("Error resetting cart:", err);
+            return res.status(500).json({ error: "Failed to reset cart." });
+          }
+  
+          console.log("Order processed and cart reset for user:", user_id);
+          res.redirect(`http://localhost:5173/payment/success/${transaction_id}`);
+        });
+      }
+    );
+  });
+  
+      // res.redirect(`http://localhost:5173/payment/success/${req.params.tranId}`);
+  });
+
+  app.post('/payment/fail/:tranId', async(req,res)=>{
+    const tran_id = req.params.tranId;
+    console.log("transaction_id", tran_id);
+    // alert('Payment failed, Try again');
+    res.redirect(`http://localhost:5173/payment/fail/${req.params.tranId}`);
+    // res.redirect('http://localhost:5173/billing');
+    
   });
 
 });
