@@ -304,8 +304,8 @@ require('dotenv').config();
 const store_id = process.env.STORE_ID;
 const store_passwd = process.env.STORE_PASS;
 const is_live = false //true for live, false for sandbox
-console.log(store_id);
-console.log(store_passwd);
+// console.log(store_id);
+// console.log(store_passwd);
 
 
 //sslcommerze payment method
@@ -316,6 +316,9 @@ app.post("/order", async (req, res) => {
     return res.status(400).json({ error: "Missing required fields." });
   }
   const tran_id = "REF" + new Date().getTime();
+  
+  const products_id_qty =  products.map((p) => `[Product_ID:${p.product_id}, Qty:${p.quantity}]`).join(" ");
+  const products_title =  products.map((p) => `[${p.title}]`).join(" ");
 
   const orderData = {
         total_amount: totalAmount,
@@ -348,29 +351,28 @@ app.post("/order", async (req, res) => {
         ship_country: shippingAddress.country,
   };
 
-  console.log(orderData);
+  // console.log(orderData);
   
   const sslcz = new SSLCommerzPayment(store_id, store_passwd, is_live);
   sslcz
   .init(orderData)
   .then((apiResponse) => {
-    console.log("API Response: ", apiResponse);  // Log the entire API response
+    // console.log("API Response: ", apiResponse);  // Log the entire API response
     const GatewayPageURL = apiResponse.GatewayPageURL;
     if (!GatewayPageURL) {
       console.error("GatewayPageURL not found in the response");
     } else {
-      console.log("Redirecting to: ", GatewayPageURL);
+      // console.log("Redirecting to: ", GatewayPageURL);
       res.send({ url: GatewayPageURL });
     }
 
     const pendingOrderQuery = `
-  INSERT INTO pending_orders (transaction_id, user_id, total_amount, total_quantity, shipping_address)
-  VALUES (?, ?, ?, ?, ?)
+  INSERT INTO pending_orders (transaction_id, user_id,products_id_qty,products_title,total_amount, total_quantity, shipping_address)
+  VALUES (?, ?, ?, ?, ?, ?, ?)
 `;
-
+console.log("transaction id before pending: ",tran_id);
 db.query(
-  pendingOrderQuery,
-  [tran_id, userId, totalAmount, totalQuantity, JSON.stringify(shippingAddress)],
+  pendingOrderQuery,[tran_id, userId,products_id_qty,products_title,totalAmount, totalQuantity, JSON.stringify(shippingAddress)],
   (err, result) => {
     if (err) {
       console.error("Error inserting pending order:", err);
@@ -391,6 +393,8 @@ db.query(
 app.post('/payment/success/:tranId', async(req,res)=>{
 
    const transaction_id = req.params.tranId;
+   console.log("transaction id after pending: ",transaction_id);
+   
     const getOrderQuery = `
     SELECT * FROM pending_orders WHERE transaction_id = ?
   `;
@@ -428,7 +432,8 @@ app.post('/payment/success/:tranId', async(req,res)=>{
           }
   
           console.log("Order processed and cart reset for user:", user_id);
-          res.redirect(`http://localhost:5173/payment/success/${transaction_id}`);
+          // res.redirect(`http://localhost:5173/payment/success/${transaction_id}`);
+          res.redirect(`http://localhost:5173/payment/result?status=success&tranId=${transaction_id}`);
         });
       }
     );
@@ -441,8 +446,10 @@ app.post('/payment/success/:tranId', async(req,res)=>{
     const tran_id = req.params.tranId;
     console.log("transaction_id", tran_id);
     // alert('Payment failed, Try again');
-    res.redirect(`http://localhost:5173/payment/fail/${req.params.tranId}`);
+    // res.redirect(`http://localhost:5173/payment/fail/${req.params.tranId}`);
     // res.redirect('http://localhost:5173/billing');
+    res.redirect(`http://localhost:5173/payment/result?status=fail&tranId=${tran_id}`);
+
     
   });
 

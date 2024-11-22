@@ -6,6 +6,8 @@ import "./CSS/Billing.css";
 
 const Billing = () => {
   const { cartItems, userId } = useContext(GlobalContext);
+  // console.log(cartItems);
+  
 
   const [shippingAddress, setShippingAddress] = useState({
     name: "",
@@ -39,10 +41,11 @@ const Billing = () => {
       shippingAddress,
       products: cartItems.map((item) => ({
         product_id: item.product_id,
+        title: item.title,
         quantity: item.quantity,
       })),
       totalAmount, // Add totalAmount to the order data.
-      totalQuantity
+      totalQuantity,
     };
 
     fetch("http://localhost:5002/order", {
@@ -53,10 +56,12 @@ const Billing = () => {
     .then((res)=>res.json())
     .then((result)=>{
       window.location.replace(result.url);
-      console.log(result);
+      // console.log(result);
     });
     // console.log(orderData);
   };
+  console.log("user id: ", userId);
+
 
  
  
@@ -64,9 +69,9 @@ const Billing = () => {
 
   const totalAmount = cartItems.reduce((acc, item) => acc + item.new_price * item.quantity, 0) + 10; // Add delivery charge if needed
   const totalQuantity = cartItems.reduce((acc, item) => acc + item.quantity, 0); 
-  console.log("Total quantity: ",totalQuantity);
+  // console.log("Total quantity: ",totalQuantity);
   
-  console.log(shippingAddress);
+  // console.log(shippingAddress);
   
 
   return (

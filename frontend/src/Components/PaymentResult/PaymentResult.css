@@ -1,0 +1,20 @@
+.payment-result-container{
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
+    min-height: 60vh;
+    background: #fff;
+    margin-top: 10px;
+    padding: 2rem 1rem;
+    border-radius: 3px;
+    position: relative;
+    text-align: center;
+    font-weight: 600;
+    font-size: 20px;
+}
+.payment-success h1{
+    color: green;
+}
+.payment-fail h1{
+    color: red;
+}

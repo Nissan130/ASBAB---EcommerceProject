@@ -17,7 +17,7 @@ import PaymentMethod from './Components/PaymentMethod/PaymentMethod';
 import Favorites from './Components/Favorites/Favorites';
 import PopularProducts from './Components/PopularProducts/PopularProducts';
 import NewCollections from './Components/NewCollections/NewCollections';
-import PaymentSuccess from './Components/PaymentSuccess/PaymentSuccess';
+import PaymentResult from './Components/PaymentResult/PaymentResult';
 import PaymentFail from './Components/PaymentFail/PaymentFail';
 
 function App() {
@@ -41,8 +41,9 @@ function App() {
         <Route path='/favorites' element={<Favorites />} />
         <Route path='/popular-products' element={<PopularProducts />} />
         <Route path='/new-collections' element={<NewCollections />} />
-        <Route path='/payment/success/:tranId' element={<PaymentSuccess />} />
-        <Route path='/payment/fail/:tranId' element={<Billing />} />
+        {/* <Route path='/payment/success/:tranId' element={<PaymentSuccess />} /> */}
+        <Route path='/payment/result' element={<PaymentResult/>} />
+        {/* <Route path='/payment/fail/:tranId' element={<Billing />} /> */}
       </Routes>
       <Footer />
       </GlobalContextProvider>
