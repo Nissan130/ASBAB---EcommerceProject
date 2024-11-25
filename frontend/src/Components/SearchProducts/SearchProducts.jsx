@@ -31,9 +31,9 @@ const SearchProducts = () => {
 
   return (
     <div className="search-results">
-      <div className="search-results-product-item">
-      {products.length > 0 ? (
-        products.map((item) => (
+       {products.length > 0 ? (
+        <div className="search-results-product-item">
+        {products.map((item) => (
           <Item
             key={item.product_id}
             product_id={item.product_id}
@@ -44,10 +44,14 @@ const SearchProducts = () => {
             discount={item.discount}
           />
         ))
+      }
+        </div>
       ) : (
-        <p>No products found</p>
+        <div style={{minHeight:"300px", display:"flex",justifyContent:"center", paddingTop:"40px"}}>
+              <p style={{color:"red", fontSize:"20px"}}>No products found</p>
+        </div>
       )}
-      </div>
+     
     </div>
   );
 };

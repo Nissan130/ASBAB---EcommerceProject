@@ -17,8 +17,9 @@
     padding: 16px; 
     position: absolute; 
     z-index: 100; 
-    top: -10%;
+    /* top: -10%; */
     right: 30px; 
+    bottom: 50px;
     font-weight: 600;
   }
   
@@ -174,14 +175,17 @@
 }
 
 .product-offers {
-    background-color: #333;
-    color: white;
+    background-color: #FFBF00   ;
+    color: #333;
     border-radius: 20px;
     padding: 3px 10px;
+    font-weight: 600;
 }
 
 .product-short-desc {
     margin: 20px 0;
+    font-size: 14px;
+    line-height: 1.6;
 }
 
 .products-btns {

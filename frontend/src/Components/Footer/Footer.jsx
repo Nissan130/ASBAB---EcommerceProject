@@ -26,7 +26,7 @@ const Footer = () => {
 
     return (
         <div className='footer-container'>
-            <div className="footer-features">
+            {/* <div className="footer-features">
                 <div className="feature-box">
                     <div><FaMedapps /></div>
                     <div>Fresh Products Every Day</div>
@@ -44,7 +44,7 @@ const Footer = () => {
                     <div>Unbeatable Prices</div>
                 </div>
             </div>
-            <hr />
+            <hr /> */}
 
             <div className="footer-main">
                 <div className="footer-logo">

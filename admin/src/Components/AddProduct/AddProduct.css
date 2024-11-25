@@ -1,114 +1,115 @@
 .addproduct-container {
-    width: 100%;
-    height: 84vh;
-    max-width: 800px;
-    overflow-y: auto;
-    margin: 10px auto;
-    padding: 20px;
-    background-color: #fff;
-    border-radius: 10px;
-  }
-  
-  .addproduct-container h2 {
-    text-align: center;
-    color: #333;
-    font-size: 24px;
-    margin-bottom: 20px;
-  }
-  
-  .addproduct-format-main {
-    display: flex;
-    flex-direction: column;
-    gap: 20px;
-  }
-  
-  .addproduct-format {
-    display: flex;
-    gap: 20px;
-    justify-content: space-between;
-    flex-wrap: wrap;
-  }
-  
-  .product-title,
-  .product-keyword,
-  .product-description,
-  .product-old_price,
-  .product-new_price,
-  .category,
-  .sub_category,
-  .product-brand,
-  .discount_offer,
-  .product-main_img,
-  .other_img1,
-  .other_img2,
-  .other_img3,
-  .other_img4 {
-    flex: 1;
-    min-width: 250px;
-  }
-  .product-price{
-    display: flex;
-    justify-content: space-between;
-    width: 100%;
-    gap: 20px;
-  }
-  
-  .label {
-    font-size: 14px;
-    margin-bottom: 5px;
-    display: block;
-    color: #555;
-    font-weight: bold;
-  }
-  
-  input[type="text"],
-  select,
-  textarea,
-  input[type="file"] {
-    width: 100%;
-    padding: 10px;
-    font-size: 14px;
-    border-radius: 5px;
-    border: 1px solid #ddd;
-    margin-bottom: 10px;
-    background-color: #fff;
-    box-sizing: border-box;
-  }
-  
-  input[type="file"] {
-    padding: 5px;
-  }
-  
-  .add {
-    display: flex;
-    justify-content: center;
-    margin-top: 20px;
-  }
-  
-  .add button {
-    background-color: #28a745;
-    color: white;
-    border: none;
-    padding: 12px 20px;
-    border-radius: 5px;
-    cursor: pointer;
-    font-size: 16px;
-  }
-  
-  .add button:hover {
-    background-color: #218838;
-  }
-  
-  .image-preview {
-    width: 100px;
-    height: 100px;
-    object-fit: cover;
-    margin-top: 10px;
-    border: 1px solid #ddd;
-    border-radius: 5px;
-  }
+  width: 100%;
+  height: 84vh;
+  max-width: 800px;
+  overflow-y: auto;
+  margin: 10px auto;
+  padding: 20px;
+  background-color: #fff;
+  border-radius: 10px;
+}
 
-  /* Customize the entire scrollbar */
+.addproduct-container h2 {
+  text-align: center;
+  color: #333;
+  font-size: 24px;
+  margin-bottom: 20px;
+}
+
+.addproduct-format-main {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.addproduct-format {
+  display: flex;
+  gap: 20px;
+  justify-content: space-between;
+  flex-wrap: wrap;
+}
+
+.product-title,
+.product-keyword,
+.product-short-description,
+.product-full-description,
+.product-old_price,
+.product-new_price,
+.category,
+.sub_category,
+.product-brand,
+.discount_offer,
+.product-main_img,
+.other_img1,
+.other_img2,
+.other_img3,
+.other_img4 {
+  flex: 1;
+  min-width: 250px;
+}
+.product-price {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  gap: 20px;
+}
+
+.label {
+  font-size: 14px;
+  margin-bottom: 5px;
+  display: block;
+  color: #555;
+  font-weight: bold;
+}
+
+input[type="text"],
+select,
+textarea,
+input[type="file"] {
+  width: 100%;
+  padding: 10px;
+  font-size: 14px;
+  border-radius: 5px;
+  border: 1px solid #ddd;
+  margin-bottom: 10px;
+  background-color: #fff;
+  box-sizing: border-box;
+}
+
+input[type="file"] {
+  padding: 5px;
+}
+
+.add {
+  display: flex;
+  justify-content: center;
+  margin-top: 20px;
+}
+
+.add button {
+  background-color: #28a745;
+  color: white;
+  border: none;
+  padding: 12px 20px;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 16px;
+}
+
+.add button:hover {
+  background-color: #218838;
+}
+
+.image-preview {
+  width: 100px;
+  height: 100px;
+  object-fit: cover;
+  margin-top: 10px;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+}
+
+/* Customize the entire scrollbar */
 ::-webkit-scrollbar {
   width: 5px; /* width of the scrollbar */
 }
@@ -130,13 +131,11 @@
   background: #ccc; /* Darker color when hovered */
 }
 
-  
-  @media (max-width: 768px) {
-    .addproduct-format {
-      flex-direction: column;
-    }
-    .product-price{
-      flex-direction: column;
-    }
+@media (max-width: 768px) {
+  .addproduct-format {
+    flex-direction: column;
   }
-  
+  .product-price {
+    flex-direction: column;
+  }
+}

@@ -5,7 +5,8 @@ const AddProduct = () => {
   const [formData, setFormData] = useState({
     product_title: "",
     product_keyword: "",
-    product_description: "",
+    product_short_description: "",
+    product_full_description: "",
     old_price: "",
     new_price: "",
     category: "electronics",
@@ -54,7 +55,8 @@ const AddProduct = () => {
     const formDataToSend = new FormData();
     formDataToSend.append("product_title", formData.product_title);
     formDataToSend.append("product_keyword", formData.product_keyword);
-    formDataToSend.append("product_description", formData.product_description);
+    formDataToSend.append("product_short_description", formData.product_short_description);
+    formDataToSend.append("product_full_description", formData.product_full_description);
     formDataToSend.append("old_price", formData.old_price);
     formDataToSend.append("new_price", formData.new_price);
     formDataToSend.append("category", formData.category);
@@ -81,7 +83,8 @@ const AddProduct = () => {
         setFormData({
           product_title: "",
           product_keyword: "",
-          product_description: "",
+          product_short_description: "",
+          product_full_description: "",
           old_price: "",
           new_price: "",
           category: "",
@@ -134,12 +137,24 @@ const AddProduct = () => {
         </div>
          {/* Product description Input */}
          <div className="addproduct-format">
-          <div className="product-description">
-            <label className="label" htmlFor="product_description">Description</label>
+          <div className="product-short-description">
+            <label className="label" htmlFor="product_short_description">Short Description</label>
             <textarea
-            name="product_description"
-            placeholder="Product description"
-            value={formData.product_description}
+            name="product_short_description"
+            placeholder="Product short description"
+            value={formData.product_short_description}
+            onChange={handleChange}
+          />
+          </div>
+        </div>
+        {/* Product description Input */}
+        <div className="addproduct-format">
+          <div className="product-full-description">
+            <label className="label" htmlFor="product_full_description">Full Description</label>
+            <textarea
+            name="product_full_description"
+            placeholder="Product full description"
+            value={formData.product_full_description}
             onChange={handleChange}
           />
           </div>
@@ -221,6 +236,8 @@ const AddProduct = () => {
               <option value="DELL">DELL</option>
               <option value="ACER">ACER</option>
               <option value="MAC">MAC</option>
+              <option value="Naviforce">Naviforce</option>
+              <option value="Colmi">Colmi</option>
             </select>
           </div>
           <div className="discount_offer">

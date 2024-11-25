@@ -1,35 +1,41 @@
 import React, { useContext, useEffect } from "react";
-import { RiDeleteBin6Line } from "react-icons/ri";
+import { FaTrash } from "react-icons/fa6";
 import { TbCurrencyTaka } from "react-icons/tb";
 import "./CSS/Cart.css";
 import { useNavigate } from "react-router-dom";
 import { GlobalContext } from "../Context/GlobalContext";
 
 const Cart = () => {
-  const { 
-    cartItems, 
-    deleteFromCart, 
+  const {
+    cartItems,
+    deleteFromCart,
     updateCartQuantity,
-    showAddToCartMessage ,
+    showAddToCartMessage,
     showAddToCartAlert,
     setShowAddToCartAlert,
-    } = useContext(GlobalContext); // Assuming updateCartQuantity is available
+  } = useContext(GlobalContext); // Assuming updateCartQuantity is available
   const navigate = useNavigate();
+  // console.log(updateCartQuantity);
 
   //show product added to cart message
-  useEffect(()=>{
-    if(showAddToCartAlert){
+  useEffect(() => {
+    if (showAddToCartAlert) {
       const timer = setTimeout(() => {
-        setShowAddToCartAlert(false)
+        setShowAddToCartAlert(false);
       }, 2000);
-      return ()=> clearTimeout(timer);
+      return () => clearTimeout(timer);
     }
-},[showAddToCartAlert,setShowAddToCartAlert])
-
+  }, [showAddToCartAlert, setShowAddToCartAlert]);
 
   return (
     <div className="cart-container">
-      {<div id="showAddToCartAlert_snackbar" className={showAddToCartAlert ? "showAddToCartAlert-Snackbar" : " "}>{showAddToCartMessage}</div>
+      {
+        <div
+          id="showDeleteCartAlert_snackbar"
+          className={showAddToCartAlert ? "showDeleteCartAlert-Snackbar" : " "}
+        >
+          {showAddToCartMessage}
+        </div>
       }
       {cartItems.length > 0 && (
         <div className="cart-title-container">
@@ -51,7 +57,15 @@ const Cart = () => {
                 alt={item.name}
               />
             </div>
-            <div className="cart-item cart-product-title">{item.title}</div>
+            <div
+              className="cart-item cart-product-title"
+              onClick={() => {
+                window.scrollTo(0, 0);
+                navigate(`/product/${item.product_id}`);
+              }}
+            >
+              {item.title}
+            </div>
             <div className="cart-item cart-product-price">
               <TbCurrencyTaka />
               {item.new_price}
@@ -60,10 +74,9 @@ const Cart = () => {
               <input
                 type="number"
                 value={item.quantity}
-                onChange={(e) =>
-                  updateCartQuantity(item.id, parseInt(e.target.value))
-                } // Update the quantity
-                min="1"
+                onChange={(e) => {
+                  e.target.value;
+                }}
               />
             </div>
             <div className="cart-item cart-product-total-price">
@@ -71,9 +84,7 @@ const Cart = () => {
               {item.new_price * item.quantity}
             </div>
             <div className="cart-item cart-product-remove">
-              <RiDeleteBin6Line
-                onClick={() => deleteFromCart(item.product_id)}
-              />
+              <FaTrash onClick={() => deleteFromCart(item.product_id)} />
             </div>
           </div>
         ))
@@ -93,10 +104,15 @@ const Cart = () => {
       {cartItems.length > 0 && (
         <div className="update-cart-shopping">
           <div className="continue-shopping">
-            <button onClick={() => navigate("/")}>Continue Shopping</button>
+            <button
+              className="continue-shopping-btn"
+              onClick={() => navigate("/")}
+            >
+              Continue Shopping
+            </button>
           </div>
           <div className="update-cart">
-            <button>Update Cart</button>
+            <button className="update-cart-btn">Update Cart </button>
           </div>
         </div>
       )}
@@ -104,7 +120,9 @@ const Cart = () => {
       {cartItems.length > 0 && (
         <div className="cart-payment-container">
           <div className="cupon-container">
-            <p>If you have any coupon code, enter it here</p>
+            <p style={{ fontWeight: "600" }}>
+              If you have any coupon code, enter it here
+            </p>
             <input type="text" placeholder="coupon code" />
           </div>
 

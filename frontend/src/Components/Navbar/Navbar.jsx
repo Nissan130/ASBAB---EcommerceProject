@@ -24,13 +24,21 @@ const Navbar = () => {
   const [showProfileDropdown, setShowProfileDropdown] = useState(false);
   const dropdownRef = useRef(null); // Ref for profile dropdown
   const navigate = useNavigate();
-  const { cartItems, favouriteCount, logoutUser } = useContext(GlobalContext);
+  const { cartItems, logoutUser,favoriteItems} = useContext(GlobalContext);
 
   const totalCartQuantity = cartItems.reduce(
     (total, item) => total + item.quantity,
     0
   );
+  const totalFavoriteItem = favoriteItems.length; // Adjusted to reflect the total count directly
 
+  console.log(totalFavoriteItem);
+  
+  // const totalFavoriteItem = favouriteItems.reduce(
+  //   (total, item) => total + item.quantity,
+  //   0
+  // );
+  // const totalFavoriteItem = 0;
   const toggleProfileDropdown = () => {
     setShowProfileDropdown(!showProfileDropdown);
   };
@@ -49,6 +57,7 @@ const Navbar = () => {
   }, []);
 
   const handleViewProfile = () => {
+    window.scrollTo(0,0);
     navigate("/profile");
     setShowProfileDropdown(false);
   };
@@ -247,14 +256,21 @@ const handleKeyDown = (e) => {
           {/* Wishlist */}
           <div
             className="wishlist-container"
-            onClick={() => navigate("/wishlist")}
+            onClick={() => {
+              window.scrollTo(0,0);
+              navigate("/favorite-items");
+            }}
           >
-            <FaRegHeart /> <span>{favouriteCount}</span>
+            <FaRegHeart /> <span>{totalFavoriteItem}</span>
             <div className="navbar-tooltip-text">Favourite</div>
           </div>
 
           {/* Cart */}
-          <div className="nav-cart-container" onClick={() => navigate("/cart")}>
+          <div className="nav-cart-container" onClick={() => {
+            window.scrollTo(0,0)
+            navigate("/cart");
+
+          }}>
             <BsCart3 /> <span>{totalCartQuantity}</span>
             <div className="navbar-tooltip-text">Cart</div>
           </div>

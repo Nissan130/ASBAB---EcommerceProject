@@ -250,6 +250,8 @@ app.post("/cart", (req, res) => {
   });
 });
 
+
+
 // Route to get all items from the user's cart
 app.get("/cart/:userId", (req, res) => {
   const { userId } = req.params;
@@ -275,6 +277,7 @@ app.get("/cart/:userId", (req, res) => {
   });
 });
 
+
 // Route to delete an item from the cart
 app.delete("/cart", (req, res) => {
   const { userId, productId } = req.body;
@@ -298,6 +301,71 @@ app.delete("/cart", (req, res) => {
     res.status(200).json({ message: "Item deleted from cart successfully" });
   });
 });
+
+app.post("/favoritelist", (req, res) => {
+  const { userId ,productId } = req.body;
+
+  if (!userId || !productId) {
+    return res.status(400).json({ error: "User ID and Product ID are required" });
+  }
+
+  const checkFavListQuery = `SELECT * FROM favorite_items WHERE user_id = ? AND product_id = ?`;
+
+  db.query(checkFavListQuery, [userId, productId], (err, result) => {
+    if (err) {
+      console.error("Error checking favorite list:", err);
+      return res.status(500).json({ error: "Error checking favorite list" });
+    }
+
+    if (result.length > 0) {
+      // Remove item if it exists
+      const deleteQuery = `DELETE FROM favorite_items WHERE user_id = ? AND product_id = ?`;
+      db.query(deleteQuery, [userId, productId], (err) => {
+        if (err) {
+          console.error("Error deleting favorite item:", err);
+          return res.status(500).json({ error: "Error deleting favorite item" });
+        }
+        return res.status(200).json({ message: "Favorite item removed successfully" });
+      });
+    } else {
+      // Add item if it doesn't exist
+      const insertQuery = `INSERT INTO favorite_items (product_id, user_id) VALUES (?, ?)`;
+      db.query(insertQuery, [productId, userId], (err) => {
+        if (err) {
+          console.error("Error adding to favorite list:", err);
+          return res.status(500).json({ error: "Error adding to favorite list" });
+        }
+        return res.status(201).json({ message: "Item added to favorite list successfully" });
+      });
+    }
+  });
+});
+
+app.get("/favoritelist/:userId", (req, res) => {
+  const { userId } = req.params;
+
+  // Validate input
+  if (!userId) {
+    return res.status(400).json({ error: "User ID is required" });
+  }
+
+  // Fetch all items in the user's cart
+  const query = `SELECT fi.product_id, p.title, p.new_price, p.main_image
+                 FROM  favorite_items fi
+                 JOIN product_list p ON fi.product_id = p.product_id
+                 WHERE fi.user_id = ?`;
+
+  db.query(query, [userId], (err, result) => {
+    if (err) {
+      console.error("Error fetching favorite items:", err);
+      return res.status(500).json({ error: "Error fetching favorite items" });
+    }
+
+    res.status(200).json(result); // Return the cart items
+  });
+});
+
+
 
 //ssLcommerze sandbox
 require('dotenv').config();
@@ -454,6 +522,29 @@ app.post('/payment/success/:tranId', async(req,res)=>{
 });
 
 
+//Route to fetch order history
+app.get("/orderHistory/:userId",(req,res)=>{
+    const {userId} = req.params;
+
+    console.log("Order id for order history = ",userId);
+
+    //sql query for fetching order history from ddtabase using userId
+    const query = `SELECT * FROM orders WHERE user_id = ?`
+
+    db.query(query,[userId],(err,result)=>{
+      if(err){
+        console.error("Error fetching order history:",err);
+        return res.status(500).json({error:"Error fetching order history"});
+      }
+
+      if(result.length === 0){
+        return res.status(404).json({error:"Order history not found"});
+      }
+      res.status(200).json(result); // return the order history
+    })
+
+});
+
 
 
 
@@ -503,7 +594,8 @@ app.post("/add-product", upload.fields([{ name: 'main_img' }, { name: 'other_ima
   const {
     product_title,
     product_keyword,
-    product_description,
+    product_short_description,
+    product_full_description,
     old_price,
     new_price,
     category,
@@ -513,7 +605,7 @@ app.post("/add-product", upload.fields([{ name: 'main_img' }, { name: 'other_ima
   } = req.body;
 
   // Validate input
-  if (!product_title || !product_keyword || !product_description || !old_price || !new_price || !category || !sub_category || !product_brand || !req.files.main_img) {
+  if (!product_title || !product_keyword || !product_short_description ||!product_full_description ||  !old_price || !new_price || !category || !sub_category || !product_brand || !req.files.main_img) {
     return res.status(400).json({ error: "All required fields must be filled" });
   }
 
@@ -522,8 +614,8 @@ app.post("/add-product", upload.fields([{ name: 'main_img' }, { name: 'other_ima
 
   // SQL query to insert product details into the database
   const query = `
-    INSERT INTO product_list (title,product_keyword,product_description, old_price, new_price, category, sub_category,product_brand, discount, main_image, other_images) 
-    VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+    INSERT INTO product_list (title,product_keyword,product_short_description, product_full_description, old_price, new_price, category, sub_category,product_brand, discount, main_image, other_images) 
+    VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
   `;
 
   db.query(
@@ -531,7 +623,8 @@ app.post("/add-product", upload.fields([{ name: 'main_img' }, { name: 'other_ima
     [
       product_title,
       product_keyword,
-      product_description,
+      product_short_description,
+      product_full_description,
       old_price,
       new_price,
       category,
@@ -599,7 +692,6 @@ app.get("/products/:product_id", (req, res) => {
 //Route to fetch all users info
 app.get("/users",(req,res)=>{
   const query = `SELECT * FROM users`;
-
   db.query(query,(err,result)=>{
     if(err){
       console.error("Error fetching users info",err);

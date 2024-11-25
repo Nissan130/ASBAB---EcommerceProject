@@ -12,13 +12,13 @@ const DisplayProduct = ({ product }) => {
     handleIncrementItem,
     handleDecrementItem,
     addToCart,
-    addToFavourite,
+    addToFavorite,
+    favoriteItems,
     showAddToCartAlert,
     setShowAddToCartAlert,
-    showAddToCartMessage
+    showAddToCartMessage,
   } = useContext(GlobalContext);
 
-  const [isFavourite, setIsFavourite] = useState(false);
   const [mainImage, setMainImage] = useState(product.main_image);
   const [isZoomed, setIsZoomed] = useState(false);
   const [zoomPosition, setZoomPosition] = useState({ x: 0, y: 0 });
@@ -31,11 +31,6 @@ const DisplayProduct = ({ product }) => {
   const other_images = Array.isArray(product.other_images)
     ? product.other_images
     : JSON.parse(product.other_images || "[]");
-
-  const handleFavouriteClick = () => {
-    addToFavourite(product);
-    setIsFavourite(!isFavourite);
-  };
 
   const handleMouseMove = (e) => {
     const imageRect = imageRef.current.getBoundingClientRect();
@@ -55,18 +50,26 @@ const DisplayProduct = ({ product }) => {
   };
 
   //show product added to cart message
-  useEffect(()=>{
-          if(showAddToCartAlert){
-            const timer = setTimeout(() => {
-              setShowAddToCartAlert(false)
-            }, 2000);
-            return ()=> clearTimeout(timer);
-          }
-  },[showAddToCartAlert,setShowAddToCartAlert])
+  useEffect(() => {
+    if (showAddToCartAlert) {
+      const timer = setTimeout(() => {
+        setShowAddToCartAlert(false);
+      }, 2000);
+      return () => clearTimeout(timer);
+    }
+  }, [showAddToCartAlert, setShowAddToCartAlert]);
 
   return (
     <div className="product-display">
-      { <div id="showAddToCartAlert_snackbar" className={showAddToCartAlert?"showAddToCartAlert-Snackbar": ""}> {showAddToCartMessage}</div>}
+      {
+        <div
+          id="showAddToCartAlert_snackbar"
+          className={showAddToCartAlert ? "showAddToCartAlert-Snackbar" : ""}
+        >
+          {" "}
+          {showAddToCartMessage}
+        </div>
+      }
       <div className="product-display-left">
         <div className="product-images">
           <img
@@ -98,8 +101,12 @@ const DisplayProduct = ({ product }) => {
                 left: `${zoomPosition.x - 50}px`, // Center lens on cursor
                 top: `${zoomPosition.y - 50}px`, // Center lens on cursor
                 backgroundImage: `url(http://localhost:5002/${mainImage})`,
-                backgroundPosition: `-${zoomPosition.x * 2}px -${zoomPosition.y * 2}px`, // Adjust zoom based on lens position
-                backgroundSize: `${imageRef.current.offsetWidth * 2}px ${imageRef.current.offsetHeight * 2}px`, // Change this for zoom level
+                backgroundPosition: `-${zoomPosition.x * 2}px -${
+                  zoomPosition.y * 2
+                }px`, // Adjust zoom based on lens position
+                backgroundSize: `${imageRef.current.offsetWidth * 2}px ${
+                  imageRef.current.offsetHeight * 2
+                }px`, // Change this for zoom level
               }}
             />
           )}
@@ -111,11 +118,21 @@ const DisplayProduct = ({ product }) => {
           <h2>{product.title}</h2>
         </div>
         <div className="product-ratings">
-          <span><IoStar /></span>
-          <span><IoStar /></span>
-          <span><IoStar /></span>
-          <span><IoStar /></span>
-          <span className="fade-rating"><IoStar /></span>
+          <span>
+            <IoStar />
+          </span>
+          <span>
+            <IoStar />
+          </span>
+          <span>
+            <IoStar />
+          </span>
+          <span>
+            <IoStar />
+          </span>
+          <span className="fade-rating">
+            <IoStar />
+          </span>
           <span>(4.3)</span>
         </div>
         <div className="review-counts">(15 reviews)</div>
@@ -128,10 +145,10 @@ const DisplayProduct = ({ product }) => {
             <TbCurrencyTaka />
             {product.old_price}
           </div>
-          <div className="product-offers">{product.discount}% offer</div>
+          <div className="product-offers">{product.discount}% offers</div>
         </div>
         <div className="product-short-desc">
-          Lorem ipsum, dolor sit amet consectetur adipisicing elit. Expedita exercitationem placeat laborum quae sunt nemo numquam repudiandae doloribus accusantium temporibus?
+          {product.product_short_description}
         </div>
         <div className="products-btns">
           <div className="increase-decrease-item">
@@ -145,8 +162,19 @@ const DisplayProduct = ({ product }) => {
           </div>
           <div className="addCart-wislist-btn">
             <button onClick={() => addToCart(product)}>ADD TO CART</button>
-            <span onClick={handleFavouriteClick} style={{cursor:'pointer'}}>
-              {isFavourite ? <FaHeart style={{ color: 'red', fontSize:'22px'}} /> : <FaRegHeart style={{fontSize:'22px'}} />}
+            <span
+              onClick={() => addToFavorite(product)}
+              style={{ cursor: "pointer" }}
+            >
+              <FaHeart
+                style={{
+                  color: favoriteItems.some(
+                    (item) => item.product_id === product.product_id
+                  )
+                    ? "red"
+                    : "gray",
+                fontSize:"22px",marginLeft:"10px", marginTop:"5px"}}
+              />
             </span>
           </div>
         </div>

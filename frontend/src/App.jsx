@@ -14,12 +14,12 @@ import GlobalContextProvider from './Context/GlobalContext';
 import Billing from './Pages/Billing';
 import OrderConfirmation from './Components/OrderConfirmation/OrderConfirmation';
 import PaymentMethod from './Components/PaymentMethod/PaymentMethod';
-import Favorites from './Components/Favorites/Favorites';
 import PopularProducts from './Components/PopularProducts/PopularProducts';
 import NewCollections from './Components/NewCollections/NewCollections';
 import PaymentResult from './Components/PaymentResult/PaymentResult';
 import PaymentFail from './Components/PaymentFail/PaymentFail';
 import OrderHistory from './Components/OrderHistory/OrderHistory';
+import FavoriteItems from './Components/FavoriteItems/FavoriteItems';
 
 function App() {
   const [filteredProducts, setFilteredProducts] = useState([]);
@@ -30,16 +30,15 @@ function App() {
       <Navbar setFilteredProducts={setFilteredProducts} />
       <Routes>
         <Route path='/' element={<Home />} />
-        <Route path='/wishlist' element={<Wishlist />} />
         <Route path='/cart' element={<Cart />} />
         <Route path='/login' element={<LoginSignup />} />
-        <Route path='/profile' element={<MyProfile />} />
+        {/* <Route path='/profile' element={<MyProfile />} /> */}
+        <Route path="/profile/*" element={<MyProfile />} />
         <Route path='/product/:productId' element={<ProductDetails />} />
         <Route path="/search-products" element={<SearchProducts/>} />
         <Route path='/billing' element={<Billing />} />
         <Route path='/payment' element={<PaymentMethod />} />
-        <Route path='/order-confirmation' element={<OrderConfirmation />} />
-        <Route path='/favorites' element={<Favorites />} />
+        <Route path='/favorite-items' element={<FavoriteItems />} />
         <Route path='/popular-products' element={<PopularProducts />} />
         <Route path='/new-collections' element={<NewCollections />} />
         {/* <Route path='/payment/success/:tranId' element={<PaymentSuccess />} /> */}

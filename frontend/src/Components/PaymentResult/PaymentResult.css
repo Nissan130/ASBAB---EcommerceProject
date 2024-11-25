@@ -5,12 +5,14 @@
     min-height: 60vh;
     background: #fff;
     margin-top: 10px;
-    padding: 2rem 1rem;
     border-radius: 3px;
     position: relative;
     text-align: center;
     font-weight: 600;
     font-size: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 .payment-success h1{
     color: green;
@@ -18,7 +20,13 @@
 .payment-fail h1{
     color: red;
 }
-.see-order-history:hover{
+.see-order-history{
+    cursor: pointer;
+    margin-top: 10px;
     color: #0048ba;
+}
+.see-order-history:hover{
+    color: #ff4141;
     text-decoration: underline;
+    
 }

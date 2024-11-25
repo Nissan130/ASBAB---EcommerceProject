@@ -1,5 +1,3 @@
-
-
 import React, { createContext, useState, useEffect } from "react";
 
 // Create GlobalContext
@@ -9,19 +7,10 @@ const GlobalContextProvider = ({ children }) => {
   const [products, setProducts] = useState([]); // State to hold the products
   const [cartItems, setCartItems] = useState([]); // Track cart items
   const [productCount, setProductCount] = useState(1); // Track product count
-  const [favouriteItems, setFavouriteItems] = useState([]); // Track favorite items
   const [isFavourite, setIsFavourite] = useState(false);
   const [showAddToCartAlert, setShowAddToCartAlert] = useState(false);
   const [showAddToCartMessage, setShowAddToCartMessage] = useState('');
   const [searchTerm, setSearchTerm] = useState(""); //searching products
-
-  // const [shippingAddress, setShippingAddress] = useState({
-  //   name: "",
-  //   address: "",
-  //   city: "",
-  //   postalCode: "",
-  //   country: "",
-  // });
   const [paymentMethod, setPaymentMethod] = useState("");
   const [userId, setUserId] = useState(null); // State for user ID
   const [userInfo, setUserInfo] = useState(null); // State to hold user information
@@ -43,10 +32,7 @@ const GlobalContextProvider = ({ children }) => {
     };
 
     fetchProducts();
-  }, []); // Empty dependency array means this effect runs once on mount
-
-  // console.log(products);
-
+  }, []);
 
   //=========search products by typing==========
   const searchProducts = (searchTerm) => {
@@ -57,8 +43,6 @@ const GlobalContextProvider = ({ children }) => {
     const filteredProducts = products.filter(
       (product) =>
         product.product_keyword.toLowerCase().includes(searchTerm.toLowerCase())
-        // product.name.toLowerCase().includes(searchTerm.toLowerCase())
-        // product.category.toLowerCase().includes(searchTerm.toLowerCase())
     );
     return filteredProducts;
   };
@@ -100,6 +84,7 @@ const GlobalContextProvider = ({ children }) => {
     setUserId(newUserId); // Update userId when token changes
   }, []);
 
+  
   // When userId changes, fetch user info and load cart items
   useEffect(() => {
     fetchUserInfo(); // Fetch user info when userId changes
@@ -146,7 +131,9 @@ const GlobalContextProvider = ({ children }) => {
     setUserId(null); // Clear userId in state
     setUserInfo(null); // Clear user info in state
     setCartItems([]); // Clear cart items
+    setFavoriteItems([]);
     localStorage.removeItem("cartItems"); // Clear cart in localStorage
+    localStorage.removeItem("favouriteItems");
   };
 
   // Update localStorage whenever cartItems changes
@@ -210,13 +197,117 @@ const GlobalContextProvider = ({ children }) => {
     setProductCount(1); // Reset product count
   };
 
-   const handleFavouriteClick = (product) => {
-    const itemIndex = favouriteItems.findIndex((item) => item.user_id === product.user_id);
-    if (itemIndex === -1) {
-      setFavouriteItems([...favouriteItems, product]);
+
+
+
+const [favoriteItems, setFavoriteItems] = useState(() => {
+  // Initialize from localStorage
+  // Update localStorage whenever cartItems changes
+  const savedFavorites = localStorage.getItem("favouriteItems");
+  return savedFavorites ? JSON.parse(savedFavorites) : [];
+});
+
+const fetchUserFavorites = async () => {
+  const token  = localStorage.getItem("userToken");
+  const newUserId = getUserIdFromToken(token); // Extract userId from tokenl
+  console.log(newUserId);
+  
+
+  if (!token || !newUserId) {
+    console.log("User is not logged in.");
+    return;
+  }
+
+  try {
+    const response = await fetch(`http://localhost:5002/favoritelist/${newUserId}`, {
+      // method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+    });
+
+    if (!response.ok) {
+      const errorResult = await response.json();
+      console.error("Error fetching favorites:", errorResult.error);
+      throw new Error(errorResult.error || "Failed to fetch favorites.");
     }
-    setIsFavourite(!isFavourite);
-  };
+
+    const userFavorites = await response.json();
+
+    // Update state and localStorage
+    setFavoriteItems(userFavorites);
+    localStorage.setItem("favouriteItems", JSON.stringify(userFavorites));
+  } catch (error) {
+    console.error("Error fetching favorites:", error.message);
+    alert("Failed to load your favorites. Please try again.");
+  }
+};
+
+
+// Fetch favorites on login or page load
+useEffect(() => {
+  fetchUserFavorites();
+}, []);
+
+const addToFavorite = async (product) => {
+  const token = localStorage.getItem("userToken");
+
+  if (!token) {
+    alert("Please log in to manage your favorites.");
+    return;
+  }
+
+  const isAlreadyFavorite = favoriteItems.some(
+    (item) => item.product_id === product.product_id
+  );
+
+  const updatedFavorites = isAlreadyFavorite
+    ? favoriteItems.filter((item) => item.product_id !== product.product_id)
+    : [...favoriteItems, product];
+
+  try {
+    // Optimistic UI update
+    setFavoriteItems(updatedFavorites);
+
+    const response = await fetch("http://localhost:5002/favoritelist", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+      body: JSON.stringify({
+        userId,
+        productId: product.product_id,
+        isFavourite: !isAlreadyFavorite,
+      }),
+    });
+
+    if (!response.ok) {
+      const errorResult = await response.json();
+      console.error("Error:", errorResult.error || "Unknown error");
+      throw new Error(errorResult.error || "Failed to update favorites.");
+    }
+
+    const result = await response.json();
+    console.log("Server response:", result);
+
+    alert(
+      `Product ${
+        isAlreadyFavorite ? "removed from" : "added to"
+      } your favorite list successfully.`
+    );
+  } catch (error) {
+    console.error("Error updating favorites:", error);
+
+    // Revert state update on failure
+    setFavoriteItems(favoriteItems);
+
+    alert("Something went wrong. Please try again.");
+  }
+};
+
+  
 
   const handleIncrementItem = () => {
     setProductCount(productCount + 1);
@@ -263,12 +354,8 @@ const GlobalContextProvider = ({ children }) => {
     }
   };
 
-  const favouriteCount = favouriteItems.length;
+  // const favouriteCount = favoriteItems.length;
 
-  // Functions to update shipping address and payment method
-  const updateShippingAddress = (address) => {
-    setShippingAddress(address);
-  };
 
   const updatePaymentMethod = (method) => {
     setPaymentMethod(method);
@@ -282,10 +369,10 @@ const GlobalContextProvider = ({ children }) => {
     handleDecrementItem,
     addToCart,
     deleteFromCart,
-    favouriteItems,
-    favouriteCount,
-    handleFavouriteClick,
+    favoriteItems,
+    addToFavorite,
     isFavourite,
+    setIsFavourite,
     // shippingAddress,
     paymentMethod,
     // updateShippingAddress,

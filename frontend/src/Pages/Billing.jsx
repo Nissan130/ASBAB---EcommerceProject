@@ -11,6 +11,7 @@ const Billing = () => {
 
   const [shippingAddress, setShippingAddress] = useState({
     name: "",
+    mobile_number: "",
     address: "",
     city: "",
     postalCode: "",
@@ -30,7 +31,7 @@ const Billing = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    if (!shippingAddress.name || !shippingAddress.address || !shippingAddress.city || !shippingAddress.postalCode || !shippingAddress.country) {
+    if (!shippingAddress.name || !shippingAddress.mobile_number || !shippingAddress.address || !shippingAddress.city || !shippingAddress.postalCode || !shippingAddress.country) {
       setShowWarning(true);
       return;
     }
@@ -95,8 +96,16 @@ const Billing = () => {
             <input
               type="text"
               name="name"
-              placeholder="Full Name"
+              placeholder="Your Full Name"
               value={shippingAddress.name}
+              onChange={handleInputChange}
+              required
+            />
+            <input
+              type="text"
+              name="mobile_number"
+              placeholder="Your Mobile Number"
+              value={shippingAddress.mobile_number}
               onChange={handleInputChange}
               required
             />

@@ -1,0 +1,85 @@
+.favorite-items-container {
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  min-height: 60vh;
+  background: #fff;
+  margin-top: 10px;
+  padding: 2rem 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  border-radius: 3px;
+  position: relative;
+}
+.fav-item-title-container,
+.fav-item-product-container {
+  /* width: 80vw; */
+  width: 100%;
+  display: grid;
+  /* grid-template-columns: .5fr 2fr 1fr 1fr 1fr 1fr; */
+  grid-template-columns: 0.8fr 2fr 1fr 1.2fr;
+  position: relative;
+  text-align: center;
+  gap: 10px;
+}
+.fav-item-title-container::after,
+.fav-item-product-container::after {
+  content: "";
+  height: 1px;
+  background-color: #ddd;
+  left: 0;
+  right: 0;
+  width: 100%;
+  top: calc(100% + 8px);
+  position: absolute;
+}
+.fav-item {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 7px;
+}
+.fav-product-image img {
+  width: 60px;
+  height: 60px;
+  /* object-fit: contain; */
+}
+.fav-product-title {
+  font-size: 1rem;
+  color: #333;
+  text-align: left;
+  cursor: pointer;
+  display: -webkit-box; 
+  -webkit-box-orient: vertical; /* Limit box to vertical orientation */
+  overflow: hidden; /* Hide overflowing text */
+  text-overflow: ellipsis; /* Add ellipsis (...) */
+  line-clamp: 2; /* Limit to 2 lines */
+  -webkit-line-clamp: 2; /* For webkit browsers */
+  max-height: 3.4em; /* 2 lines of text (line-height * number of lines) */
+  line-height: 1.5em; /* Adjust this based on your design */
+}
+.fav-product-title:hover {
+  text-decoration: underline;
+}
+.cart-product-price,
+.fav-product-addToCart{
+  /* font-size: 1rem; */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.fav-product-addToCart button{
+    padding: 8px 10px;
+    border: none;
+    background-color: #008000;
+    border-radius: 4px;
+    color: #fff;
+    font-weight: 600;
+    cursor: pointer;
+}
+.fav-product-remove svg{
+    font-size: 20px;
+    cursor: pointer;
+}

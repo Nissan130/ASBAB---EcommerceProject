@@ -16,7 +16,7 @@ const ProductDetails = () => {
 
   // Ensure products is loaded before calling find
   const product = products.find((e) => e.product_id === parseInt(productId));
-  // console.log(product);
+  console.log(product);
   // Handle the case where the product is not found or still loading
   if (!product) {
     return <div>Loading product details...</div>; // Or show a 404 error message
@@ -26,7 +26,7 @@ const ProductDetails = () => {
     <div className="product-details">
       <Breadcrums product={product} />
       <DisplayProduct product={product} />
-      <ProductDescriptionBox />
+      <ProductDescriptionBox product={product} />
       <RelatedProducts />
       <NewsLetter />
     </div>

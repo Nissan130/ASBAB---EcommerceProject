@@ -16,24 +16,24 @@
   list-style: none;
   padding: 0;
 }
-
-.profile-sidebar li {
-  padding: 10px;
-  cursor: pointer;
+.profile-sidebar li a {
+  text-decoration: none;
+  color: inherit;
   display: flex;
   align-items: center;
+  padding: 8px;
   gap: 10px;
-  border-radius: 5px;
-  margin-bottom: 5px;
-
+  width: 100%; /* Ensure clickable area spans the full width of the tab */
+  margin-bottom: 12px;
+  border-radius: 4px;
 }
 
-.profile-sidebar li.active {
-  background-color: #e0f7fa;
+.profile-sidebar li a.active {
+  background-color: #e0f7fa; /* Light blue background for the active tab */
   font-weight: bold;
-  border: 1px solid;
-  border-color: #00acc1;
+  border: 1px solid #00acc1; /* Match border color with theme */
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  color: #0048ba; /* Highlighted color for active tab text */
 }
 
 .profile-content {
