@@ -41,8 +41,8 @@ const Item = (props) => {
         <div className="offer"><span style={{ fontWeight: "600" }}>{props.discount}%</span> discount</div>
       </div>
       <div className="productprice-container">
-        <div className="productprice-new_price"><TbCurrencyTaka />{props.new_price}</div>
-        <div className="productprice-old_price"><TbCurrencyTaka />{props.old_price}</div>
+        <div className="productprice-new_price"><TbCurrencyTaka />{Intl.NumberFormat('en-BD').format(props.new_price)}</div>
+        <div className="productprice-old_price"><TbCurrencyTaka />{Intl.NumberFormat('en-BD').format(props.old_price)}</div>
       </div>
     </div>
   );

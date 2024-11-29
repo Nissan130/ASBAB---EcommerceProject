@@ -68,7 +68,7 @@ const Cart = () => {
             </div>
             <div className="cart-item cart-product-price">
               <TbCurrencyTaka />
-              {item.new_price}
+              {Intl.NumberFormat('en-BD').format(item.new_price)}
             </div>
             <div className="cart-item cart-product-quantity">
               <input

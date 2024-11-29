@@ -24,7 +24,7 @@ const Navbar = () => {
   const [showProfileDropdown, setShowProfileDropdown] = useState(false);
   const dropdownRef = useRef(null); // Ref for profile dropdown
   const navigate = useNavigate();
-  const { cartItems, logoutUser,favoriteItems} = useContext(GlobalContext);
+  const { cartItems, logoutUser, favoriteItems } = useContext(GlobalContext);
 
   const totalCartQuantity = cartItems.reduce(
     (total, item) => total + item.quantity,
@@ -33,7 +33,7 @@ const Navbar = () => {
   const totalFavoriteItem = favoriteItems.length; // Adjusted to reflect the total count directly
 
   console.log(totalFavoriteItem);
-  
+
   // const totalFavoriteItem = favouriteItems.reduce(
   //   (total, item) => total + item.quantity,
   //   0
@@ -57,7 +57,7 @@ const Navbar = () => {
   }, []);
 
   const handleViewProfile = () => {
-    window.scrollTo(0,0);
+    window.scrollTo(0, 0);
     navigate("/profile");
     setShowProfileDropdown(false);
   };
@@ -87,90 +87,90 @@ const Navbar = () => {
     };
   }, []);
 
- // Fetch search suggestions from the backend
- const fetchSuggestions = async (query) => {
-  try {
-    const response = await fetch(`http://localhost:5002/search-suggestions?query=${query}`);
-    if (!response.ok) {
-      throw new Error("Failed to fetch suggestions");
+  // Fetch search suggestions from the backend
+  const fetchSuggestions = async (query) => {
+    try {
+      const response = await fetch(
+        `http://localhost:5002/search-suggestions?query=${query}`
+      );
+      if (!response.ok) {
+        throw new Error("Failed to fetch suggestions");
+      }
+      const data = await response.json();
+      setSuggestions(data); // Store fetched suggestions
+    } catch (error) {
+      console.error("Error fetching search suggestions:", error);
     }
-    const data = await response.json();
-    setSuggestions(data); // Store fetched suggestions
-  } catch (error) {
-    console.error("Error fetching search suggestions:", error);
-  }
-};
+  };
 
-// Update suggestions when search input changes
-useEffect(() => {
-  if (searchInput.trim() === "") {
-    setFilteredSuggestions([]);
-  } else {
-    fetchSuggestions(searchInput); // Fetch suggestions from backend
-  }
-}, [searchInput]);
-
-const handleSearchChange = (e) => {
-  const value = e.target.value;
-  setSearchInput(value);
-
-
-  // Filter suggestions locally (optional, for responsiveness)
-  const filtered = suggestions.filter(
-    (suggestion) =>
-      suggestion.category.toLowerCase().includes(value.toLowerCase()) ||
-      suggestion.product_keyword.toLowerCase().includes(value.toLowerCase())
-  );
-  setFilteredSuggestions(filtered);
-};
-
-
-// Fetch searched products
-const fetchSearchProducts = async (query) => {
-  try {
-    const response = await fetch(`http://localhost:5002/searched-products?query=${query}`);
-    if (!response.ok) {
-      throw new Error("Failed to fetch searched products");
+  // Update suggestions when search input changes
+  useEffect(() => {
+    if (searchInput.trim() === "") {
+      setFilteredSuggestions([]);
+    } else {
+      fetchSuggestions(searchInput); // Fetch suggestions from backend
     }
-    const data = await response.json();
-    setProducts(data); // Store fetched products in the state
-  } catch (error) {
-    console.error("Error fetching searched products:", error);
-  }
-};
+  }, [searchInput]);
 
+  const handleSearchChange = (e) => {
+    const value = e.target.value;
+    setSearchInput(value);
 
-const handleSuggestionClick = (keyword) => {
-  setSearchInput(keyword); // Set input field to clicked keyword
-  setFilteredSuggestions([]); // Clear suggestions
+    // Filter suggestions locally (optional, for responsiveness)
+    const filtered = suggestions.filter(
+      (suggestion) =>
+        suggestion.category.toLowerCase().includes(value.toLowerCase()) ||
+        suggestion.product_keyword.toLowerCase().includes(value.toLowerCase())
+    );
+    setFilteredSuggestions(filtered);
+  };
 
-  // Fetch the products based on the selected suggestion keyword
-  fetchSearchProducts(keyword); 
+  // Fetch searched products
+  const fetchSearchProducts = async (query) => {
+    try {
+      const response = await fetch(
+        `http://localhost:5002/searched-products?query=${query}`
+      );
+      if (!response.ok) {
+        throw new Error("Failed to fetch searched products");
+      }
+      const data = await response.json();
+      setProducts(data); // Store fetched products in the state
+    } catch (error) {
+      console.error("Error fetching searched products:", error);
+    }
+  };
 
-  // Navigate to the products page with the search query
-  window.scrollTo(0,0);
-  navigate(`/search-products?query=${keyword}`);
-};
-
-const handleSearchSubmit = () => {
-  if (searchInput.trim()) {
-    // Fetch the products based on the current search input
-    fetchSearchProducts(searchInput.trim());
+  const handleSuggestionClick = (keyword) => {
+    setSearchInput(keyword); // Set input field to clicked keyword
     setFilteredSuggestions([]); // Clear suggestions
-    
+
+    // Fetch the products based on the selected suggestion keyword
+    fetchSearchProducts(keyword);
+
     // Navigate to the products page with the search query
-    window.scrollTo(0,0);
-    navigate(`/search-products?query=${searchInput.trim()}`);
-  }
-};
+    window.scrollTo(0, 0);
+    navigate(`/search-products?query=${keyword}`);
+  };
 
-// Handle "Enter" key press for search
-const handleKeyDown = (e) => {
-  if (e.key === "Enter") {
-    handleSearchSubmit(); // Trigger search on "Enter" key press
-  }
-};
+  const handleSearchSubmit = () => {
+    if (searchInput.trim()) {
+      // Fetch the products based on the current search input
+      fetchSearchProducts(searchInput.trim());
+      setFilteredSuggestions([]); // Clear suggestions
 
+      // Navigate to the products page with the search query
+      window.scrollTo(0, 0);
+      navigate(`/search-products?query=${searchInput.trim()}`);
+    }
+  };
+
+  // Handle "Enter" key press for search
+  const handleKeyDown = (e) => {
+    if (e.key === "Enter") {
+      handleSearchSubmit(); // Trigger search on "Enter" key press
+    }
+  };
 
   const handleOutsideClick = (e) => {
     if (searchInputRef.current && !searchInputRef.current.contains(e.target)) {
@@ -184,6 +184,19 @@ const handleKeyDown = (e) => {
       document.removeEventListener("mousedown", handleOutsideClick);
     };
   }, []);
+
+  // Reference for the scrollable container
+  const scrollRef = useRef(null);
+  const scrollLeft = () => {
+    if (scrollRef.current) {
+      scrollRef.current.scrollBy({ left: -200, behavior: "smooth" });
+    }
+  };
+  const scrollRight = () => {
+    if (scrollRef.current) {
+      scrollRef.current.scrollBy({ left: 200, behavior: "smooth" });
+    }
+  };
 
   return (
     <div className="navbar-main">
@@ -200,40 +213,38 @@ const handleKeyDown = (e) => {
         </div>
 
         <div className="search-bar" ref={searchInputRef}>
-        <div className="nav-search-icon">
-          <FiSearch />
-        </div>
-        <input
-          type="text"
-          placeholder="Search products..."
-          value={searchInput}
-          onChange={handleSearchChange}
-          onKeyDown={handleKeyDown}
-          className="search-input-field"
-        />
-        <button onClick={handleSearchSubmit} className="search-btn">
-          <FiSearch />
-        </button>
+          <div className="nav-search-icon">
+            <FiSearch />
+          </div>
+          <input
+            type="text"
+            placeholder="Search products..."
+            value={searchInput}
+            onChange={handleSearchChange}
+            onKeyDown={handleKeyDown}
+            className="search-input-field"
+          />
+          <button onClick={handleSearchSubmit} className="search-btn">
+            <FiSearch />
+          </button>
 
-        {filteredSuggestions.length > 0 && (
-          <div className="search-suggestions">
-            <div className="categories-list">
-              {filteredSuggestions.map((suggestion, index) => (
-                <div
-                  key={index}
-                  className="category-item"
-                  onClick={() => handleSuggestionClick(suggestion.category)}
-                >
-                  <FiSearch style={{ marginRight: "8px" }} />
-                  {suggestion.category}
-                </div>
-              ))}
-            </div>
-            <div className="keywords-list">
-              {filteredSuggestions.flatMap((suggestion) =>
-                suggestion.product_keyword
-                  .split(",")
-                  .map((keyword, idx) => (
+          {filteredSuggestions.length > 0 && (
+            <div className="search-suggestions">
+              <div className="categories-list">
+                {filteredSuggestions.map((suggestion, index) => (
+                  <div
+                    key={index}
+                    className="category-item"
+                    onClick={() => handleSuggestionClick(suggestion.category)}
+                  >
+                    <FiSearch style={{ marginRight: "8px" }} />
+                    {suggestion.category}
+                  </div>
+                ))}
+              </div>
+              <div className="keywords-list">
+                {filteredSuggestions.flatMap((suggestion) =>
+                  suggestion.product_keyword.split(",").map((keyword, idx) => (
                     <div
                       key={`${suggestion.category}-${idx}`}
                       className="keyword-item"
@@ -243,13 +254,11 @@ const handleKeyDown = (e) => {
                       {keyword.trim()}
                     </div>
                   ))
-              )}
+                )}
+              </div>
             </div>
-          </div>
-        )}
-      </div>
-
-
+          )}
+        </div>
 
         {/* start login-cart-wishlist-container */}
         <div className="login-cart-wishlist-container">
@@ -257,7 +266,7 @@ const handleKeyDown = (e) => {
           <div
             className="wishlist-container"
             onClick={() => {
-              window.scrollTo(0,0);
+              window.scrollTo(0, 0);
               navigate("/favorite-items");
             }}
           >
@@ -266,11 +275,13 @@ const handleKeyDown = (e) => {
           </div>
 
           {/* Cart */}
-          <div className="nav-cart-container" onClick={() => {
-            window.scrollTo(0,0)
-            navigate("/cart");
-
-          }}>
+          <div
+            className="nav-cart-container"
+            onClick={() => {
+              window.scrollTo(0, 0);
+              navigate("/cart");
+            }}
+          >
             <BsCart3 /> <span>{totalCartQuantity}</span>
             <div className="navbar-tooltip-text">Cart</div>
           </div>
@@ -313,12 +324,11 @@ const handleKeyDown = (e) => {
       {/* end login-cart-wishlist-container */}
 
       {/* === nav second start === */}
-      {/* <div className={`nav-second ${isFixed ? 'nav-second-fixed' : ''}`}> */}
-      <div className={`nav-second ${isFixed ? "nav-second-fixed" : ""}`}>
+      <div className="nav-second" ref={scrollRef}>
         <ul className="category-navbar">
           {/* all category dropdown starts  */}
           <li className="allcategory-list">
-            All Categories{" "}
+            All Categories
             <HiMenu style={{ fontSize: "18px", strokeWidth: "1.5" }} />
             <ul className="allcategory-list-items">
               <li className="newCollection-side-list category-link">
@@ -888,6 +898,12 @@ const handleKeyDown = (e) => {
           </li>
           {/* ======Beauty & Wellness end ======= */}
         </ul>
+          {/* <div className="nav-arrow left floating" onClick={scrollLeft}>
+            &#10094;
+          </div>
+          <div className="nav-arrow right floating" onClick={scrollRight}>
+            &#10095;
+          </div> */}
       </div>
       {/* === nav second end === */}
     </div>

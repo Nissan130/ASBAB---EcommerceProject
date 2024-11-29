@@ -1,4 +1,6 @@
 import React, { useState } from "react";
+import ReactQuill from "react-quill";
+import "react-quill/dist/quill.snow.css"; // Quill's CSS
 import "./AddProduct.css";
 
 const AddProduct = () => {
@@ -25,6 +27,15 @@ const AddProduct = () => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
+  // Handle Quill editor changes
+  const handleShortDescriptionChange = (value) => {
+    setFormData({ ...formData, product_short_description: value });
+  };
+
+  const handleFullDescriptionChange = (value) => {
+    setFormData({ ...formData, product_full_description: value });
+  };
+
   // Handle main image change
   const handleMainImageChange = (e) => {
     const file = e.target.files[0];
@@ -48,59 +59,43 @@ const AddProduct = () => {
   };
 
   // Handle form submission
-  const handleSubmit = (e) => {
+  // Handle form submission
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
     // Prepare form data to send to backend
     const formDataToSend = new FormData();
-    formDataToSend.append("product_title", formData.product_title);
-    formDataToSend.append("product_keyword", formData.product_keyword);
-    formDataToSend.append("product_short_description", formData.product_short_description);
-    formDataToSend.append("product_full_description", formData.product_full_description);
-    formDataToSend.append("old_price", formData.old_price);
-    formDataToSend.append("new_price", formData.new_price);
-    formDataToSend.append("category", formData.category);
-    formDataToSend.append("sub_category", formData.sub_category);
-    formDataToSend.append("product_brand", formData.product_brand);
-    formDataToSend.append("discount_offer", formData.discount_offer);
-    formDataToSend.append("main_img", formData.main_img);
-
-    // Add other images
-    formData.other_images.forEach((image, index) => {
-      if (image) formDataToSend.append(`other_images`, image); // Correct field for file array
+    Object.keys(formData).forEach((key) => {
+      if (key === "other_images") {
+        formData[key].forEach((file) => {
+          if (file) formDataToSend.append("other_images", file);
+        });
+      } else {
+        formDataToSend.append(key, formData[key]);
+      }
     });
 
-    // Send the product data to the backend using fetch
-    fetch("http://localhost:5002/add-product", {
-      method: "POST",
-      body: formDataToSend,
-    })
-      .then((response) => response.json())
-      .then((data) => {
-        alert("Product added successfully");
+    // Debug the formData
+    for (let pair of formDataToSend.entries()) {
+      console.log(pair[0], pair[1]);
+    }
 
-        // Reset form data and image previews after submission
-        setFormData({
-          product_title: "",
-          product_keyword: "",
-          product_short_description: "",
-          product_full_description: "",
-          old_price: "",
-          new_price: "",
-          category: "",
-          sub_category: "",
-          product_brand:"",
-          discount_offer: "",
-          main_img: null,
-          other_images: [null, null, null, null], // Reset other images to null
-        });
-
-        setMainImagePreview(null); // Clear main image preview
-        setOtherImagesPreview([null, null, null, null]); // Clear other images preview
-      })
-      .catch((error) => {
-        console.error("Error adding product:", error);
+    try {
+      const response = await fetch("http://localhost:5002/add-product", {
+        method: "POST",
+        body: formDataToSend,
       });
+
+      const data = await response.json();
+      if (response.ok) {
+        alert("Product inserted successfully");
+      } else {
+        console.error(data.error);
+        alert("Error inserting product: " + data.error);
+      }
+    } catch (error) {
+      console.error("Error inserting product:", error);
+    }
   };
 
   return (
@@ -135,28 +130,46 @@ const AddProduct = () => {
             />
           </div>
         </div>
-         {/* Product description Input */}
-         <div className="addproduct-format">
+         
+        {/* Short Description using Quill */}
+        <div className="addproduct-format">
           <div className="product-short-description">
-            <label className="label" htmlFor="product_short_description">Short Description</label>
-            <textarea
-            name="product_short_description"
-            placeholder="Product short description"
-            value={formData.product_short_description}
-            onChange={handleChange}
-          />
+            <label className="label" htmlFor="product_short_description">
+              Short Description
+            </label>
+            <ReactQuill
+              value={formData.product_short_description}
+              onChange={handleShortDescriptionChange}
+              placeholder="Product short description"
+              modules={{
+                toolbar: [
+                  ["bold", "italic", "underline"],
+                  [{ list: "ordered" }, { list: "bullet" }],
+                  ["link"],
+                ],
+              }}
+            />
           </div>
         </div>
-        {/* Product description Input */}
+
+        {/* Full Description using Quill */}
         <div className="addproduct-format">
           <div className="product-full-description">
-            <label className="label" htmlFor="product_full_description">Full Description</label>
-            <textarea
-            name="product_full_description"
-            placeholder="Product full description"
-            value={formData.product_full_description}
-            onChange={handleChange}
-          />
+            <label className="label" htmlFor="product_full_description">
+              Full Description
+            </label>
+            <ReactQuill
+              value={formData.product_full_description}
+              onChange={handleFullDescriptionChange}
+              placeholder="Product full description"
+              modules={{
+                toolbar: [
+                  ["bold", "italic", "underline"],
+                  [{ list: "ordered" }, { list: "bullet" }],
+                  ["link"],
+                ],
+              }}
+            />
           </div>
         </div>
         
@@ -222,6 +235,7 @@ const AddProduct = () => {
               <option value="Drones">Drones</option>
               <option value="Headphones">Headphones</option>
               <option value="Computer Accessories">Computer Accessories</option>
+              <option value="onu">onu</option>
             </select>
           </div>
         </div>
@@ -238,6 +252,7 @@ const AddProduct = () => {
               <option value="MAC">MAC</option>
               <option value="Naviforce">Naviforce</option>
               <option value="Colmi">Colmi</option>
+              <option value="BODCOM">BODCOM</option>
             </select>
           </div>
           <div className="discount_offer">

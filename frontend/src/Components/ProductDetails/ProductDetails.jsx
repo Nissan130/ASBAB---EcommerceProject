@@ -3,10 +3,10 @@ import './ProductDetails.css';
 import DisplayProduct from "../DisplayProduct/DisplayProduct";
 import Breadcrums from "../Breadcrums/Breadcrums";
 import { useParams } from "react-router-dom";
-import ProductDescriptionBox from "../ProductDescriptionBox/ProductDescriptionBox";
 import RelatedProducts from "../RelatedProducts/RelatedProducts";
 import NewsLetter from '../NewsLetter/NewsLetter';
 import { GlobalContext } from "../../Context/GlobalContext";
+import ProductDescriptionReview from "../ProductDescriptionReview/ProductDescriptionReview";
 
 const ProductDetails = () => {
   const { products } = useContext(GlobalContext); 
@@ -26,7 +26,7 @@ const ProductDetails = () => {
     <div className="product-details">
       <Breadcrums product={product} />
       <DisplayProduct product={product} />
-      <ProductDescriptionBox product={product} />
+      <ProductDescriptionReview product={product} />
       <RelatedProducts />
       <NewsLetter />
     </div>

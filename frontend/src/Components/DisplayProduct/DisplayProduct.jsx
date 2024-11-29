@@ -5,6 +5,7 @@ import { IoStar } from "react-icons/io5";
 import { FaRegHeart, FaHeart } from "react-icons/fa";
 import { FaPlus, FaMinus } from "react-icons/fa6";
 import { GlobalContext } from "../../Context/GlobalContext";
+import DOMPurify from "dompurify";
 
 const DisplayProduct = ({ product }) => {
   const {
@@ -31,6 +32,8 @@ const DisplayProduct = ({ product }) => {
   const other_images = Array.isArray(product.other_images)
     ? product.other_images
     : JSON.parse(product.other_images || "[]");
+
+    const safeHtml = DOMPurify.sanitize(product.product_short_description);
 
   const handleMouseMove = (e) => {
     const imageRect = imageRef.current.getBoundingClientRect();
@@ -139,16 +142,18 @@ const DisplayProduct = ({ product }) => {
         <div className="product-prices">
           <div className="product-prices-new">
             <TbCurrencyTaka />
-            {product.new_price}
+            {Intl.NumberFormat('en-BD').format(product.new_price)}
           </div>
           <div className="product-prices-old">
             <TbCurrencyTaka />
-            {product.old_price}
+            {Intl.NumberFormat('en-BD').format(product.old_price)}
           </div>
           <div className="product-offers">{product.discount}% offers</div>
         </div>
-        <div className="product-short-desc">
-          {product.product_short_description}
+        <div className="product-short-desc" dangerouslySetInnerHTML={{
+          __html: safeHtml,
+        }}>
+          
         </div>
         <div className="products-btns">
           <div className="increase-decrease-item">

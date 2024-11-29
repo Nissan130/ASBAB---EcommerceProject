@@ -15,7 +15,7 @@ const ProductDetailedInfo = () => {
   useEffect(() => {
     const fetchProducts = async () => {
       try {
-        const response = await axios.get("http://localhost:5002/products"); // Fetch products
+        const response = await axios.get(`http://localhost:5002/products`); // Fetch products
         setProducts(response.data); // Set product list
       } catch (error) {
         console.error("Error fetching products:", error);
@@ -24,8 +24,6 @@ const ProductDetailedInfo = () => {
 
     fetchProducts(); // Fetch products on component mount
   }, []);
-
-  
 
   // Find the selected product
   const product = products.find((e) => e.product_id === parseInt(product_id));
@@ -49,8 +47,11 @@ const ProductDetailedInfo = () => {
           <div className="edit-info">
             <button
               type="button"
-              onClick={() => navigate(`/product-list/product-detailed-info/${product_id}/edit-product-info`)}
-
+              onClick={() =>
+                navigate(
+                  `/product-list/product-detailed-info/${product_id}/edit-product-info`
+                )
+              }
             >
               <span>
                 <CiEdit style={{ strokeWidth: "1.4" }} />
@@ -70,14 +71,31 @@ const ProductDetailedInfo = () => {
 
             <div className="product-detailed-info-row">
               <div className="product-info">
-                <label htmlFor="description">Description</label>
+                <label htmlFor="product_short_description">
+                  Short Description
+                </label>
                 <br />
-                <textarea
-                  name="description"
-                  id=""
-                  value={product.product_description}
-                  readOnly
-                ></textarea>
+                <div
+                  dangerouslySetInnerHTML={{
+                    __html: product.product_short_description,
+                  }}
+                  style={{ border: "1px solid #ddd", padding: "10px", marginTop:"5px",borderRadius:"4px" }}
+                ></div>
+              </div>
+            </div>
+
+            <div className="product-detailed-info-row">
+              <div className="product-info">
+                <label htmlFor="product_full_description">
+                  Full Description
+                </label>
+                <br />
+                <div
+                  dangerouslySetInnerHTML={{
+                    __html: product.product_full_description,
+                  }}
+                  style={{ border: "1px solid #ddd", padding: "10px", marginTop:"5px", borderRadius:"4px" }}
+                ></div>
               </div>
             </div>
 
