@@ -40,7 +40,7 @@ const DisplayProduct = ({ product }) => {
     const x = e.clientX - imageRect.left; // Get x position relative to the image
     const y = e.clientY - imageRect.top; // Get y position relative to the image
 
-    // Set the zoom position
+    // Set the zoom position 
     setZoomPosition({ x, y });
   };
 
