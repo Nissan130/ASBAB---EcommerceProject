@@ -1,9 +1,13 @@
 import React, { useState } from "react";
 import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css"; // Quill's CSS
+import {useNavigate} from 'react-router-dom'
 import "./AddProduct.css";
 
 const AddProduct = () => {
+
+  const navigate = useNavigate();
+
   const [formData, setFormData] = useState({
     product_title: "",
     product_keyword: "",
@@ -96,6 +100,8 @@ const AddProduct = () => {
     } catch (error) {
       console.error("Error inserting product:", error);
     }
+    navigate('/product-list');
+    
   };
 
   return (
@@ -236,6 +242,11 @@ const AddProduct = () => {
               <option value="Headphones">Headphones</option>
               <option value="Computer Accessories">Computer Accessories</option>
               <option value="onu">onu</option>
+              <option value="girls-hand-bag">girls-hand-bag</option>
+              <option value="tshirt">tshirt</option>
+              <option value="Calculator">Calculator</option>
+              <option value="Printer">Printer</option>
+              <option value="Keyboard">Keyboard</option>
             </select>
           </div>
         </div>
@@ -253,6 +264,11 @@ const AddProduct = () => {
               <option value="Naviforce">Naviforce</option>
               <option value="Colmi">Colmi</option>
               <option value="BODCOM">BODCOM</option>
+              <option value="Zaaliqa">Zaaliqa</option>
+              <option value="GESPO">GESPO</option>
+              <option value="Casio">Casio</option>
+              <option value="Epson">Epson</option>
+              <option value="Keychron">Keychron</option>
             </select>
           </div>
           <div className="discount_offer">

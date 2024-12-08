@@ -559,7 +559,11 @@
 /* ==============Responsive design ============*/
 
 @media (max-width: 1310px) {
-  
+  .category-navbar {
+    max-width: 1310px;
+    overflow-x: auto;
+    overflow-y: none;
+  }
   .category-navbar .category-link {
     white-space: nowrap;
     position: relative;

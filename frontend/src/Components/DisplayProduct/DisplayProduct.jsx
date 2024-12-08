@@ -69,7 +69,6 @@ const DisplayProduct = ({ product }) => {
           id="showAddToCartAlert_snackbar"
           className={showAddToCartAlert ? "showAddToCartAlert-Snackbar" : ""}
         >
-          {" "}
           {showAddToCartMessage}
         </div>
       }
