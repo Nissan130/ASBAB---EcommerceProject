@@ -48,32 +48,39 @@ const OrderHistory = () => {
     <div className='order-history-container'>
       <h2>Order History</h2>
       <div className="order-history">
-        {orderHistory.length !== 0 ? ( <table className='order-history-table'>
-          <thead>
-            <tr>
-              <th>Order ID</th>
-              <th>Transaction ID</th>
-              <th className='products-title'>Products Title</th>
-              <th>Qty</th>
-              <th>Total Price</th>
-              <th>Order Date</th>
-            </tr>
-          </thead>
-          {orderHistory.map((order, index) => (
-            <tbody key={index}>
+        {orderHistory.length !== 0 ? (
+          <table className='order-history-table'>
+            <thead>
               <tr>
-                <td>{order.order_id}</td>
-                <td>{order.transaction_id}</td>
-                <td>{order.products_title}</td>
-                <td>{order.total_quantity}</td>
-                <td><TbCurrencyTaka />{order.total_price_amount}</td>
-                {/* Format order date */}
-                <td>{formatOrderDate(order.order_date)}</td>
+                <th>Order ID</th>
+                <th>Transaction ID</th>
+                <th className='products-title'>Products Title</th>
+                <th>Qty</th>
+                <th>Total Price</th>
+                <th>Order Date</th>
+                <th>Payment Method</th>
+                <th>Payment Status</th>
               </tr>
+            </thead>
+            <tbody>
+              {orderHistory.map((order, index) => (
+                <tr key={index}>
+                  <td>{order.order_id}</td>
+                  <td>{order.transaction_id}</td>
+                  <td>{order.products_title}</td>
+                  <td>{order.total_quantity}</td>
+                  <td><TbCurrencyTaka />{order.total_price_amount}</td>
+                  {/* Format order date */}
+                  <td>{formatOrderDate(order.order_date)}</td>
+                  <td>{order.payment_method}</td> {/* Payment Method */}
+                  <td>{order.payment_status}</td> {/* Payment Status */}
+                </tr>
+              ))}
             </tbody>
-          ))}
-        </table>): (<div><h3>No order history</h3></div>)}
-       
+          </table>
+        ) : (
+          <div><h3>No order history</h3></div>
+        )}
       </div>
     </div>
   );

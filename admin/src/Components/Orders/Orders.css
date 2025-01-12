@@ -1,0 +1,134 @@
+/* General Styles */
+.admin-orders-container {
+    padding: 10px;
+    background: #fff;
+    width: 90vw;
+    height: 84vh;
+    margin: 10px;
+    font-size: 16px;
+    color: #555;
+    border-radius: 5px;
+    position: relative;
+    overflow: auto; /* Hide overflow for scroll management */
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1); /* Soft shadow for depth */
+  }
+  
+  .admin-orders-container h2 {
+    font-size: 24px;
+    font-weight: bold;
+    margin-bottom: 20px;
+    color: #333;
+    text-align: center;
+  }
+  
+  .admin-orders h3 {
+    font-size: 20px;
+    font-weight: bold;
+    margin-bottom: 10px;
+  }
+  
+  .admin-orders-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+    table-layout: fixed; 
+    overflow-x: auto;
+    overflow-y: auto;
+  }
+  
+  .admin-orders-table th, .admin-orders-table td {
+    padding: 12px;
+    text-align: left;
+    border: 1px solid #ddd;
+    word-wrap: break-word; /* Ensures long text wraps nicely */
+  }
+  
+  .admin-orders-table th {
+    background-color: #4CAF50;
+    color: white;
+    font-size: 16px;
+    position: sticky;
+    top: -12px;
+    z-index: 2; /* Keeps header fixed while scrolling */
+  }
+  
+  .admin-orders-table td {
+    background-color: #ffffff;
+    font-size: 14px;
+    color: #333;
+    text-align: center;
+  }
+  
+  .admin-orders-table tr:hover {
+    background-color: #f1f1f1;
+  }
+  
+  .admin-orders-table select {
+    padding: 6px 12px;
+    width: 100px;
+    font-size: 14px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    background-color: #fff;
+    cursor: pointer;
+  }
+  
+  .admin-orders-table select:focus {
+    outline: none;
+    border-color: #4CAF50;
+  }
+  
+  /* Table Styling for the Product Details */
+  .admin-orders-table .products-column {
+    width: 30%;
+  }
+  
+  .admin-orders-table .payment-status-column {
+    width: 150px;
+  }
+  
+  .admin-orders-table .order-id-column,
+  .admin-orders-table .transaction-id-column {
+    width: 120px;
+  }
+  
+  .admin-orders-table .order-date-column {
+    width: 200px;
+  }
+  
+  .admin-orders-container .scrollable-table {
+    max-height: 70vh; /* Limit the height of the table */
+    overflow-y: auto;
+    margin-top: 10px;
+    display: block; /* Allow the table body to scroll */
+  }
+  
+  /* Action Button Style */
+  .admin-orders .actions {
+    display: flex;
+    gap: 10px;
+    margin-top: 20px;
+  }
+  
+  .admin-orders .actions button {
+    padding: 10px 20px;
+    font-size: 14px;
+    cursor: pointer;
+    border-radius: 4px;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    transition: background-color 0.3s ease;
+  }
+  
+  .admin-orders .actions button:hover {
+    background-color: #45a049;
+  }
+  
+  /* Empty State */
+  .admin-orders-container .empty-state {
+    text-align: center;
+    font-size: 18px;
+    color: #999;
+  }
+  

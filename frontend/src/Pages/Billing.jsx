@@ -5,9 +5,7 @@ import { useNavigate } from "react-router-dom";
 import "./CSS/Billing.css";
 
 const Billing = () => {
-  const { cartItems, userId} = useContext(GlobalContext);
-  // console.log(cartItems);
-  
+  const { cartItems, userId } = useContext(GlobalContext);
 
   const [shippingAddress, setShippingAddress] = useState({
     name: "",
@@ -17,6 +15,7 @@ const Billing = () => {
     postalCode: "",
     country: "",
   });
+  const [paymentMethod, setPaymentMethod] = useState("online"); // Default to "online"
   const [showWarning, setShowWarning] = useState(false);
   const navigate = useNavigate();
 
@@ -25,66 +24,58 @@ const Billing = () => {
     setShippingAddress({ ...shippingAddress, [name]: value });
   };
 
-  
-
+  const handlePaymentMethodChange = (e) => {
+    setPaymentMethod(e.target.value);
+  };
 
   const handleSubmit = (e) => {
     e.preventDefault();
-
-    if (!shippingAddress.name || !shippingAddress.mobile_number || !shippingAddress.address || !shippingAddress.city || !shippingAddress.postalCode || !shippingAddress.country) {
+  
+    if (
+      !shippingAddress.name ||
+      !shippingAddress.mobile_number ||
+      !shippingAddress.address ||
+      !shippingAddress.city ||
+      !shippingAddress.postalCode ||
+      !shippingAddress.country
+    ) {
       setShowWarning(true);
       return;
     }
-
-
-
-    // updateShippingAddress(shippingAddress);
-    // navigate("/payment");
-
+  
     const orderData = {
       userId,
       shippingAddress,
-      // products: cartItems.map((item) => ({
-      //   product_id: item.product_id,
-      //   title: item.title,
-      //   quantity: item.quantity,
-      // })),
       products: cartItems,
-      totalAmount, // Add totalAmount to the order data.
+      totalAmount,
       totalQuantity,
     };
-
-    //save order data in the local storage
-    // localStorage.setItem("pendingOrder", JSON.stringify(orderData));
-
-    fetch("http://localhost:5002/order", {
-      method: "POST",
-      headers: { "Content-type": "application/json" },
-      body: JSON.stringify(orderData),
-    })
-    .then((res)=>res.json())
-    .then((result)=>{
-      window.location.replace(result.url);
-      // console.log(result);
-    })
-    .catch((err) => {
-      console.error("Payment initiation error:", err);
-    });
-    // console.log(orderData);
+  
+    if (paymentMethod === "online") {
+      // Handle online payment
+      fetch("http://localhost:5002/order", {
+        method: "POST",
+        headers: { "Content-type": "application/json" },
+        body: JSON.stringify(orderData),
+      })
+        .then((res) => res.json())
+        .then((result) => {
+          window.location.replace(result.url);
+        })
+        .catch((err) => {
+          console.error("Payment initiation error:", err);
+        });
+    } else {
+      // Navigate to ConfirmCashOnDelivery component
+      window.scrollTo(0,0);
+      navigate("/confirm-cash-on-delivery", { state: orderData });
+    }
   };
-  console.log("user id: ", userId);
-
-
- 
- 
   
 
-  const totalAmount = cartItems.reduce((acc, item) => acc + item.new_price * item.quantity, 0) + 10; // Add delivery charge if needed
-  const totalQuantity = cartItems.reduce((acc, item) => acc + item.quantity, 0); 
-  // console.log("Total quantity: ",totalQuantity);
-  
-  // console.log(shippingAddress);
-  
+  const totalAmount =
+    cartItems.reduce((acc, item) => acc + item.new_price * item.quantity, 0) + 10; // Add delivery charge if needed
+  const totalQuantity = cartItems.reduce((acc, item) => acc + item.quantity, 0);
 
   return (
     <div className="billing-container">
@@ -167,8 +158,31 @@ const Billing = () => {
             </div>
           </div>
         </div>
+
+        <div className="billing-payment-method">
+          <h3>Payment Method</h3>
+          <label>
+            <input
+              type="radio"
+              value="online"
+              checked={paymentMethod === "online"}
+              onChange={handlePaymentMethodChange}
+            />
+            Online Payment
+          </label>
+          <label>
+            <input
+              type="radio"
+              value="cod"
+              checked={paymentMethod === "cod"}
+              onChange={handlePaymentMethodChange}
+            />
+            Cash on Delivery
+          </label>
+        </div>
+
         <div className="billing-place-order">
-          <button type="submit">Continue to Payment</button>
+          <button type="submit">Continue</button>
         </div>
       </form>
     </div>

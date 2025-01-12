@@ -1,0 +1,129 @@
+/* Container */
+.confirm-cod-container {
+  max-width: 800px;
+  margin: 40px auto;
+  padding: 2rem;
+  background-color: #ffffff;
+  border-radius: 10px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+  font-family: 'Arial', sans-serif;
+}
+
+.confirm-cod-container h2 {
+  text-align: center;
+  font-size: 1.8rem;
+  font-weight: 600;
+  margin-bottom: 1.5rem;
+  color: #333;
+  position: relative;
+}
+
+.confirm-cod-container h2::after {
+  content: "";
+  display: block;
+  width: 60px;
+  height: 3px;
+  background: #ed174a;
+  margin: 0.5rem auto 0;
+  border-radius: 5px;
+}
+
+/* Billing Details */
+.billing-details,
+.order-summary {
+  margin-bottom: 2rem;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  padding: 1.5rem;
+  background: #f9f9f9;
+}
+
+.billing-details h3,
+.order-summary h3 {
+  font-size: 1.5rem;
+  font-weight: 600;
+  margin-bottom: 1rem;
+  color: #444;
+}
+
+.billing-details p,
+.order-summary p {
+  font-size: 1rem;
+  margin: 0.5rem 0;
+  color: #555;
+  line-height: 1.6;
+}
+
+.order-summary .order-items h4 {
+  font-size: 1.2rem;
+  font-weight: 600;
+  margin-top: 1rem;
+  color: #444;
+}
+
+/* Products */
+.order-summary .order-items p {
+  font-size: 1rem;
+  margin: 0.5rem 0;
+  color: #666;
+}
+
+.order-summary .order-items p span {
+  font-weight: 600;
+  color: #333;
+}
+
+/* Buttons Section */
+.actions {
+  display: flex;
+  justify-content: space-around;
+  margin-top: 2rem;
+}
+
+.actions .btn {
+  padding: 0.75rem 1.5rem;
+  border: none;
+  border-radius: 5px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease-in-out;
+}
+
+.actions .btn-place-order {
+  background-color: #28a745;
+  color: #fff;
+}
+
+.actions .btn-place-order:hover {
+  background-color: #218838;
+}
+
+.actions .btn-cancel {
+  background-color: #dc3545;
+  color: #fff;
+}
+
+.actions .btn-cancel:hover {
+  background-color: #c82333;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .confirm-cod-container {
+    padding: 1.5rem;
+  }
+
+  .actions {
+    flex-direction: column;
+  }
+
+  .actions .btn {
+    margin-bottom: 1rem;
+    width: 100%;
+  }
+
+  .actions .btn:last-child {
+    margin-bottom: 0;
+  }
+}

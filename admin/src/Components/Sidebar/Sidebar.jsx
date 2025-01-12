@@ -83,6 +83,18 @@ const Sidebar = () => {
       </NavLink>
 
       <NavLink
+        to="/orders-list"
+        className="sidebar-items"
+        activeClassName="active"
+        style={{ textDecoration: "none" }}
+      >
+        <div className="sidebaritem">
+          <FaUser  />
+        </div>
+        <div className="sidebaritem">Orders</div>
+      </NavLink>
+
+      <NavLink
         to="/users-list"
         className="sidebar-items"
         activeClassName="active"

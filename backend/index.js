@@ -513,18 +513,21 @@ app.post("/order", async (req, res) => {
 
       // Insert into orders table
       const insertOrderQuery = `
-      INSERT INTO orders (user_id, transaction_id, products_title,total_quantity, total_price_amount, shipping_address)
-      VALUES (?, ?, ?, ?, ?, ?)
+      INSERT INTO orders (user_id, transaction_id, product_id_qty, products_title, total_quantity, total_price_amount, shipping_address, payment_method, payment_status)
+      VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
     `;
       db.query(
         insertOrderQuery,
         [
           user_id,
           transaction_id,
+          products_id_qty,
           products_title,
           total_quantity,
           total_amount,
           shipping_address,
+          "Online Payment", // Payment method
+          "Paid",         // Payment status
         ],
         (err, result) => {
           if (err) {
@@ -569,6 +572,70 @@ app.post("/order", async (req, res) => {
   });
 });
 
+// Cash on Delivery Payment method
+app.post("/cash-on-delivery", async (req, res) => {
+  const { userId, shippingAddress, products, totalAmount, totalQuantity } = req.body;
+
+  if (!userId || !shippingAddress || !products || !totalAmount || !totalQuantity) {
+    return res.status(400).json({ error: "Missing required fields." });
+  }
+
+  const tran_id = "REF" + new Date().getTime();
+  const products_id_qty = products
+    .map((p) => `[Product_ID:${p.product_id}, Qty:${p.quantity}]`)
+    .join(" ");
+  const products_title = products.map((p) => `[${p.title}]`).join(" ");
+
+  try {
+    // Insert into orders table with payment method and status
+    const insertOrderQuery = `
+      INSERT INTO orders (user_id, transaction_id, product_id_qty, products_title, total_quantity, total_price_amount, shipping_address, payment_method, payment_status)
+      VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
+    `;
+
+    db.query(insertOrderQuery, [
+      userId,
+      tran_id,
+      products_id_qty,
+      products_title,
+      totalQuantity,
+      totalAmount,
+      JSON.stringify(shippingAddress),
+      "Cash on Delivery", // Payment method
+      "Not Paid",         // Payment status
+    ], (err, result) => {
+      if (err) {
+        console.error("Error inserting order:", err);
+        return res.status(500).json({ error: "Failed to save order details." });
+      }
+
+      // Reset user's cart
+      const resetCartQuery = `DELETE FROM cart_items WHERE user_id = ?`;
+      db.query(resetCartQuery, [userId], (err, resetResult) => {
+        if (err) {
+          console.error("Error resetting cart:", err);
+          return res.status(500).json({ error: "Failed to reset cart." });
+        }
+
+        console.log("Order placed and cart reset for user:", userId);
+      });
+    });
+
+    // Respond with success and redirect URL
+    res.json({
+      success: true,
+      message: "Order placed successfully!",
+      redirectURL: "/profile/order-history",  // Add the redirect URL here
+    });
+  } catch (err) {
+    console.error("Error processing order:", err);
+    res.status(500).json({ error: "Failed to process order. Please try again later." });
+  }
+});
+
+
+
+
 //Route to fetch order history
 app.get("/orderHistory/:userId", (req, res) => {
   const { userId } = req.params;
@@ -590,6 +657,49 @@ app.get("/orderHistory/:userId", (req, res) => {
     res.status(200).json(result); // return the order history
   });
 });
+
+
+// Get all orders for admin
+app.get('/admin/orders', async (req, res) => {
+  try {
+    const query = 'SELECT * FROM orders';
+    db.query(query, (err, result) => {
+      if (err) {
+        console.error('Error fetching orders:', err);
+        return res.status(500).json({ error: 'Failed to fetch orders.' });
+      }
+      res.json(result);
+    });
+  } catch (err) {
+    console.error('Error:', err);
+    res.status(500).json({ error: 'Failed to fetch orders.' });
+  }
+});
+
+// Update payment status of a specific order
+app.put('/admin/orders/:orderId', async (req, res) => {
+  const { orderId } = req.params;
+  const { payment_status } = req.body;
+
+  if (!payment_status) {
+    return res.status(400).json({ error: 'Payment status is required.' });
+  }
+
+  try {
+    const query = 'UPDATE orders SET payment_status = ? WHERE order_id = ?';
+    db.query(query, [payment_status, orderId], (err, result) => {
+      if (err) {
+        console.error('Error updating payment status:', err);
+        return res.status(500).json({ error: 'Failed to update payment status.' });
+      }
+      res.json({ success: true, message: 'Payment status updated successfully.' });
+    });
+  } catch (err) {
+    console.error('Error:', err);
+    res.status(500).json({ error: 'Failed to update payment status.' });
+  }
+});
+
 
 // Route to fetch user information
 app.get("/user/:userId", (req, res) => {
@@ -618,6 +728,11 @@ app.get("/user/:userId", (req, res) => {
 });
 
 // ===============payment gateway implementation================
+
+
+
+
+
 
 // ============ Admin Panel Product Routes ============//////////
 // Add Product Route (Handles Image Upload)

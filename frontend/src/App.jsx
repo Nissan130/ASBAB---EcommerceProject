@@ -23,6 +23,7 @@ import FavoriteItems from "./Components/FavoriteItems/FavoriteItems";
 import ProductDescriptionReview from "./Components/ProductDescriptionReview/ProductDescriptionReview";
 import ProductDescription from "./Components/ProductDescription/ProductDescription";
 import ProductReview from "./Components/ProductReview/ProductReview";
+import ConfirmCashOnDelivery from "./Components/ConfirmCashOnDelivery/ConfirmCashOnDelivery";
 
 function App() {
   const [filteredProducts, setFilteredProducts] = useState([]);
@@ -54,6 +55,7 @@ function App() {
           {/* <Route path='/payment/success/:tranId' element={<PaymentSuccess />} /> */}
           <Route path="/payment/result" element={<PaymentResult />} />
           {/* <Route path='/profile/order-history' element={<OrderHistory/>} /> */}
+          <Route path="/confirm-cash-on-delivery" element={<ConfirmCashOnDelivery />} />
         </Routes>
         <Footer />
       </GlobalContextProvider>
